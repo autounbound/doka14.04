@@ -7,15 +7,13 @@
   <title>Newsroom — DOKA Mining</title>
   <link rel="stylesheet" href="assets/css/style.css">
   <style>
-    /* ── NEWSROOM-SPECIFIC STYLES ─────────────────────────── */
+    /* ── CARD GRID ──────────────────────────────────────────── */
     .news-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 28px;
       margin-top: 48px;
     }
-
-    /* Featured article: spans full width */
     .news-grid .news-item--featured {
       grid-column: 1 / -1;
       display: grid;
@@ -24,7 +22,6 @@
       border-radius: 8px;
       overflow: hidden;
     }
-
     .news-item {
       background: var(--dark-card);
       border: 1px solid var(--dark-border);
@@ -32,221 +29,133 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      transition: border-color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
+      transition: border-color .35s ease, transform .35s ease, box-shadow .35s ease;
+      cursor: pointer;
     }
-
-    .news-item:hover {
-      border-color: var(--gold-border);
-      transform: translateY(-3px);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.35);
-    }
-
-    /* Thumbnail */
-    .news-item__thumb {
-      width: 100%;
-      height: 200px;
-      overflow: hidden;
-      background: var(--dark-surface);
-      flex-shrink: 0;
-    }
-
-    .news-item--featured .news-item__thumb {
-      height: 100%;
-      min-height: 320px;
-    }
-
-    .news-item__thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.5s ease;
-    }
-
-    .news-item:hover .news-item__thumb img {
-      transform: scale(1.04);
-    }
-
-    /* No thumbnail placeholder */
+    .news-item--external { cursor: default; }
+    .news-item:hover { border-color: var(--gold-border); transform: translateY(-3px); box-shadow: 0 20px 50px rgba(0,0,0,.35); }
+    .news-item__thumb { width: 100%; height: 200px; overflow: hidden; background: var(--dark-surface); flex-shrink: 0; }
+    .news-item--featured .news-item__thumb { height: 100%; min-height: 320px; }
+    .news-item__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s ease; }
+    .news-item:hover .news-item__thumb img { transform: scale(1.04); }
     .news-item__thumb--empty {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       background: linear-gradient(135deg, var(--dark-surface), var(--dark-card));
       border-bottom: 1px solid var(--gold-border);
     }
-
-    .news-item__thumb--empty svg {
-      opacity: 0.12;
-      width: 52px;
-    }
-
-    /* Body */
-    .news-item__body {
-      padding: 28px;
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-    }
-
-    .news-item--featured .news-item__body {
-      padding: 40px;
-      justify-content: center;
-    }
-
-    /* Meta row: category + date */
-    .news-item__meta {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-    }
-
-    .news-item__cat {
-      font-size: 0.62rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      font-weight: 500;
-      color: var(--gold);
-    }
-
-    .news-item__date {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-    }
-
-    /* External source badge */
+    .news-item__thumb--empty svg { opacity: .12; width: 52px; }
+    .news-item__body { padding: 28px; display: flex; flex-direction: column; flex: 1; }
+    .news-item--featured .news-item__body { padding: 40px; justify-content: center; }
+    .news-item__meta { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+    .news-item__cat { font-size: .62rem; letter-spacing: .2em; text-transform: uppercase; font-weight: 500; color: var(--gold); }
+    .news-item__date { font-size: .72rem; color: var(--text-muted); }
     .news-item__source {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 3px 10px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--dark-border);
-      border-radius: 3px;
-      font-size: 0.62rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
+      display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px;
+      background: rgba(255,255,255,.05); border: 1px solid var(--dark-border);
+      border-radius: 3px; font-size: .62rem; letter-spacing: .1em; text-transform: uppercase; color: var(--text-secondary);
     }
-
-    .news-item__source::before {
-      content: '';
-      display: block;
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--gold);
-      flex-shrink: 0;
-    }
-
-    .news-item__title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--white);
-      line-height: 1.25;
-      margin-bottom: 12px;
-      transition: color 0.3s ease;
-    }
-
-    .news-item--featured .news-item__title {
-      font-size: 1.8rem;
-    }
-
-    .news-item:hover .news-item__title {
-      color: var(--gold-light);
-    }
-
-    .news-item__excerpt {
-      font-size: 0.88rem;
-      color: var(--text-secondary);
-      line-height: 1.75;
-      flex: 1;
-      margin-bottom: 20px;
-    }
-
-    /* CTA link at bottom of card */
+    .news-item__source::before { content: ''; display: block; width: 5px; height: 5px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+    .news-item__title { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 600; color: var(--white); line-height: 1.25; margin-bottom: 12px; transition: color .3s ease; }
+    .news-item--featured .news-item__title { font-size: 1.8rem; }
+    .news-item:hover .news-item__title { color: var(--gold-light); }
+    .news-item__excerpt { font-size: .88rem; color: var(--text-secondary); line-height: 1.75; flex: 1; margin-bottom: 20px; }
     .news-item__cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--gold);
-      text-decoration: none;
-      transition: gap 0.3s ease, color 0.3s ease;
-      margin-top: auto;
+      display: inline-flex; align-items: center; gap: 8px; font-size: .72rem; font-weight: 500;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--gold); text-decoration: none;
+      background: none; border: none; padding: 0; cursor: pointer; font-family: 'DM Sans', sans-serif;
+      transition: gap .3s ease, color .3s ease; margin-top: auto;
     }
-
-    .news-item__cta:hover {
-      gap: 14px;
-      color: var(--gold-light);
-    }
-
-    .news-item__cta::after {
-      content: '→';
-    }
-
-    /* External CTA variant */
-    .news-item__cta--external::after {
-      content: '↗';
-    }
-
-    /* Filter bar */
-    .filter-bar {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 0;
-    }
-
+    .news-item__cta:hover { gap: 14px; color: var(--gold-light); }
+    .news-item__cta::after { content: '→'; }
+    .news-item__cta--external::after { content: '↗'; }
+    /* Filter */
+    .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; }
     .filter-btn {
-      padding: 8px 20px;
-      border-radius: 4px;
-      font-size: 0.72rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      cursor: pointer;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 500;
-      transition: all 0.25s ease;
-      border: 1px solid var(--dark-border);
-      background: transparent;
-      color: var(--text-muted);
+      padding: 8px 20px; border-radius: 4px; font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
+      cursor: pointer; font-family: 'DM Sans', sans-serif; font-weight: 500;
+      transition: all .25s ease; border: 1px solid var(--dark-border); background: transparent; color: var(--text-muted);
     }
+    .filter-btn:hover { border-color: var(--gold-border); color: var(--text-primary); }
+    .filter-btn.active { background: var(--gold); color: var(--dark); border-color: var(--gold); }
+    .news-state { text-align: center; padding: 80px 0; color: var(--text-muted); font-size: .9rem; }
 
-    .filter-btn:hover {
-      border-color: var(--gold-border);
-      color: var(--text-primary);
+    /* ── ARTICLE MODAL ──────────────────────────────────────── */
+    .article-modal {
+      position: fixed; inset: 0; z-index: 800;
+      display: flex; justify-content: flex-end;
+      opacity: 0; visibility: hidden;
+      transition: opacity .35s ease, visibility .35s ease;
     }
-
-    .filter-btn.active {
-      background: var(--gold);
-      color: var(--dark);
-      border-color: var(--gold);
+    .article-modal.open { opacity: 1; visibility: visible; }
+    .article-modal__backdrop {
+      position: absolute; inset: 0;
+      background: rgba(7,10,18,.85); backdrop-filter: blur(3px); cursor: pointer;
     }
-
-    /* Loading / error states */
-    .news-state {
-      text-align: center;
-      padding: 80px 0;
-      color: var(--text-muted);
-      font-size: 0.9rem;
+    .article-modal__panel {
+      position: relative; z-index: 1;
+      width: 100%; max-width: 700px; height: 100%;
+      background: var(--dark-surface);
+      border-left: 1px solid var(--gold-border);
+      overflow-y: auto; -webkit-overflow-scrolling: touch;
+      padding: 0;
+      transform: translateX(40px);
+      transition: transform .35s cubic-bezier(.25,.46,.45,.94);
     }
+    .article-modal.open .article-modal__panel { transform: translateX(0); }
+    .article-modal__header {
+      position: sticky; top: 0; z-index: 2;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 36px;
+      background: rgba(19,25,36,.97); backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--dark-border);
+    }
+    .article-modal__back {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: .7rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--text-muted); background: none; border: none; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; transition: color .25s ease; padding: 0;
+    }
+    .article-modal__back::before { content: '←'; }
+    .article-modal__back:hover { color: var(--gold); }
+    .article-modal__close {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: none; border: 1px solid var(--dark-border); cursor: pointer;
+      color: var(--text-muted); font-size: 1rem; display: flex; align-items: center; justify-content: center;
+      transition: all .25s ease;
+    }
+    .article-modal__close:hover { border-color: var(--gold-border); color: var(--gold); }
+    .article-modal__body { padding: 44px 36px 80px; }
+    .article-modal__thumb {
+      width: 100%; aspect-ratio: 16/7; overflow: hidden;
+      border-radius: 6px; border: 1px solid var(--gold-border); margin-bottom: 36px;
+    }
+    .article-modal__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .article-modal__meta { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; flex-wrap: wrap; }
+    .article-modal__cat { font-size: .62rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); font-weight: 500; }
+    .article-modal__date { font-size: .75rem; color: var(--text-muted); }
+    .article-modal__title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.7rem,3vw,2.2rem); font-weight: 600; color: var(--white); line-height: 1.18; margin-bottom: 16px; }
+    .article-modal__excerpt { font-size: 1.02rem; color: var(--text-secondary); line-height: 1.75; margin-bottom: 36px; padding-bottom: 28px; border-bottom: 1px solid var(--dark-border); }
+    .article-modal__content p { font-size: .97rem; color: var(--text-secondary); line-height: 1.85; margin-bottom: 1.3em; }
+    .article-modal__content h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--white); margin: 28px 0 12px; }
+    /* Body scroll lock when modal open */
+    body.modal-open { overflow: hidden; }
 
-    /* Responsive */
+    /* ── RESPONSIVE ─────────────────────────────────────────── */
     @media (max-width: 1024px) {
-      .news-grid { grid-template-columns: repeat(2, 1fr); }
+      .news-grid { grid-template-columns: repeat(2,1fr); }
       .news-item--featured { grid-template-columns: 1fr; }
       .news-item--featured .news-item__thumb { min-height: 240px; height: 240px; }
     }
-
+    @media (max-width: 768px) {
+      .article-modal__panel { max-width: 100%; border-left: none; border-top: 1px solid var(--gold-border); }
+      .article-modal { align-items: flex-end; justify-content: stretch; }
+      .article-modal__panel { height: 92vh; transform: translateY(40px); border-radius: 12px 12px 0 0; }
+      .article-modal.open .article-modal__panel { transform: translateY(0); }
+      .article-modal__body { padding: 28px 20px 60px; }
+      .article-modal__header { padding: 16px 20px; }
+    }
     @media (max-width: 640px) {
-      .news-grid { grid-template-columns: 1fr; gap: 18px; }
+      .news-grid { grid-template-columns: 1fr; gap: 16px; }
       .news-item--featured { grid-column: auto; }
       .news-item__body { padding: 20px; }
       .news-item--featured .news-item__body { padding: 22px; }
@@ -271,8 +180,6 @@
 
 <section class="section section--dark">
   <div class="container">
-
-    <!-- FILTER BAR -->
     <div class="filter-bar reveal" id="filterBar">
       <button class="filter-btn active" data-cat="all">All</button>
       <button class="filter-btn" data-cat="corporate">Corporate</button>
@@ -281,27 +188,34 @@
       <button class="filter-btn" data-cat="community">Community</button>
       <button class="filter-btn" data-cat="press">In the Press</button>
     </div>
-
-    <!-- NEWS GRID — populated by JS -->
     <div id="newsGrid" class="news-grid">
       <div class="news-state">Loading news&hellip;</div>
     </div>
-
-    <!-- MEDIA CONTACT -->
-    <div style="margin-top:72px; padding:40px; border:1px solid var(--gold-border); border-radius:8px; background:var(--gold-pale); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:24px;" class="reveal">
+    <div style="margin-top:72px;padding:40px;border:1px solid var(--gold-border);border-radius:8px;background:var(--gold-pale);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px;" class="reveal">
       <div>
         <span class="section-eyebrow">Media Inquiries</span>
         <h3 style="font-size:1.4rem;">Press Contact</h3>
-        <p style="color:var(--text-secondary); margin-top:8px; font-size:0.9rem;">For all media inquiries, interview requests, or press kit materials, please contact the DOKA communications team.</p>
+        <p style="color:var(--text-secondary);margin-top:8px;font-size:.9rem;">For all media inquiries, interview requests, or press kit materials, please contact the DOKA communications team.</p>
       </div>
-      <div style="display:flex; flex-direction:column; gap:10px;">
-        <div style="font-size:0.9rem; color:var(--text-secondary);">&#9993; &nbsp;<span class="placeholder-badge">press@dokamining.com</span></div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="font-size:.9rem;color:var(--text-secondary);">&#9993; &nbsp;<span class="placeholder-badge">press@dokamining.com</span></div>
         <div style="margin-top:8px;"><a href="contact.html" class="btn btn--gold btn--sm">Contact Us</a></div>
       </div>
     </div>
-
   </div>
 </section>
+
+<!-- ARTICLE MODAL -->
+<div id="articleModal" class="article-modal" role="dialog" aria-modal="true" aria-label="Article">
+  <div class="article-modal__backdrop" id="modalBackdrop"></div>
+  <div class="article-modal__panel">
+    <div class="article-modal__header">
+      <button class="article-modal__back" id="modalBack">Newsroom</button>
+      <button class="article-modal__close" id="modalClose" aria-label="Close">&#x2715;</button>
+    </div>
+    <div class="article-modal__body" id="modalBody"></div>
+  </div>
+</div>
 
 <div id="footer-placeholder"></div>
 <script>const ROOT_PATH = ''; const LANG = 'en'; const LANG_EQUIV = 'tr/newsroom.html';</script>
@@ -310,65 +224,88 @@
 (function () {
   'use strict';
 
-  const ROOT   = typeof ROOT_PATH !== 'undefined' ? ROOT_PATH : '';
-  const lang   = 'en';
-  const DATA   = ROOT + 'assets/data/news-data.json';
+  const ROOT = '';
+  const lang = 'en';
+  const DATA = 'assets/data/news-data.json';
 
-  /* Category labels */
   const CAT_LABELS = {
-    corporate:      'Corporate',
-    exploration:    'Exploration',
-    sustainability: 'Sustainability',
-    community:      'Community',
-    press:          'Press'
+    corporate: 'Corporate', exploration: 'Exploration',
+    sustainability: 'Sustainability', community: 'Community', press: 'Press'
   };
 
   let allArticles = [];
-  let activeCat   = 'all';
+  const modal      = document.getElementById('articleModal');
+  const modalBody  = document.getElementById('modalBody');
 
-  /* ── BUILD A CARD ─────────────────────────────────────────── */
-  function buildCard(article, featured) {
-    const t   = article[lang];
-    const ext = article.type === 'external';
-    const cls = featured ? 'news-item news-item--featured reveal' : 'news-item reveal';
+  /* ── MODAL OPEN / CLOSE ─────────────────────────────────── */
+  function openArticle(id) {
+    const a = allArticles.find(x => x.id === id);
+    if (!a || a.type === 'external') return;
+    const t = a[lang];
 
-    /* Thumbnail */
-    let thumbHTML;
-    if (article.thumbnail) {
-      thumbHTML = `<div class="news-item__thumb">
-        <img src="${ROOT}${article.thumbnail}" alt="${t.title}" loading="lazy">
-      </div>`;
-    } else {
-      thumbHTML = `<div class="news-item__thumb news-item__thumb--empty">
-        <svg viewBox="0 0 48 48" fill="none" stroke="var(--gold)" stroke-width="1.2">
-          <rect x="6" y="10" width="36" height="28" rx="2"/>
-          <path d="M6 32l10-10 8 8 6-6 12 12"/>
-          <circle cx="32" cy="20" r="4"/>
-        </svg>
-      </div>`;
-    }
-
-    /* Source badge for external articles */
-    const sourceBadge = ext
-      ? `<span class="news-item__source">${article.source}</span>`
+    const thumbHTML = a.thumbnail
+      ? `<div class="article-modal__thumb"><img src="${ROOT}${a.thumbnail}" alt="${t.title}" loading="lazy"></div>`
       : '';
 
-    /* CTA */
-    let ctaHTML;
-    if (ext) {
-      ctaHTML = `<a href="${article.sourceUrl}" target="_blank" rel="noopener noreferrer"
-        class="news-item__cta news-item__cta--external">Read on ${article.source}</a>`;
-    } else {
-      const articleUrl = `${ROOT}news/article.html?id=${article.id}`;
-      ctaHTML = `<a href="${articleUrl}" class="news-item__cta">Read More</a>`;
-    }
+    modalBody.innerHTML = `
+      ${thumbHTML}
+      <div class="article-modal__meta">
+        <span class="article-modal__cat">${CAT_LABELS[a.category] || a.category}</span>
+        <span class="article-modal__date">${a.dateDisplay[lang]}</span>
+      </div>
+      <h1 class="article-modal__title">${t.title}</h1>
+      <p class="article-modal__excerpt">${t.excerpt}</p>
+      <div class="article-modal__content">${t.content || ''}</div>`;
 
-    return `<div class="${cls}" data-category="${article.category}">
+    modal.classList.add('open');
+    document.body.classList.add('modal-open');
+    modal.setAttribute('aria-hidden', 'false');
+    history.pushState({ articleId: id }, '', '#' + id);
+    modal.querySelector('.article-modal__panel').scrollTop = 0;
+  }
+
+  function closeArticle() {
+    modal.classList.remove('open');
+    document.body.classList.remove('modal-open');
+    modal.setAttribute('aria-hidden', 'true');
+    if (location.hash) history.pushState({}, '', location.pathname + location.search);
+  }
+
+  document.getElementById('modalClose').addEventListener('click', closeArticle);
+  document.getElementById('modalBack').addEventListener('click', closeArticle);
+  document.getElementById('modalBackdrop').addEventListener('click', closeArticle);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeArticle(); });
+  window.addEventListener('popstate', e => {
+    if (!location.hash) closeArticle();
+    else if (e.state && e.state.articleId) openArticle(e.state.articleId);
+  });
+
+  /* ── BUILD CARD HTML ────────────────────────────────────── */
+  function buildCard(a, featured) {
+    const t   = a[lang];
+    const ext = a.type === 'external';
+    const cls = [
+      'news-item reveal',
+      featured ? 'news-item--featured' : '',
+      ext ? 'news-item--external' : ''
+    ].filter(Boolean).join(' ');
+
+    const thumbHTML = a.thumbnail
+      ? `<div class="news-item__thumb"><img src="${ROOT}${a.thumbnail}" alt="${t.title}" loading="lazy"></div>`
+      : `<div class="news-item__thumb news-item__thumb--empty"><svg viewBox="0 0 48 48" fill="none" stroke="var(--gold)" stroke-width="1.2"><rect x="6" y="10" width="36" height="28" rx="2"/><path d="M6 32l10-10 8 8 6-6 12 12"/><circle cx="32" cy="20" r="4"/></svg></div>`;
+
+    const sourceBadge = ext ? `<span class="news-item__source">${a.source}</span>` : '';
+
+    const ctaHTML = ext
+      ? `<a href="${a.sourceUrl}" target="_blank" rel="noopener noreferrer" class="news-item__cta news-item__cta--external" onclick="event.stopPropagation()">Read on ${a.source}</a>`
+      : `<button class="news-item__cta">Read More</button>`;
+
+    return `<div class="${cls}" data-article-id="${ext ? '' : a.id}" ${ext ? '' : `tabindex="0"`}>
       ${thumbHTML}
       <div class="news-item__body">
         <div class="news-item__meta">
-          <span class="news-item__cat">${CAT_LABELS[article.category] || article.category}</span>
-          <span class="news-item__date">${article.dateDisplay[lang]}</span>
+          <span class="news-item__cat">${CAT_LABELS[a.category] || a.category}</span>
+          <span class="news-item__date">${a.dateDisplay[lang]}</span>
           ${sourceBadge}
         </div>
         <h2 class="news-item__title">${t.title}</h2>
@@ -378,29 +315,26 @@
     </div>`;
   }
 
-  /* ── RENDER ───────────────────────────────────────────────── */
+  /* ── RENDER GRID ────────────────────────────────────────── */
   function render(cat) {
-    activeCat = cat;
     const grid = document.getElementById('newsGrid');
     if (!grid) return;
-
-    const filtered = cat === 'all'
-      ? allArticles
-      : allArticles.filter(a => a.category === cat);
-
-    if (!filtered.length) {
-      grid.innerHTML = '<div class="news-state">No articles in this category yet.</div>';
-      return;
-    }
-
+    const filtered = cat === 'all' ? allArticles : allArticles.filter(a => a.category === cat);
+    if (!filtered.length) { grid.innerHTML = '<div class="news-state">No articles in this category yet.</div>'; return; }
     grid.innerHTML = filtered.map((a, i) => buildCard(a, i === 0 && cat === 'all')).join('');
 
-    /* Re-trigger scroll reveal on newly injected cards */
+    /* Click / keyboard on internal cards */
+    grid.querySelectorAll('.news-item[data-article-id]').forEach(card => {
+      const id = card.dataset.articleId;
+      if (!id) return;
+      card.addEventListener('click', () => openArticle(id));
+      card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openArticle(id); } });
+    });
+
+    /* Reveal */
     if (typeof IntersectionObserver !== 'undefined') {
       const obs = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-          if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
-        });
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
       }, { threshold: 0.08 });
       grid.querySelectorAll('.reveal').forEach(el => obs.observe(el));
     } else {
@@ -408,7 +342,7 @@
     }
   }
 
-  /* ── FILTER BUTTONS ───────────────────────────────────────── */
+  /* ── FILTER BAR ─────────────────────────────────────────── */
   document.getElementById('filterBar').addEventListener('click', function (e) {
     const btn = e.target.closest('.filter-btn');
     if (!btn) return;
@@ -417,15 +351,17 @@
     render(btn.dataset.cat);
   });
 
-  /* ── FETCH ────────────────────────────────────────────────── */
+  /* ── FETCH DATA ─────────────────────────────────────────── */
   fetch(DATA)
-    .then(r => {
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      return r.json();
-    })
+    .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
     .then(data => {
       allArticles = (data.articles || []).sort((a, b) => b.date.localeCompare(a.date));
       render('all');
+      /* Open article if URL has hash on load */
+      if (location.hash) {
+        const id = location.hash.slice(1);
+        setTimeout(() => openArticle(id), 300);
+      }
     })
     .catch(() => {
       const grid = document.getElementById('newsGrid');
