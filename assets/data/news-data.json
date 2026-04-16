@@ -3,7 +3,10 @@
     {
       "id": "2025-03-environmental-framework",
       "date": "2025-03-15",
-      "dateDisplay": { "en": "15 Mar 2025", "tr": "15 Mar 2025" },
+      "dateDisplay": {
+        "en": "15 Mar 2025",
+        "tr": "15 Mar 2025"
+      },
       "category": "sustainability",
       "type": "internal",
       "thumbnail": "assets/images/portfolio/akp%C4%B1nar3.jpg",
@@ -21,7 +24,10 @@
     {
       "id": "2025-02-turkey-precious-metals",
       "date": "2025-02-10",
-      "dateDisplay": { "en": "10 Feb 2025", "tr": "10 Şub 2025" },
+      "dateDisplay": {
+        "en": "10 Feb 2025",
+        "tr": "10 Şub 2025"
+      },
       "category": "exploration",
       "type": "internal",
       "thumbnail": "assets/images/portfolio/doka_turkey_map3.jpg",
@@ -39,7 +45,10 @@
     {
       "id": "2025-01-kirsehir-survey",
       "date": "2025-01-01",
-      "dateDisplay": { "en": "1 Jan 2025", "tr": "1 Oca 2025" },
+      "dateDisplay": {
+        "en": "1 Jan 2025",
+        "tr": "1 Oca 2025"
+      },
       "category": "exploration",
       "type": "internal",
       "thumbnail": "assets/images/portfolio/akpinar1.jpg",
@@ -57,7 +66,10 @@
     {
       "id": "2024-12-bayburt-environmental",
       "date": "2024-12-15",
-      "dateDisplay": { "en": "15 Dec 2024", "tr": "15 Ara 2024" },
+      "dateDisplay": {
+        "en": "15 Dec 2024",
+        "tr": "15 Ara 2024"
+      },
       "category": "sustainability",
       "type": "internal",
       "thumbnail": "assets/images/portfolio/bayburt3.jpg",
@@ -75,7 +87,10 @@
     {
       "id": "2024-11-yozgat-employment",
       "date": "2024-11-28",
-      "dateDisplay": { "en": "28 Nov 2024", "tr": "28 Kas 2024" },
+      "dateDisplay": {
+        "en": "28 Nov 2024",
+        "tr": "28 Kas 2024"
+      },
       "category": "community",
       "type": "internal",
       "thumbnail": "assets/images/portfolio/sorgun1.jpg",
@@ -93,7 +108,10 @@
     {
       "id": "2024-10-company-established",
       "date": "2024-10-10",
-      "dateDisplay": { "en": "10 Oct 2024", "tr": "10 Eki 2024" },
+      "dateDisplay": {
+        "en": "10 Oct 2024",
+        "tr": "10 Eki 2024"
+      },
       "category": "corporate",
       "type": "internal",
       "thumbnail": null,
@@ -111,7 +129,10 @@
     {
       "id": "2024-09-turkey-gold-sector",
       "date": "2024-09-05",
-      "dateDisplay": { "en": "5 Sep 2024", "tr": "5 Eyl 2024" },
+      "dateDisplay": {
+        "en": "5 Sep 2024",
+        "tr": "5 Eyl 2024"
+      },
       "category": "press",
       "type": "external",
       "source": "Bloomberg HT",
@@ -129,12 +150,15 @@
     {
       "id": "2024-01-ief-sustainable-mining",
       "date": "2024-01-08",
-      "dateDisplay": { "en": "8 Jan 2024", "tr": "8 Oca 2024" },
+      "dateDisplay": {
+        "en": "8 Jan 2024",
+        "tr": "8 Oca 2024"
+      },
       "category": "sustainability",
       "type": "external",
       "source": "International Energy Forum",
       "sourceUrl": "https://www.ief.org/news/how-to-make-mining-more-sustainable",
-      "thumbnail": null,
+      "thumbnail": "https://www.ief.org/_resources/files/news/how-to-make-mining-more-sustainable/websitebanner-sustainablemining.jpg",
       "en": {
         "title": "How to Make Mining More Sustainable",
         "excerpt": "The International Energy Forum examines the paradox at the heart of the energy transition: the clean technologies the world needs require substantially more mining, yet mining itself carries significant environmental and social risks. The article outlines how the industry is responding through land rehabilitation programs, renewable-powered operations, carbon capture techniques, and precision extraction technology."
