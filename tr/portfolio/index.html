@@ -35,7 +35,8 @@
         </p>
       </div>
       <div class="reveal reveal-delay-2">
-        <div class="about-block__image" style="aspect-ratio: 23/10; overflow: hidden;">
+        <!-- FIX: was inline style="aspect-ratio:23/10" — replaced with class .portfolio-map -->
+        <div class="about-block__image portfolio-map" style="overflow: hidden;">
           <img
             src="../../assets/images/portfolio/doka_turkey_map3.jpg"
             alt="DOKA Madencilik saha konumları — Kırşehir, Bayburt, Yozgat"
@@ -52,15 +53,16 @@
   <div class="container">
     <div style="display: flex; flex-direction: column; gap: 40px;">
 
+      <!-- FIX: all three cards: inline grid replaced with class .site-card__layout -->
       <div class="card reveal" style="border-color: var(--gold-border);">
-        <div style="display: grid; grid-template-columns: 300px 1fr; gap: 0;">
-          <div class="card__img" style="height: auto; min-height: 260px; overflow: hidden;">
+        <div class="site-card__layout">
+          <div class="card__img site-card__img">
             <img src="../../assets/images/portfolio/akpinar1.jpg"
                  alt="Kırşehir sahası — Orta Anadolu"
                  style="width:100%; height:100%; object-fit:cover; display:block;"
                  loading="lazy">
           </div>
-          <div class="card__body" style="padding: 36px;">
+          <div class="card__body site-card__body">
             <span class="card__tag">Orta Anadolu &middot; Altın &middot; Gümüş</span>
             <h2 style="font-family:'Cormorant Garamond',serif; font-size:2rem; color:var(--white); margin-bottom:12px;">Kırşehir</h2>
             <p style="color:var(--text-secondary); line-height:1.8; margin-bottom: 20px;">
@@ -77,14 +79,14 @@
       </div>
 
       <div class="card reveal" style="border-color: var(--gold-border);">
-        <div style="display: grid; grid-template-columns: 300px 1fr; gap: 0;">
-          <div class="card__img" style="height: auto; min-height: 260px; overflow: hidden;">
+        <div class="site-card__layout">
+          <div class="card__img site-card__img">
             <img src="../../assets/images/portfolio/bayburt3.jpg"
                  alt="Bayburt sahası — Kuzeydoğu Anadolu"
                  style="width:100%; height:100%; object-fit:cover; display:block;"
                  loading="lazy">
           </div>
-          <div class="card__body" style="padding: 36px;">
+          <div class="card__body site-card__body">
             <span class="card__tag">Kuzeydoğu Anadolu &middot; Altın</span>
             <h2 style="font-family:'Cormorant Garamond',serif; font-size:2rem; color:var(--white); margin-bottom:12px;">Bayburt</h2>
             <p style="color:var(--text-secondary); line-height:1.8; margin-bottom: 20px;">
@@ -101,14 +103,14 @@
       </div>
 
       <div class="card reveal" style="border-color: var(--gold-border);">
-        <div style="display: grid; grid-template-columns: 300px 1fr; gap: 0;">
-          <div class="card__img" style="height: auto; min-height: 260px; overflow: hidden;">
+        <div class="site-card__layout">
+          <div class="card__img site-card__img">
             <img src="../../assets/images/portfolio/sorgun1.jpg"
                  alt="Yozgat sahası — Orta Anadolu"
                  style="width:100%; height:100%; object-fit:cover; display:block;"
                  loading="lazy">
           </div>
-          <div class="card__body" style="padding: 36px;">
+          <div class="card__body site-card__body">
             <span class="card__tag">Orta Anadolu &middot; Altın &middot; Gümüş</span>
             <h2 style="font-family:'Cormorant Garamond',serif; font-size:2rem; color:var(--white); margin-bottom:12px;">Yozgat</h2>
             <p style="color:var(--text-secondary); line-height:1.8; margin-bottom: 20px;">
@@ -129,6 +131,11 @@
 </section>
 
 <div id="footer-placeholder"></div>
+<script>const ROOT_PATH = '../../'; const LANG = 'tr'; const LANG_EQUIV = 'portfolio/index.html';</script>
+<script src="../../assets/js/main.js"></script>
+</body>
+</html>
+older"></div>
 <script>const ROOT_PATH = '../../'; const LANG = 'tr'; const LANG_EQUIV = 'portfolio/index.html';</script>
 <script src="../../assets/js/main.js"></script>
 </body>
