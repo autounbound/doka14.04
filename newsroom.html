@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DOKA Mining Newsroom - Latest news, press releases, and corporate announcements.">
+  <title>Newsroom — DOKA Mining</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<div id="nav-placeholder"></div>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero__breadcrumb">
+      <a href="index.html">Home</a><span>/</span><span>Newsroom</span>
+    </div>
+    <h1>Newsroom</h1>
+    <p class="page-hero__sub">Corporate announcements, exploration updates, and media releases from DOKA Mining.</p>
+  </div>
+</section>
+
+<!-- NEWS LIST -->
+<section class="section section--dark">
+  <div class="container">
+
+    <!-- FILTER BAR -->
+    <div style="display:flex; gap:12px; margin-bottom:48px; flex-wrap:wrap;" class="reveal">
+      <button onclick="filterNews('all', this)" style="padding:8px 20px; border-radius:4px; border:1px solid var(--gold-border); background:var(--gold); color:var(--dark); font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; font-family:'DM Sans',sans-serif; font-weight:500;" class="filter-btn active">All</button>
+      <button onclick="filterNews('corporate', this)" style="padding:8px 20px; border-radius:4px; border:1px solid var(--dark-border); background:transparent; color:var(--text-muted); font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; font-family:'DM Sans',sans-serif;" class="filter-btn">Corporate</button>
+      <button onclick="filterNews('exploration', this)" style="padding:8px 20px; border-radius:4px; border:1px solid var(--dark-border); background:transparent; color:var(--text-muted); font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; font-family:'DM Sans',sans-serif;" class="filter-btn">Exploration</button>
+      <button onclick="filterNews('sustainability', this)" style="padding:8px 20px; border-radius:4px; border:1px solid var(--dark-border); background:transparent; color:var(--text-muted); font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; font-family:'DM Sans',sans-serif;" class="filter-btn">Sustainability</button>
+      <button onclick="filterNews('community', this)" style="padding:8px 20px; border-radius:4px; border:1px solid var(--dark-border); background:transparent; color:var(--text-muted); font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; font-family:'DM Sans',sans-serif;" class="filter-btn">Community</button>
+    </div>
+
+    <!-- NEWS ITEMS -->
+    <div id="newsList">
+
+      <div class="news-card reveal" data-category="exploration">
+        <div class="news-card__date">
+          <div style="font-size:1.6rem; font-family:'Cormorant Garamond',serif; color:var(--gold); line-height:1;">01</div>
+          <div>Jan 2025</div>
+        </div>
+        <div>
+          <span class="news-card__cat">Exploration</span>
+          <h3 class="news-card__title">DOKA Mining Advances Exploration Program at Kırşehir Site</h3>
+          <p class="news-card__excerpt">Initial geophysical survey results confirm the presence of anomalous zones consistent with precious metals mineralization at the Kırşehir license area. Further technical work including soil sampling is planned for Q1 2025.</p>
+          <div style="margin-top:12px;"><a href="#" class="card__link">Read Release</a></div>
+        </div>
+      </div>
+
+      <div class="news-card reveal" data-category="sustainability">
+        <div class="news-card__date">
+          <div style="font-size:1.6rem; font-family:'Cormorant Garamond',serif; color:var(--gold); line-height:1;">15</div>
+          <div>Dec 2024</div>
+        </div>
+        <div>
+          <span class="news-card__cat">Sustainability</span>
+          <h3 class="news-card__title">Environmental Baseline Study Completed for Bayburt Project Area</h3>
+          <p class="news-card__excerpt">DOKA Mining has successfully completed a comprehensive environmental baseline assessment for the Bayburt license area, establishing the ecological and hydrological reference conditions required for responsible exploration activities.</p>
+          <div style="margin-top:12px;"><a href="#" class="card__link">Read Release</a></div>
+        </div>
+      </div>
+
+      <div class="news-card reveal" data-category="community">
+        <div class="news-card__date">
+          <div style="font-size:1.6rem; font-family:'Cormorant Garamond',serif; color:var(--gold); line-height:1;">28</div>
+          <div>Nov 2024</div>
+        </div>
+        <div>
+          <span class="news-card__cat">Community</span>
+          <h3 class="news-card__title">DOKA Mining Signs Local Employment Commitment with Yozgat Municipality</h3>
+          <p class="news-card__excerpt">A formal memorandum of understanding has been signed with the Yozgat Provincial Directorate, formalizing DOKA's commitment to prioritize local hiring and supplier engagement as exploration activities commence in the region.</p>
+          <div style="margin-top:12px;"><a href="#" class="card__link">Read Release</a></div>
+        </div>
+      </div>
+
+      <div class="news-card reveal" data-category="corporate">
+        <div class="news-card__date">
+          <div style="font-size:1.6rem; font-family:'Cormorant Garamond',serif; color:var(--gold); line-height:1;">10</div>
+          <div>Oct 2024</div>
+        </div>
+        <div>
+          <span class="news-card__cat">Corporate</span>
+          <h3 class="news-card__title">DOKA Madencilik Formally Established as Dedicated Precious Metals Company</h3>
+          <p class="news-card__excerpt">DOKA Madencilik is formally established as a dedicated precious metals exploration and mining company, with initial licensed areas secured in Kırşehir, Bayburt, and Yozgat provinces.</p>
+          <div style="margin-top:12px;"><a href="#" class="card__link">Read Release</a></div>
+        </div>
+      </div>
+
+    </div>
+
+    <p style="margin-top: 24px; font-size: 0.75rem; color: var(--text-muted); font-style: italic;" class="reveal">
+      * News items are illustrative placeholders. Replace with actual DOKA press releases before publication.
+    </p>
+
+    <!-- MEDIA CONTACT -->
+    <div style="margin-top: 64px; padding: 40px; border: 1px solid var(--gold-border); border-radius: 8px; background: var(--gold-pale); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px;" class="reveal">
+      <div>
+        <span class="section-eyebrow">Media Inquiries</span>
+        <h3 style="font-size:1.4rem;">Press Contact</h3>
+        <p style="color:var(--text-secondary); margin-top:8px; font-size:0.9rem;">For all media inquiries, interview requests, or press materials, please contact the DOKA communications team.</p>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <div style="font-size:0.9rem; color:var(--text-secondary);">&#9993; &nbsp;<span class="placeholder-badge">press@dokamining.com</span></div>
+        <div style="margin-top:8px;"><a href="contact.html" class="btn btn--gold btn--sm">Contact Us</a></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script>const ROOT_PATH = ''; const LANG = 'en'; const LANG_EQUIV = 'tr/newsroom.html';</script>
+<script src="assets/js/main.js"></script>
+<script>
+function filterNews(cat, btn) {
+  // Update button styles
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.style.background = 'transparent';
+    b.style.color = 'var(--text-muted)';
+    b.style.borderColor = 'var(--dark-border)';
+  });
+  btn.style.background = 'var(--gold)';
+  btn.style.color = 'var(--dark)';
+  btn.style.borderColor = 'var(--gold)';
+
+  // Filter items
+  document.querySelectorAll('.news-card').forEach(card => {
+    if (cat === 'all' || card.dataset.category === cat) {
+      card.style.display = 'grid';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+</script>
+</body>
+</html>

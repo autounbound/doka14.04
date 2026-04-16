@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DOKA Madencilik Haberler — Son haberler, basın bültenleri ve kurumsal duyurular.">
+  <title>Haberler — DOKA Madencilik</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<div id="nav-placeholder"></div>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero__breadcrumb">
+      <a href="index.html">Ana Sayfa</a><span>/</span><span>Haberler</span>
+    </div>
+    <h1>Haberler</h1>
+    <p class="page-hero__sub">DOKA Madencilik'ten kurumsal duyurular, arama güncellemeleri ve medya bültenleri.</p>
+  </div>
+</section>
+
+<section class="section section--dark">
+  <div class="container">
+
+    <div style="display:flex; gap:12px; margin-bottom:48px; flex-wrap:wrap;" class="reveal">
+      <button onclick="filterNews('all', this)" style="padding:8px 20px; border-radius:4px; border:1px solid var(--gold-border); background:var(--gold); color:var(--dark); font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; font-family:'DM Sans',sans-serif; font-weight:500;" class="filter-btn active">Tümü</button>
+      <button onclick="filterNews('corporate', this)" style="padding:8px 20px; border-radius:4px; border:1px solid var(--dark-border); background:transparent; color:var(--text-muted); font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; font-family:'DM Sans',sans-serif;" class="filter-btn">Kurumsal</button>
+      <button onclick="filterNews('exploration', this)" style="padding:8px 20px; border-radius:4px; border:1px solid var(--dark-border); background:transparent; color:var(--text-muted); font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; font-family:'DM Sans',sans-serif;" class="filter-btn">Arama</button>
+      <button onclick="filterNews('sustainability', this)" style="padding:8px 20px; border-radius:4px; border:1px solid var(--dark-border); background:transparent; color:var(--text-muted); font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; font-family:'DM Sans',sans-serif;" class="filter-btn">Sürdürülebilirlik</button>
+      <button onclick="filterNews('community', this)" style="padding:8px 20px; border-radius:4px; border:1px solid var(--dark-border); background:transparent; color:var(--text-muted); font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; font-family:'DM Sans',sans-serif;" class="filter-btn">Toplum</button>
+    </div>
+
+    <div id="newsList">
+
+      <div class="news-card reveal" data-category="exploration">
+        <div class="news-card__date">
+          <div style="font-size:1.6rem; font-family:'Cormorant Garamond',serif; color:var(--gold); line-height:1;">01</div>
+          <div>Oca 2025</div>
+        </div>
+        <div>
+          <span class="news-card__cat">Arama</span>
+          <h3 class="news-card__title">DOKA Madencilik, Kırşehir Sahasındaki Arama Programını İlerletiyor</h3>
+          <p class="news-card__excerpt">İlk jeofizik araştırma sonuçları, Kırşehir lisans alanında değerli metal mineralizasyonuyla tutarlı anomali bölgelerinin varlığını doğruluyor. 2025'in ilk çeyreği için ek toprak örnekleme çalışması planlanmaktadır.</p>
+          <div style="margin-top:12px;"><a href="#" class="card__link">Bülteni Oku</a></div>
+        </div>
+      </div>
+
+      <div class="news-card reveal" data-category="sustainability">
+        <div class="news-card__date">
+          <div style="font-size:1.6rem; font-family:'Cormorant Garamond',serif; color:var(--gold); line-height:1;">15</div>
+          <div>Ara 2024</div>
+        </div>
+        <div>
+          <span class="news-card__cat">Sürdürülebilirlik</span>
+          <h3 class="news-card__title">Bayburt Proje Alanı İçin Çevre Bazal Etüdü Tamamlandı</h3>
+          <p class="news-card__excerpt">DOKA Madencilik, Bayburt lisans alanı için kapsamlı çevre bazal değerlendirmesini başarıyla tamamladı. Çalışma, sorumlu arama faaliyetleri için gerekli ekolojik ve hidrolojik referans koşullarını belgelemiştir.</p>
+          <div style="margin-top:12px;"><a href="#" class="card__link">Bülteni Oku</a></div>
+        </div>
+      </div>
+
+      <div class="news-card reveal" data-category="community">
+        <div class="news-card__date">
+          <div style="font-size:1.6rem; font-family:'Cormorant Garamond',serif; color:var(--gold); line-height:1;">28</div>
+          <div>Kas 2024</div>
+        </div>
+        <div>
+          <span class="news-card__cat">Toplum</span>
+          <h3 class="news-card__title">DOKA Madencilik, Yozgat İl Müdürlüğü ile Yerel İstihdam Mutabakat Muhtırası İmzaladı</h3>
+          <p class="news-card__excerpt">Yozgat İl Müdürlüğü ile imzalanan mutabakat muhtırası; bölgede arama faaliyetleri başlarken yerel işe alım ve tedarikçi katılımının öncelikli kılınmasını resmileştirmektedir.</p>
+          <div style="margin-top:12px;"><a href="#" class="card__link">Bülteni Oku</a></div>
+        </div>
+      </div>
+
+      <div class="news-card reveal" data-category="corporate">
+        <div class="news-card__date">
+          <div style="font-size:1.6rem; font-family:'Cormorant Garamond',serif; color:var(--gold); line-height:1;">10</div>
+          <div>Eki 2024</div>
+        </div>
+        <div>
+          <span class="news-card__cat">Kurumsal</span>
+          <h3 class="news-card__title">DOKA Madencilik, Değerli Maden Sektöründe Faaliyetlerine Başladı</h3>
+          <p class="news-card__excerpt">DOKA Madencilik; Kırşehir, Bayburt ve Yozgat illerinde ilk lisanslı alanların güvence altına alınmasıyla birlikte değerli maden arama ve madenciliğine adanmış bağımsız bir Türk şirketi olarak faaliyetlerine resmen başlamaktadır.</p>
+          <div style="margin-top:12px;"><a href="#" class="card__link">Bülteni Oku</a></div>
+        </div>
+      </div>
+
+    </div>
+
+    <p style="margin-top: 24px; font-size: 0.75rem; color: var(--text-muted); font-style: italic;" class="reveal">
+      * Haber kalemleri örnek amaçlıdır. Gerçek basın bültenleriyle değiştirilmesi gerekmektedir.
+    </p>
+
+    <div style="margin-top: 64px; padding: 40px; border: 1px solid var(--gold-border); border-radius: 8px; background: var(--gold-pale); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px;" class="reveal">
+      <div>
+        <span class="section-eyebrow">Medya Sorgulamaları</span>
+        <h3 style="font-size:1.4rem;">Basın İletişim</h3>
+        <p style="color:var(--text-secondary); margin-top:8px; font-size:0.9rem;">Tüm medya sorguları, röportaj talepleri veya basın materyalleri için DOKA iletişim ekibiyle iletişime geçin.</p>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <div style="font-size:0.9rem; color:var(--text-secondary);">&#9993; &nbsp;<span class="placeholder-badge">basin@dokamadencilik.com.tr</span></div>
+        <div style="margin-top:8px;"><a href="contact.html" class="btn btn--gold btn--sm">İletişime Geç</a></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script>const ROOT_PATH = '../'; const LANG = 'tr'; const LANG_EQUIV = 'newsroom.html';</script>
+<script src="../assets/js/main.js"></script>
+<script>
+function filterNews(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.style.background = 'transparent'; b.style.color = 'var(--text-muted)'; b.style.borderColor = 'var(--dark-border)';
+  });
+  btn.style.background = 'var(--gold)'; btn.style.color = 'var(--dark)'; btn.style.borderColor = 'var(--gold)';
+  document.querySelectorAll('.news-card').forEach(card => {
+    card.style.display = (cat === 'all' || card.dataset.category === cat) ? 'grid' : 'none';
+  });
+}
+</script>
+</body>
+</html>

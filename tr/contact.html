@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DOKA Madencilik İletişim — Yatırımcı, medya ve genel sorularınız için ekibimizle iletişime geçin.">
+  <title>İletişim — DOKA Madencilik</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<div id="nav-placeholder"></div>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero__breadcrumb">
+      <a href="index.html">Ana Sayfa</a><span>/</span><span>İletişim</span>
+    </div>
+    <h1>İletişim</h1>
+    <p class="page-hero__sub">Yatırımcılardan, iş ortaklarından, medyadan ve toplum paydaşlarından gelen sorgulamaları memnuniyetle karşılıyoruz.</p>
+  </div>
+</section>
+
+<section class="section section--dark">
+  <div class="container">
+    <div class="grid-2" style="gap: 72px; align-items: start;">
+
+      <div class="reveal">
+        <span class="section-eyebrow">Mesaj Gönderin</span>
+        <h2>İletişime Geçin</h2>
+        <p style="margin-top:14px; color:var(--text-secondary); margin-bottom:32px; font-size:0.95rem;">Tüm sorgulamalar doğrudan DOKA ekibi tarafından yanıtlanmaktadır. 2 iş günü içinde geri dönüş yapmayı hedefliyoruz.</p>
+
+        <div class="form-group">
+          <label>Ad Soyad *</label>
+          <input type="text" placeholder="Adınız ve soyadınız">
+        </div>
+        <div class="form-group">
+          <label>E-posta Adresi *</label>
+          <input type="email" placeholder="email@adresiniz.com">
+        </div>
+        <div class="form-group">
+          <label>Kurum / Şirket</label>
+          <input type="text" placeholder="Şirket veya kurum adı (isteğe bağlı)">
+        </div>
+        <div class="form-group">
+          <label>Konu</label>
+          <select>
+            <option value="">Bir konu seçin</option>
+            <option>Yatırımcı İlişkileri</option>
+            <option>Medya / Basın</option>
+            <option>Toplum Sorgulaması</option>
+            <option>Kariyer</option>
+            <option>Genel</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Mesaj *</label>
+          <textarea placeholder="Mesajınız..."></textarea>
+        </div>
+        <button class="btn btn--gold" onclick="handleSubmit(event)">Mesaj Gönder</button>
+        <p style="margin-top:12px; font-size:0.75rem; color:var(--text-muted);">* Zorunlu alanlar. Bilgileriniz üçüncü taraflarla paylaşılmayacaktır.</p>
+        <p id="formMsg" style="display:none; margin-top:16px; padding:14px 20px; border-radius:4px; font-size:0.88rem;"></p>
+      </div>
+
+      <div class="reveal reveal-delay-2">
+        <span class="section-eyebrow">İletişim Bilgileri</span>
+        <h2>Bilgilerimiz</h2>
+
+        <div style="display:flex; flex-direction:column; gap:24px; margin-top:32px;">
+
+          <div style="padding:24px; border:1px solid var(--dark-border); border-radius:8px; background:var(--dark-card);">
+            <div style="font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:10px;">Genel Müdürlük</div>
+            <p style="color:var(--text-primary); line-height:1.7;">
+              DOKA Madencilik A.Ş.<br>
+              <span class="placeholder-badge">[ Sokak Adresi ]</span><br>
+              <span class="placeholder-badge">[ İlçe / Şehir / Posta Kodu ]</span><br>
+              Türkiye
+            </p>
+          </div>
+
+          <div style="padding:24px; border:1px solid var(--dark-border); border-radius:8px; background:var(--dark-card);">
+            <div style="font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:10px;">Telefon</div>
+            <p style="color:var(--text-primary);"><span class="placeholder-badge">+90 [ XXX ] [ XXX XX XX ]</span></p>
+          </div>
+
+          <div style="padding:24px; border:1px solid var(--dark-border); border-radius:8px; background:var(--dark-card);">
+            <div style="font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:14px;">E-posta</div>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                <span style="font-size:0.78rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-muted);">Genel</span>
+                <span class="placeholder-badge">info@dokamadencilik.com.tr</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                <span style="font-size:0.78rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-muted);">Yatırımcı İlişkileri</span>
+                <span class="placeholder-badge">investor@dokamadencilik.com.tr</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                <span style="font-size:0.78rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-muted);">Basın &amp; Medya</span>
+                <span class="placeholder-badge">basin@dokamadencilik.com.tr</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script>const ROOT_PATH = '../'; const LANG = 'tr'; const LANG_EQUIV = 'contact.html';</script>
+<script src="../assets/js/main.js"></script>
+<script>
+function handleSubmit(e) {
+  e.preventDefault();
+  const msg = document.getElementById('formMsg');
+  msg.style.display = 'block';
+  msg.style.background = 'var(--green-pale)';
+  msg.style.border = '1px solid rgba(45,122,95,0.3)';
+  msg.style.color = 'var(--green-light)';
+  msg.innerHTML = 'Mesajınız için teşekkür ederiz. DOKA ekibinden en kısa sürede size geri dönüş yapılacaktır.';
+}
+</script>
+</body>
+</html>
