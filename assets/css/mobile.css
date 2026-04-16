@@ -1,0 +1,387 @@
+/* ============================================================
+   DOKA MINING — Mobile & Responsive Overrides
+   Appended to style.css — all rules here are additive or
+   intentional overrides of the base stylesheet.
+   ============================================================ */
+
+/* ── BODY SCROLL LOCK (mobile menu open) ───────────────────── */
+body.nav-open {
+  overflow: hidden;
+  /* Prevent iOS Safari layout shift when overflow hides scrollbar */
+  position: fixed;
+  width: 100%;
+}
+
+/* ── DROPDOWN CHEVRON INDICATOR ────────────────────────────── */
+.nav__chevron {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid currentColor;
+  opacity: 0.5;
+  margin-left: 4px;
+  vertical-align: middle;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+/* Rotate chevron when dropdown is open on mobile */
+.nav__item--dropdown.open > a .nav__chevron {
+  transform: rotate(180deg);
+  opacity: 1;
+}
+
+/* Hide chevron on desktop — hover handles the reveal there */
+@media (min-width: 901px) {
+  .nav__chevron { display: none; }
+}
+
+/* ── LANG SWITCHER IN MOBILE MENU ───────────────────────────── */
+/* Hidden on desktop — becomes visible inside the open mobile menu */
+.nav__lang--mobile {
+  display: none;
+}
+
+/* ── TOUCH / POINTER IMPROVEMENTS ──────────────────────────── */
+/* Remove tap highlight flicker on all interactive elements */
+a, button, [role="button"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ── TABLET (max 1024px) ────────────────────────────────────── */
+@media (max-width: 1024px) {
+  /* Slightly tighten nav link spacing so it fits */
+  .nav__item > a {
+    padding: 8px 10px;
+    font-size: 0.72rem;
+  }
+}
+
+/* ── MOBILE (max 768px) ─────────────────────────────────────── */
+@media (max-width: 900px) {
+
+  /* Show language switcher inside the open menu */
+  .nav__lang--mobile {
+    display: block;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--gold-border) !important;
+    border-bottom: none !important;
+  }
+
+  .nav__lang--mobile a {
+    color: var(--gold) !important;
+    font-size: 0.82rem !important;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 12px 0 !important;
+    min-height: 44px;
+    display: flex !important;
+    align-items: center;
+  }
+
+  /* Better mobile menu panel */
+  .nav__links.open {
+    padding: 24px 24px 40px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Touch-friendly tap targets — minimum 44px per WCAG */
+  .nav__item > a {
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    font-size: 1.05rem;
+    font-weight: 400;
+    letter-spacing: 0.03em;
+    text-transform: none;
+    border-bottom: 1px solid var(--dark-border);
+  }
+
+  /* Dropdown items inside accordion */
+  .nav__item.open .nav__dropdown {
+    display: block;
+  }
+
+  .nav__item--dropdown.open .nav__dropdown a {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    font-size: 0.92rem;
+    padding-left: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .nav__item--dropdown.open .nav__dropdown a:last-child {
+    border-bottom: none;
+    margin-bottom: 4px;
+  }
+
+  /* Page hero — reduce oversized padding on mobile */
+  .page-hero {
+    padding: calc(var(--nav-height) + 32px) 0 40px;
+  }
+
+  .page-hero h1 {
+    font-size: clamp(2rem, 7vw, 2.8rem);
+  }
+
+  .page-hero__sub {
+    font-size: 0.95rem;
+  }
+
+  /* Hero section — use small viewport height for iOS Safari compatibility */
+  .hero {
+    min-height: 100svh; /* modern */
+    min-height: -webkit-fill-available; /* Safari fallback */
+  }
+
+  /* Hero content spacing */
+  .hero__content {
+    padding-top: calc(var(--nav-height) + 24px);
+    padding-bottom: 60px;
+  }
+
+  /* Hero headline tighter on mobile */
+  .hero__headline {
+    font-size: clamp(2.2rem, 7vw, 3.2rem);
+    max-width: 100%;
+  }
+
+  .hero__sub {
+    font-size: 0.95rem;
+    max-width: 100%;
+  }
+
+  /* Stats bar — enforce 2-col on mobile */
+  .stats-bar__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  /* Cards — ensure no horizontal overflow */
+  .card {
+    min-width: 0;
+  }
+
+  .card__body {
+    padding: 20px;
+  }
+
+  /* News card — keep readable on small screens */
+  .news-card {
+    grid-template-columns: 72px 1fr;
+    gap: 16px;
+    padding: 20px 0;
+  }
+
+  .news-card__title {
+    font-size: 1.05rem;
+  }
+
+  /* About block image — reduce aspect ratio on mobile */
+  .about-block__image {
+    aspect-ratio: 16/9;
+    max-height: 260px;
+  }
+
+  /* Pillar cards */
+  .pillar {
+    padding: 24px;
+  }
+
+  /* Touch-friendly form inputs */
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    min-height: 52px;
+    font-size: 16px; /* prevent iOS auto-zoom on focus */
+  }
+
+  .form-group textarea {
+    min-height: 120px;
+  }
+
+  /* Buttons — full width on mobile feels more native */
+  .hero__cta .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 16px 24px;
+  }
+
+  /* Section padding tighter on mobile */
+  :root {
+    --section-pad: 52px;
+  }
+
+  /* Container edge breathing room */
+  .container {
+    padding: 0 16px;
+  }
+
+  /* Footer grid to single column */
+  .footer__grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .footer__logo img {
+    height: 36px;
+  }
+
+  /* Footer bottom row */
+  .footer__bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .footer__bottom-links {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  /* Banner sections tighter */
+  .banner {
+    padding: 52px 0;
+  }
+
+  /* Investor reason items */
+  .invest-reason__num {
+    font-size: 2rem;
+    min-width: 40px;
+  }
+}
+
+/* ── SMALL MOBILE (max 480px) ───────────────────────────────── */
+@media (max-width: 480px) {
+
+  :root {
+    --section-pad: 44px;
+    --nav-height: 68px;
+  }
+
+  .container {
+    padding: 0 14px;
+  }
+
+  /* Hero */
+  .hero__eyebrow span {
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+  }
+
+  .hero__headline {
+    font-size: clamp(1.9rem, 8vw, 2.4rem);
+    line-height: 1.1;
+  }
+
+  .display-xl {
+    font-size: clamp(2rem, 8.5vw, 2.8rem);
+  }
+
+  /* CTA buttons stacked */
+  .hero__cta {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+    min-height: 52px;
+  }
+
+  /* Stats: 2 columns even at 320px */
+  .stats-bar__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .stat-item__value {
+    font-size: 2rem;
+  }
+
+  /* Section eyebrow smaller */
+  .section-eyebrow {
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+  }
+
+  /* Section intro full width */
+  .section-intro, .section-intro--center {
+    margin-bottom: 36px;
+  }
+
+  /* Pillars single column */
+  .grid-3 {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* Page hero */
+  .page-hero {
+    padding: calc(var(--nav-height) + 24px) 0 32px;
+  }
+
+  .page-hero h1 {
+    font-size: clamp(1.7rem, 8vw, 2.2rem);
+  }
+
+  /* Card image height */
+  .card__img {
+    height: 180px;
+  }
+
+  /* News card date column */
+  .news-card {
+    grid-template-columns: 56px 1fr;
+    gap: 12px;
+  }
+
+  /* Form inputs */
+  .form-group input,
+  .form-group select {
+    min-height: 56px;
+  }
+
+  /* Footer links */
+  .footer__bottom-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Nav hamburger larger touch area */
+  .nav__hamburger {
+    padding: 10px;
+    margin-right: -10px;
+  }
+
+  .nav__logo img {
+    height: 38px;
+  }
+}
+
+/* ── LANDSCAPE PHONES (short viewport) ─────────────────────── */
+@media (max-height: 500px) and (max-width: 900px) {
+  .hero {
+    min-height: unset;
+    padding: calc(var(--nav-height) + 32px) 0 48px;
+  }
+
+  .nav__links.open {
+    padding-bottom: 80px; /* room to scroll past sticky nav */
+  }
+}
+
+/* ── PRINT ──────────────────────────────────────────────────── */
+@media print {
+  .nav, .nav__hamburger, .footer { display: none; }
+  body { background: white; color: black; }
+  .hero { min-height: unset; }
+}
