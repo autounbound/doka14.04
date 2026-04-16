@@ -474,3 +474,31 @@ a, button, [role="button"] {
     aspect-ratio: 4 / 3;
   }
 }
+
+/* ============================================================
+   HERO SCROLL INDICATOR — MOBILE FIX
+   On mobile the hero content can be taller than the viewport,
+   pushing bottom:40px below the fold and causing the indicator
+   to float over subsequent sections when scrolled.
+   Fix: switch to position:fixed on mobile so it always sits at
+   the viewport bottom, then JS (main.js) fades it out once the
+   user scrolls past the hero section.
+   ============================================================ */
+@media (max-width: 900px) {
+  .hero__scroll {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 50;
+    /* Smooth fade-out transition triggered by .hero__scroll--hidden class */
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+  }
+
+  /* Added by JS when user scrolls past the hero */
+  .hero__scroll--hidden {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none;
+  }
+}

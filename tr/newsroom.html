@@ -6,6 +6,172 @@
   <meta name="description" content="DOKA Madencilik Haberler — Son haberler, basın bültenleri ve kurumsal duyurular.">
   <title>Haberler — DOKA Madencilik</title>
   <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      margin-top: 48px;
+    }
+    .news-grid .news-item--featured {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .news-item {
+      background: var(--dark-card);
+      border: 1px solid var(--dark-border);
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
+    }
+    .news-item:hover {
+      border-color: var(--gold-border);
+      transform: translateY(-3px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    }
+    .news-item__thumb {
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+      background: var(--dark-surface);
+      flex-shrink: 0;
+    }
+    .news-item--featured .news-item__thumb {
+      height: 100%;
+      min-height: 320px;
+    }
+    .news-item__thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .news-item:hover .news-item__thumb img { transform: scale(1.04); }
+    .news-item__thumb--empty {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--dark-surface), var(--dark-card));
+      border-bottom: 1px solid var(--gold-border);
+    }
+    .news-item__thumb--empty svg { opacity: 0.12; width: 52px; }
+    .news-item__body {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .news-item--featured .news-item__body { padding: 40px; justify-content: center; }
+    .news-item__meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .news-item__cat {
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: var(--gold);
+    }
+    .news-item__date { font-size: 0.72rem; color: var(--text-muted); }
+    .news-item__source {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--dark-border);
+      border-radius: 3px;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .news-item__source::before {
+      content: '';
+      display: block;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+    .news-item__title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.25;
+      margin-bottom: 12px;
+      transition: color 0.3s ease;
+    }
+    .news-item--featured .news-item__title { font-size: 1.8rem; }
+    .news-item:hover .news-item__title { color: var(--gold-light); }
+    .news-item__excerpt {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.75;
+      flex: 1;
+      margin-bottom: 20px;
+    }
+    .news-item__cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      transition: gap 0.3s ease, color 0.3s ease;
+      margin-top: auto;
+    }
+    .news-item__cta:hover { gap: 14px; color: var(--gold-light); }
+    .news-item__cta::after { content: '→'; }
+    .news-item__cta--external::after { content: '↗'; }
+    .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 0; }
+    .filter-btn {
+      padding: 8px 20px;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      transition: all 0.25s ease;
+      border: 1px solid var(--dark-border);
+      background: transparent;
+      color: var(--text-muted);
+    }
+    .filter-btn:hover { border-color: var(--gold-border); color: var(--text-primary); }
+    .filter-btn.active { background: var(--gold); color: var(--dark); border-color: var(--gold); }
+    .news-state { text-align: center; padding: 80px 0; color: var(--text-muted); font-size: 0.9rem; }
+    @media (max-width: 1024px) {
+      .news-grid { grid-template-columns: repeat(2, 1fr); }
+      .news-item--featured { grid-template-columns: 1fr; }
+      .news-item--featured .news-item__thumb { min-height: 240px; height: 240px; }
+    }
+    @media (max-width: 640px) {
+      .news-grid { grid-template-columns: 1fr; gap: 18px; }
+      .news-item--featured { grid-column: auto; }
+      .news-item__body { padding: 20px; }
+      .news-item--featured .news-item__body { padding: 22px; }
+      .news-item--featured .news-item__title { font-size: 1.4rem; }
+      .news-item__thumb { height: 180px; }
+    }
+  </style>
 </head>
 <body>
 
@@ -24,75 +190,20 @@
 <section class="section section--dark">
   <div class="container">
 
-    <div style="display:flex; gap:12px; margin-bottom:48px; flex-wrap:wrap;" class="reveal">
-      <button onclick="filterNews('all', this)" style="padding:8px 20px; border-radius:4px; border:1px solid var(--gold-border); background:var(--gold); color:var(--dark); font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; font-family:'DM Sans',sans-serif; font-weight:500;" class="filter-btn active">Tümü</button>
-      <button onclick="filterNews('corporate', this)" style="padding:8px 20px; border-radius:4px; border:1px solid var(--dark-border); background:transparent; color:var(--text-muted); font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; font-family:'DM Sans',sans-serif;" class="filter-btn">Kurumsal</button>
-      <button onclick="filterNews('exploration', this)" style="padding:8px 20px; border-radius:4px; border:1px solid var(--dark-border); background:transparent; color:var(--text-muted); font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; font-family:'DM Sans',sans-serif;" class="filter-btn">Arama</button>
-      <button onclick="filterNews('sustainability', this)" style="padding:8px 20px; border-radius:4px; border:1px solid var(--dark-border); background:transparent; color:var(--text-muted); font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; font-family:'DM Sans',sans-serif;" class="filter-btn">Sürdürülebilirlik</button>
-      <button onclick="filterNews('community', this)" style="padding:8px 20px; border-radius:4px; border:1px solid var(--dark-border); background:transparent; color:var(--text-muted); font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; font-family:'DM Sans',sans-serif;" class="filter-btn">Toplum</button>
+    <div class="filter-bar reveal" id="filterBar">
+      <button class="filter-btn active" data-cat="all">Tümü</button>
+      <button class="filter-btn" data-cat="corporate">Kurumsal</button>
+      <button class="filter-btn" data-cat="exploration">Arama</button>
+      <button class="filter-btn" data-cat="sustainability">Sürdürülebilirlik</button>
+      <button class="filter-btn" data-cat="community">Toplum</button>
+      <button class="filter-btn" data-cat="press">Basında</button>
     </div>
 
-    <div id="newsList">
-
-      <div class="news-card reveal" data-category="exploration">
-        <div class="news-card__date">
-          <div style="font-size:1.6rem; font-family:'Cormorant Garamond',serif; color:var(--gold); line-height:1;">01</div>
-          <div>Oca 2025</div>
-        </div>
-        <div>
-          <span class="news-card__cat">Arama</span>
-          <h3 class="news-card__title">DOKA Madencilik, Kırşehir Sahasındaki Arama Programını İlerletiyor</h3>
-          <p class="news-card__excerpt">İlk jeofizik araştırma sonuçları, Kırşehir lisans alanında değerli metal mineralizasyonuyla tutarlı anomali bölgelerinin varlığını doğruluyor. 2025'in ilk çeyreği için ek toprak örnekleme çalışması planlanmaktadır.</p>
-          <div style="margin-top:12px;"><a href="#" class="card__link">Bülteni Oku</a></div>
-        </div>
-      </div>
-
-      <div class="news-card reveal" data-category="sustainability">
-        <div class="news-card__date">
-          <div style="font-size:1.6rem; font-family:'Cormorant Garamond',serif; color:var(--gold); line-height:1;">15</div>
-          <div>Ara 2024</div>
-        </div>
-        <div>
-          <span class="news-card__cat">Sürdürülebilirlik</span>
-          <h3 class="news-card__title">Bayburt Proje Alanı İçin Çevre Bazal Etüdü Tamamlandı</h3>
-          <p class="news-card__excerpt">DOKA Madencilik, Bayburt lisans alanı için kapsamlı çevre bazal değerlendirmesini başarıyla tamamladı. Çalışma, sorumlu arama faaliyetleri için gerekli ekolojik ve hidrolojik referans koşullarını belgelemiştir.</p>
-          <div style="margin-top:12px;"><a href="#" class="card__link">Bülteni Oku</a></div>
-        </div>
-      </div>
-
-      <div class="news-card reveal" data-category="community">
-        <div class="news-card__date">
-          <div style="font-size:1.6rem; font-family:'Cormorant Garamond',serif; color:var(--gold); line-height:1;">28</div>
-          <div>Kas 2024</div>
-        </div>
-        <div>
-          <span class="news-card__cat">Toplum</span>
-          <h3 class="news-card__title">DOKA Madencilik, Yozgat İl Müdürlüğü ile Yerel İstihdam Mutabakat Muhtırası İmzaladı</h3>
-          <p class="news-card__excerpt">Yozgat İl Müdürlüğü ile imzalanan mutabakat muhtırası; bölgede arama faaliyetleri başlarken yerel işe alım ve tedarikçi katılımının öncelikli kılınmasını resmileştirmektedir.</p>
-          <div style="margin-top:12px;"><a href="#" class="card__link">Bülteni Oku</a></div>
-        </div>
-      </div>
-
-      <div class="news-card reveal" data-category="corporate">
-        <div class="news-card__date">
-          <div style="font-size:1.6rem; font-family:'Cormorant Garamond',serif; color:var(--gold); line-height:1;">10</div>
-          <div>Eki 2024</div>
-        </div>
-        <div>
-          <span class="news-card__cat">Kurumsal</span>
-          <h3 class="news-card__title">DOKA Madencilik, Değerli Maden Sektöründe Faaliyetlerine Başladı</h3>
-          <p class="news-card__excerpt">DOKA Madencilik; Kırşehir, Bayburt ve Yozgat illerinde ilk lisanslı alanların güvence altına alınmasıyla birlikte değerli maden arama ve madenciliğine adanmış bağımsız bir Türk şirketi olarak faaliyetlerine resmen başlamaktadır.</p>
-          <div style="margin-top:12px;"><a href="#" class="card__link">Bülteni Oku</a></div>
-        </div>
-      </div>
-
+    <div id="newsGrid" class="news-grid">
+      <div class="news-state">Haberler yükleniyor&hellip;</div>
     </div>
 
-    <p style="margin-top: 24px; font-size: 0.75rem; color: var(--text-muted); font-style: italic;" class="reveal">
-      * Haber kalemleri örnek amaçlıdır. Gerçek basın bültenleriyle değiştirilmesi gerekmektedir.
-    </p>
-
-    <div style="margin-top: 64px; padding: 40px; border: 1px solid var(--gold-border); border-radius: 8px; background: var(--gold-pale); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px;" class="reveal">
+    <div style="margin-top:72px; padding:40px; border:1px solid var(--gold-border); border-radius:8px; background:var(--gold-pale); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:24px;" class="reveal">
       <div>
         <span class="section-eyebrow">Medya Sorgulamaları</span>
         <h3 style="font-size:1.4rem;">Basın İletişim</h3>
@@ -111,15 +222,109 @@
 <script>const ROOT_PATH = '../'; const LANG = 'tr'; const LANG_EQUIV = 'newsroom.html';</script>
 <script src="../assets/js/main.js"></script>
 <script>
-function filterNews(cat, btn) {
-  document.querySelectorAll('.filter-btn').forEach(b => {
-    b.style.background = 'transparent'; b.style.color = 'var(--text-muted)'; b.style.borderColor = 'var(--dark-border)';
+(function () {
+  'use strict';
+
+  const ROOT = typeof ROOT_PATH !== 'undefined' ? ROOT_PATH : '../';
+  const lang = 'tr';
+  const DATA = ROOT + 'assets/data/news-data.json';
+
+  const CAT_LABELS = {
+    corporate:      'Kurumsal',
+    exploration:    'Arama',
+    sustainability: 'Sürdürülebilirlik',
+    community:      'Toplum',
+    press:          'Basın'
+  };
+
+  let allArticles = [];
+
+  function buildCard(article, featured) {
+    const t   = article[lang];
+    const ext = article.type === 'external';
+    const cls = featured ? 'news-item news-item--featured reveal' : 'news-item reveal';
+
+    let thumbHTML;
+    if (article.thumbnail) {
+      thumbHTML = `<div class="news-item__thumb">
+        <img src="${ROOT}${article.thumbnail}" alt="${t.title}" loading="lazy">
+      </div>`;
+    } else {
+      thumbHTML = `<div class="news-item__thumb news-item__thumb--empty">
+        <svg viewBox="0 0 48 48" fill="none" stroke="var(--gold)" stroke-width="1.2">
+          <rect x="6" y="10" width="36" height="28" rx="2"/>
+          <path d="M6 32l10-10 8 8 6-6 12 12"/>
+          <circle cx="32" cy="20" r="4"/>
+        </svg>
+      </div>`;
+    }
+
+    const sourceBadge = ext
+      ? `<span class="news-item__source">${article.source}</span>`
+      : '';
+
+    let ctaHTML;
+    if (ext) {
+      ctaHTML = `<a href="${article.sourceUrl}" target="_blank" rel="noopener noreferrer"
+        class="news-item__cta news-item__cta--external">${article.source}'da Oku</a>`;
+    } else {
+      const articleUrl = `${ROOT}tr/news/article.html?id=${article.id}`;
+      ctaHTML = `<a href="${articleUrl}" class="news-item__cta">Devamını Oku</a>`;
+    }
+
+    return `<div class="${cls}" data-category="${article.category}">
+      ${thumbHTML}
+      <div class="news-item__body">
+        <div class="news-item__meta">
+          <span class="news-item__cat">${CAT_LABELS[article.category] || article.category}</span>
+          <span class="news-item__date">${article.dateDisplay[lang]}</span>
+          ${sourceBadge}
+        </div>
+        <h2 class="news-item__title">${t.title}</h2>
+        <p class="news-item__excerpt">${t.excerpt}</p>
+        ${ctaHTML}
+      </div>
+    </div>`;
+  }
+
+  function render(cat) {
+    const grid = document.getElementById('newsGrid');
+    if (!grid) return;
+    const filtered = cat === 'all' ? allArticles : allArticles.filter(a => a.category === cat);
+    if (!filtered.length) {
+      grid.innerHTML = '<div class="news-state">Bu kategoride henüz haber bulunmamaktadır.</div>';
+      return;
+    }
+    grid.innerHTML = filtered.map((a, i) => buildCard(a, i === 0 && cat === 'all')).join('');
+    if (typeof IntersectionObserver !== 'undefined') {
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+      }, { threshold: 0.08 });
+      grid.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    } else {
+      grid.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+    }
+  }
+
+  document.getElementById('filterBar').addEventListener('click', function (e) {
+    const btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+    this.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render(btn.dataset.cat);
   });
-  btn.style.background = 'var(--gold)'; btn.style.color = 'var(--dark)'; btn.style.borderColor = 'var(--gold)';
-  document.querySelectorAll('.news-card').forEach(card => {
-    card.style.display = (cat === 'all' || card.dataset.category === cat) ? 'grid' : 'none';
-  });
-}
+
+  fetch(DATA)
+    .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+    .then(data => {
+      allArticles = (data.articles || []).sort((a, b) => b.date.localeCompare(a.date));
+      render('all');
+    })
+    .catch(() => {
+      const grid = document.getElementById('newsGrid');
+      if (grid) grid.innerHTML = '<div class="news-state">Haberler yüklenirken bir sorun oluştu. Lütfen daha sonra tekrar deneyin.</div>';
+    });
+}());
 </script>
 </body>
 </html>

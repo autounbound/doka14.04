@@ -288,6 +288,30 @@
     });
   }
 
+  /* ── HERO SCROLL INDICATOR — MOBILE FADE ──────────────────── */
+  /*
+   * On mobile the indicator is position:fixed (see mobile.css).
+   * Fade it out once the user scrolls past 55% of the hero height.
+   * On desktop it stays position:absolute clipped by overflow:hidden — no JS needed.
+   */
+  const heroScrollEl = document.querySelector('.hero__scroll');
+  const heroSectionEl = document.querySelector('.hero');
+  if (heroScrollEl && heroSectionEl) {
+    const onHeroScroll = () => {
+      if (window.innerWidth <= 900) {
+        heroScrollEl.classList.toggle(
+          'hero__scroll--hidden',
+          window.scrollY > heroSectionEl.offsetHeight * 0.55
+        );
+      } else {
+        heroScrollEl.classList.remove('hero__scroll--hidden');
+      }
+    };
+    window.addEventListener('scroll', onHeroScroll, { passive: true });
+    window.addEventListener('resize', onHeroScroll, { passive: true });
+    onHeroScroll();
+  }
+
   /* ── SCROLL REVEAL ─────────────────────────────────────────── */
   const revealEls = document.querySelectorAll('.reveal');
   if (revealEls.length) {
