@@ -385,3 +385,92 @@ a, button, [role="button"] {
   body { background: white; color: black; }
   .hero { min-height: unset; }
 }
+
+/* ============================================================
+   PORTFOLIO INDEX — SITE CARDS
+   The three site cards (Kırşehir / Bayburt / Yozgat) use a
+   horizontal layout on desktop. These classes replace the
+   inline style="display:grid; grid-template-columns:300px 1fr"
+   so the media query below can actually override the layout
+   on mobile (inline styles beat class selectors; classes here
+   are equal specificity but controlled by the cascade).
+   ============================================================ */
+
+/* Desktop: side-by-side image + content */
+.site-card__layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 0;
+}
+
+.site-card__img {
+  height: auto;
+  min-height: 260px;
+  overflow: hidden;
+}
+
+.site-card__body {
+  padding: 36px;
+}
+
+/* Turkey map: wide cinematic ratio on desktop */
+.portfolio-map {
+  aspect-ratio: 23 / 10;
+}
+
+/* ── PORTFOLIO CARDS MOBILE ─────────────────────────────────── */
+@media (max-width: 768px) {
+
+  /* Stack image above content */
+  .site-card__layout {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Image becomes a full-width banner at fixed height */
+  .site-card__img {
+    width: 100%;
+    height: 220px;
+    min-height: unset;
+  }
+
+  /* Body padding tightened for small screens */
+  .site-card__body {
+    padding: 22px 20px 26px;
+  }
+
+  /* Site name heading scales down */
+  .site-card__body h2 {
+    font-size: 1.6rem !important;
+  }
+
+  /* Stat row wraps more gracefully */
+  .site-card__body > div[style*="display: flex"][style*="gap: 32px"] {
+    gap: 16px !important;
+  }
+
+  /* Turkey map: switch to 16:9 on mobile — avoids razor-thin strip */
+  .portfolio-map {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .site-card__img {
+    height: 185px;
+  }
+
+  .site-card__body {
+    padding: 18px 16px 22px;
+  }
+
+  .site-card__body h2 {
+    font-size: 1.4rem !important;
+  }
+
+  /* Portfolio map at very small widths */
+  .portfolio-map {
+    aspect-ratio: 4 / 3;
+  }
+}
