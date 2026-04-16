@@ -36,7 +36,8 @@
         </p>
       </div>
       <div class="reveal reveal-delay-2">
-        <div class="about-block__image" style="aspect-ratio: 23/10; overflow: hidden;">
+        <!-- FIX: was inline style="aspect-ratio:23/10" — replaced with class .portfolio-map so mobile.css can override the ratio -->
+        <div class="about-block__image portfolio-map" style="overflow: hidden;">
           <img
             src="../assets/images/portfolio/doka_turkey_map3.jpg"
             alt="DOKA Mining portfolio sites — Kırşehir, Bayburt, Yozgat"
@@ -55,15 +56,16 @@
     <div style="display: flex; flex-direction: column; gap: 40px;">
 
       <!-- KIRSEHIR -->
+      <!-- FIX: was inline style="display:grid; grid-template-columns:300px 1fr" — replaced with class .site-card__layout -->
       <div class="card reveal" style="border-color: var(--gold-border);">
-        <div style="display: grid; grid-template-columns: 300px 1fr; gap: 0;">
-          <div class="card__img" style="height: auto; min-height: 260px; overflow: hidden;">
+        <div class="site-card__layout">
+          <div class="card__img site-card__img">
             <img src="../assets/images/portfolio/akpinar1.jpg"
                  alt="Kırşehir site — Central Anatolia"
                  style="width:100%; height:100%; object-fit:cover; display:block;"
                  loading="lazy">
           </div>
-          <div class="card__body" style="padding: 36px;">
+          <div class="card__body site-card__body">
             <span class="card__tag">Central Anatolia &middot; Gold &middot; Silver</span>
             <h2 style="font-family:'Cormorant Garamond',serif; font-size:2rem; color:var(--white); margin-bottom:12px;">Kırşehir</h2>
             <p style="color:var(--text-secondary); line-height:1.8; margin-bottom: 20px;">
@@ -81,14 +83,14 @@
 
       <!-- BAYBURT -->
       <div class="card reveal" style="border-color: var(--gold-border);">
-        <div style="display: grid; grid-template-columns: 300px 1fr; gap: 0;">
-          <div class="card__img" style="height: auto; min-height: 260px; overflow: hidden;">
+        <div class="site-card__layout">
+          <div class="card__img site-card__img">
             <img src="../assets/images/portfolio/bayburt3.jpg"
                  alt="Bayburt site — Northeastern Anatolia"
                  style="width:100%; height:100%; object-fit:cover; display:block;"
                  loading="lazy">
           </div>
-          <div class="card__body" style="padding: 36px;">
+          <div class="card__body site-card__body">
             <span class="card__tag">Northeastern Anatolia &middot; Gold</span>
             <h2 style="font-family:'Cormorant Garamond',serif; font-size:2rem; color:var(--white); margin-bottom:12px;">Bayburt</h2>
             <p style="color:var(--text-secondary); line-height:1.8; margin-bottom: 20px;">
@@ -106,14 +108,14 @@
 
       <!-- YOZGAT -->
       <div class="card reveal" style="border-color: var(--gold-border);">
-        <div style="display: grid; grid-template-columns: 300px 1fr; gap: 0;">
-          <div class="card__img" style="height: auto; min-height: 260px; overflow: hidden;">
+        <div class="site-card__layout">
+          <div class="card__img site-card__img">
             <img src="../assets/images/portfolio/sorgun1.jpg"
                  alt="Yozgat site — Central Anatolia"
                  style="width:100%; height:100%; object-fit:cover; display:block;"
                  loading="lazy">
           </div>
-          <div class="card__body" style="padding: 36px;">
+          <div class="card__body site-card__body">
             <span class="card__tag">Central Anatolia &middot; Gold &middot; Silver</span>
             <h2 style="font-family:'Cormorant Garamond',serif; font-size:2rem; color:var(--white); margin-bottom:12px;">Yozgat</h2>
             <p style="color:var(--text-secondary); line-height:1.8; margin-bottom: 20px;">
