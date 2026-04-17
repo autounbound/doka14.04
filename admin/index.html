@@ -4,187 +4,103 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DOKA Newsroom Admin</title>
-  <!--
-    DOKA Newsroom Admin Panel
-    ─────────────────────────
-    This page uses the GitHub Contents API to read and write assets/data/news-data.json
-    directly from your browser. No backend required.
-
-    HOW IT WORKS WITH NON-GITHUB HOSTING:
-    The admin writes a commit to the GitHub repository.
-    If your site is on Cloudflare Pages, Netlify, or similar, they
-    auto-deploy when a new commit lands — the article appears on the
-    live site within ~30 seconds. The newsroom fetch URL is relative
-    and works on any static host unchanged.
-
-    SETUP (one-time):
-    1. GitHub → Settings → Developer settings → Personal access tokens
-       → Fine-grained tokens → Generate new token
-    2. Repository access: only autounbound/doka14.04
-    3. Permissions → Contents → Read and Write
-    4. Paste token in Settings tab below
-  -->
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --dark:#0C1018; --surface:#131924; --card:#1A2236;
-      --border:rgba(255,255,255,.07); --gold:#C9A84C; --gold-light:#E8D08A;
-      --gold-pale:rgba(201,168,76,.1); --gold-border:rgba(201,168,76,.25);
-      --green:#2D7A5F; --green-light:#3DA882; --green-pale:rgba(45,122,95,.12);
-      --white:#F5F0E8; --muted:#5A5248; --sec:#8A8070;
-      --red:#c0392b; --red-pale:rgba(192,57,43,.1);
-      --r:6px; --tr:.25s ease;
-    }
-    body { background:var(--dark); color:var(--white); font-family:'Segoe UI',system-ui,sans-serif; line-height:1.6; min-height:100vh; }
-    a { color:var(--gold); }
-
-    /* Layout */
-    .app { display:grid; grid-template-columns:250px 1fr; min-height:100vh; }
-    .sidebar { background:var(--surface); border-right:1px solid var(--border); padding:24px 16px; display:flex; flex-direction:column; gap:4px; position:sticky; top:0; height:100vh; overflow-y:auto; }
-    .main { padding:36px 40px; max-width:860px; }
-
-    /* Sidebar */
-    .logo { font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid var(--border); }
-    .logo strong { display:block; font-size:1rem; font-weight:600; color:var(--white); letter-spacing:0; text-transform:none; margin-top:4px; }
-    .nav-s { font-size:.58rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); padding:14px 12px 4px; }
-    .nav-b { display:block; width:100%; padding:9px 12px; border-radius:var(--r); background:none; border:none; color:var(--sec); font-size:.8rem; text-align:left; cursor:pointer; transition:all var(--tr); font-family:inherit; }
-    .nav-b:hover { background:var(--card); color:var(--white); }
-    .nav-b.active { background:var(--gold-pale); color:var(--gold-light); border-left:2px solid var(--gold); padding-left:10px; }
-    .sidebar-note { margin-top:auto; padding:12px; font-size:.68rem; color:var(--muted); line-height:1.5; border-top:1px solid var(--border); }
-
-    /* Titles */
-    .page-title { font-size:1.3rem; font-weight:600; color:var(--white); margin-bottom:4px; }
-    .page-sub { font-size:.8rem; color:var(--sec); margin-bottom:28px; }
-
-    /* Cards */
-    .card { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:24px; margin-bottom:20px; }
-    .card-head { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:18px; padding-bottom:14px; border-bottom:1px solid var(--border); }
-    .card-head h3 { font-size:.95rem; color:var(--white); }
-    .card-head p { font-size:.75rem; color:var(--sec); margin-top:2px; }
-
-    /* Forms */
-    label { display:block; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--sec); margin-bottom:5px; }
-    label em { color:var(--gold); font-style:normal; margin-left:3px; }
-    input, select, textarea {
-      width:100%; padding:9px 13px; background:var(--card); border:1px solid var(--border);
-      border-radius:var(--r); color:var(--white); font-family:inherit; font-size:.85rem;
-      transition:border-color var(--tr); outline:none; resize:vertical;
-    }
-    input:focus, select:focus, textarea:focus { border-color:var(--gold-border); background:var(--surface); }
-    textarea { min-height:90px; }
-    textarea.code { min-height:200px; font-family:'Courier New',monospace; font-size:.78rem; line-height:1.55; }
-    input[type="password"] { letter-spacing:.08em; }
-    .fr { margin-bottom:16px; }
-    .fg2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-    .fg3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
-    .hint { font-size:.68rem; color:var(--muted); margin-top:5px; line-height:1.5; }
-    .hint code { background:var(--card); padding:1px 5px; border-radius:3px; color:var(--gold); font-size:.9em; }
-
-    /* Buttons */
-    .btn { display:inline-flex; align-items:center; gap:7px; padding:9px 20px; border-radius:var(--r); border:none; cursor:pointer; font-family:inherit; font-size:.78rem; font-weight:600; letter-spacing:.05em; transition:all var(--tr); text-decoration:none; }
-    .btn-gold { background:var(--gold); color:var(--dark); }
-    .btn-gold:hover { background:var(--gold-light); }
-    .btn-outline { background:transparent; color:var(--gold); border:1px solid var(--gold-border); }
-    .btn-outline:hover { background:var(--gold-pale); }
-    .btn-ghost { background:transparent; color:var(--sec); border:1px solid var(--border); }
-    .btn-ghost:hover { color:var(--white); border-color:rgba(255,255,255,.15); }
-    .btn-danger { background:var(--red); color:#fff; }
-    .btn-danger:hover { background:#e74c3c; }
-    .btn-sm { padding:5px 13px; font-size:.72rem; }
-    .btn:disabled { opacity:.45; cursor:not-allowed; pointer-events:none; }
-    .btn-row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
-
-    /* Alerts */
-    .alert { padding:11px 15px; border-radius:var(--r); font-size:.8rem; margin-bottom:18px; display:none; line-height:1.5; }
-    .alert.on { display:block; }
-    .a-ok { background:var(--green-pale); border:1px solid rgba(45,122,95,.4); color:var(--green-light); }
-    .a-err { background:var(--red-pale); border:1px solid rgba(192,57,43,.4); color:#e74c3c; }
-    .a-info { background:var(--gold-pale); border:1px solid var(--gold-border); color:var(--gold-light); }
-
-    /* Type toggle */
-    .type-tog { display:flex; border:1px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:20px; }
-    .type-opt { flex:1; padding:10px; text-align:center; cursor:pointer; font-size:.78rem; font-weight:500; background:transparent; border:none; color:var(--sec); font-family:inherit; transition:all var(--tr); }
-    .type-opt.on { background:var(--gold-pale); color:var(--gold-light); }
-
-    /* Lang tabs */
-    .ltabs { display:flex; border-bottom:1px solid var(--border); margin-bottom:18px; }
-    .ltab { padding:8px 18px; background:none; border:none; cursor:pointer; font-family:inherit; font-size:.75rem; font-weight:500; color:var(--sec); border-bottom:2px solid transparent; margin-bottom:-1px; transition:all var(--tr); }
-    .ltab.on { color:var(--gold); border-bottom-color:var(--gold); }
-    .lpanel { display:none; }
-    .lpanel.on { display:block; }
-
-    /* Article list */
-    .al { display:flex; flex-direction:column; gap:8px; }
-    .ar { background:var(--card); border:1px solid var(--border); border-radius:var(--r); padding:14px 18px; display:flex; align-items:center; justify-content:space-between; gap:16px; transition:border-color var(--tr); }
-    .ar:hover { border-color:var(--gold-border); }
-    .ar-meta { font-size:.6rem; letter-spacing:.15em; text-transform:uppercase; color:var(--gold); margin-bottom:3px; }
-    .ar-title { font-size:.88rem; color:var(--white); }
-    .ar-date { font-size:.7rem; color:var(--muted); margin-top:2px; }
-    .ar-actions { display:flex; gap:6px; flex-shrink:0; }
-    .badge { display:inline-block; padding:1px 7px; border-radius:3px; font-size:.58rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; margin-left:6px; }
-    .b-int { background:var(--green-pale); color:var(--green-light); }
-    .b-ext { background:var(--gold-pale); color:var(--gold); }
-
-    /* Spinner */
-    .spin { display:inline-block; width:13px; height:13px; border:2px solid rgba(255,255,255,.2); border-top-color:var(--white); border-radius:50%; animation:sp .7s linear infinite; }
-    @keyframes sp { to { transform:rotate(360deg); } }
-
-    /* Misc */
-    hr { border:none; border-top:1px solid var(--border); margin:22px 0; }
-    .empty { color:var(--muted); padding:48px 0; text-align:center; font-size:.85rem; }
-
-    @media (max-width:768px) {
-      .app { grid-template-columns:1fr; }
-      .sidebar { position:static; height:auto; }
-      .main { padding:20px 14px; }
-      .fg2, .fg3 { grid-template-columns:1fr; }
-    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{--dark:#0C1018;--surf:#131924;--card:#1A2236;--bdr:rgba(255,255,255,.07);--gold:#C9A84C;--gl:#E8D08A;--gp:rgba(201,168,76,.1);--gb:rgba(201,168,76,.25);--grn:#2D7A5F;--grl:#3DA882;--grp:rgba(45,122,95,.12);--wh:#F5F0E8;--mt:#5A5248;--sc:#8A8070;--red:#c0392b;--rp:rgba(192,57,43,.1);--r:6px;--tr:.25s ease;}
+    body{background:var(--dark);color:var(--wh);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6;min-height:100vh;}
+    a{color:var(--gold);}
+    .app{display:grid;grid-template-columns:240px 1fr;min-height:100vh;}
+    .sb{background:var(--surf);border-right:1px solid var(--bdr);padding:22px 14px;display:flex;flex-direction:column;gap:3px;position:sticky;top:0;height:100vh;overflow-y:auto;}
+    .main{padding:32px 36px;max-width:840px;}
+    .logo{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--bdr);}
+    .logo strong{display:block;font-size:.95rem;font-weight:600;color:var(--wh);letter-spacing:0;text-transform:none;margin-top:3px;}
+    .ns{font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mt);padding:12px 10px 3px;}
+    .nb{display:block;width:100%;padding:8px 10px;border-radius:var(--r);background:none;border:none;color:var(--sc);font-size:.78rem;text-align:left;cursor:pointer;transition:all var(--tr);font-family:inherit;}
+    .nb:hover{background:var(--card);color:var(--wh);}
+    .nb.on{background:var(--gp);color:var(--gl);border-left:2px solid var(--gold);padding-left:8px;}
+    .sn{margin-top:auto;padding:10px;font-size:.65rem;color:var(--mt);line-height:1.5;border-top:1px solid var(--bdr);}
+    .pt{font-size:1.25rem;font-weight:600;color:var(--wh);margin-bottom:3px;}
+    .ps{font-size:.78rem;color:var(--sc);margin-bottom:24px;}
+    .card{background:var(--surf);border:1px solid var(--bdr);border-radius:8px;padding:22px;margin-bottom:18px;}
+    .ch{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--bdr);}
+    .ch h3{font-size:.9rem;color:var(--wh);}
+    .ch p{font-size:.72rem;color:var(--sc);margin-top:2px;}
+    label{display:block;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sc);margin-bottom:4px;}
+    label em{color:var(--gold);font-style:normal;margin-left:2px;}
+    input,select,textarea{width:100%;padding:8px 12px;background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);color:var(--wh);font-family:inherit;font-size:.83rem;transition:border-color var(--tr);outline:none;resize:vertical;}
+    input:focus,select:focus,textarea:focus{border-color:var(--gb);background:var(--surf);}
+    textarea{min-height:80px;}
+    textarea.code{min-height:190px;font-family:'Courier New',monospace;font-size:.76rem;line-height:1.55;}
+    .fr{margin-bottom:14px;}
+    .fg2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .fg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+    .hint{font-size:.65rem;color:var(--mt);margin-top:4px;line-height:1.5;}
+    .hint code{background:var(--card);padding:1px 4px;border-radius:3px;color:var(--gold);}
+    .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:var(--r);border:none;cursor:pointer;font-family:inherit;font-size:.76rem;font-weight:600;letter-spacing:.04em;transition:all var(--tr);}
+    .bg{background:var(--gold);color:var(--dark);}.bg:hover{background:var(--gl);}
+    .bo{background:transparent;color:var(--gold);border:1px solid var(--gb);}.bo:hover{background:var(--gp);}
+    .bgh{background:transparent;color:var(--sc);border:1px solid var(--bdr);}.bgh:hover{color:var(--wh);}
+    .bd{background:var(--red);color:#fff;}.bd:hover{background:#e74c3c;}
+    .bsm{padding:4px 12px;font-size:.7rem;}
+    .btn:disabled{opacity:.4;cursor:not-allowed;pointer-events:none;}
+    .brow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+    .al{padding:10px 14px;border-radius:var(--r);font-size:.78rem;margin-bottom:16px;display:none;line-height:1.5;}
+    .al.on{display:block;}
+    .aok{background:var(--grp);border:1px solid rgba(45,122,95,.4);color:var(--grl);}
+    .aerr{background:var(--rp);border:1px solid rgba(192,57,43,.4);color:#e74c3c;}
+    .ainf{background:var(--gp);border:1px solid var(--gb);color:var(--gl);}
+    .ttog{display:flex;border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;margin-bottom:18px;}
+    .topt{flex:1;padding:9px;text-align:center;cursor:pointer;font-size:.76rem;font-weight:500;background:transparent;border:none;color:var(--sc);font-family:inherit;transition:all var(--tr);}
+    .topt.on{background:var(--gp);color:var(--gl);}
+    .ltabs{display:flex;border-bottom:1px solid var(--bdr);margin-bottom:16px;}
+    .ltab{padding:7px 16px;background:none;border:none;cursor:pointer;font-family:inherit;font-size:.73rem;font-weight:500;color:var(--sc);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all var(--tr);}
+    .ltab.on{color:var(--gold);border-bottom-color:var(--gold);}
+    .lp{display:none;}.lp.on{display:block;}
+    .ali{display:flex;flex-direction:column;gap:7px;}
+    .ar{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:14px;transition:border-color var(--tr);}
+    .ar:hover{border-color:var(--gb);}
+    .ar-m{font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:2px;}
+    .ar-t{font-size:.86rem;color:var(--wh);}
+    .ar-d{font-size:.68rem;color:var(--mt);margin-top:2px;}
+    .ar-a{display:flex;gap:5px;flex-shrink:0;}
+    .bx{display:inline-block;padding:1px 6px;border-radius:3px;font-size:.56rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-left:5px;}
+    .bi{background:var(--grp);color:var(--grl);}.be{background:var(--gp);color:var(--gold);}
+    .spin{display:inline-block;width:12px;height:12px;border:2px solid rgba(255,255,255,.2);border-top-color:var(--wh);border-radius:50%;animation:sp .7s linear infinite;}
+    @keyframes sp{to{transform:rotate(360deg);}}
+    hr{border:none;border-top:1px solid var(--bdr);margin:18px 0;}
+    .empty{color:var(--mt);padding:40px 0;text-align:center;font-size:.83rem;}
+    @media(max-width:768px){.app{grid-template-columns:1fr;}.sb{position:static;height:auto;}.main{padding:18px 12px;}.fg2,.fg3{grid-template-columns:1fr;}}
   </style>
 </head>
 <body>
 <div class="app">
-
-  <!-- ── SIDEBAR ─────────────────────────────────────────── -->
-  <aside class="sidebar">
+  <aside class="sb">
     <div class="logo">DOKA Madencilik<strong>Newsroom Admin</strong></div>
-    <span class="nav-s">Content</span>
-    <button class="nav-b active" onclick="show('add')">&#43;&nbsp; Add Article</button>
-    <button class="nav-b" onclick="show('list'); loadList()">&#9776;&nbsp; Manage Articles</button>
-    <span class="nav-s">Configuration</span>
-    <button class="nav-b" onclick="show('settings')">&#9881;&nbsp; Settings</button>
-    <div class="sidebar-note">
-      Publishes by committing to GitHub. Your hosting provider (Cloudflare Pages, Netlify, etc.) auto-deploys on commit — changes appear live in ~30&nbsp;seconds.
-    </div>
+    <span class="ns">Content</span>
+    <button class="nb on" onclick="show('add')">+ Add Article</button>
+    <button class="nb" onclick="show('list');loadList()">&#9776; Manage Articles</button>
+    <span class="ns">Configuration</span>
+    <button class="nb" onclick="show('settings')">&#9881; Settings</button>
+    <div class="sn">Commits directly to GitHub. Your host auto-deploys on each commit — articles go live in ~30 seconds.</div>
   </aside>
-
-  <!-- ── MAIN ────────────────────────────────────────────── -->
   <main class="main">
 
-    <!-- ADD VIEW -->
     <div id="v-add">
-      <div class="page-title">Add Article</div>
-      <div class="page-sub">Complete the form and click Publish. The article goes live automatically via a GitHub commit.</div>
-      <div id="al-add" class="alert"></div>
-
-      <!-- Type -->
+      <div class="pt">Add Article</div>
+      <div class="ps">Complete the form and click Publish. Creates real HTML pages for SEO + updates the news index.</div>
+      <div id="al-add" class="al"></div>
       <div class="card">
-        <div class="card-head"><div><h3>Article Type</h3><p>Internal = full article on DOKA site &nbsp;|&nbsp; External = reference + link to another outlet</p></div></div>
-        <div class="type-tog">
-          <button class="type-opt on" id="tInt" onclick="setType('internal')">&#9679;&nbsp; Internal Article</button>
-          <button class="type-opt" id="tExt" onclick="setType('external')">&#8599;&nbsp; External Link</button>
+        <div class="ch"><div><h3>Type</h3><p>Internal = full article on DOKA site | External = reference card that links to another outlet</p></div></div>
+        <div class="ttog">
+          <button class="topt on" id="tI" onclick="setType('internal')">&#9679; Internal Article</button>
+          <button class="topt" id="tE" onclick="setType('external')">&#8599; External Link</button>
         </div>
       </div>
-
-      <!-- Meta -->
       <div class="card">
-        <div class="card-head"><div><h3>Article Info</h3></div></div>
+        <div class="ch"><div><h3>Article Info</h3></div></div>
         <div class="fg3">
-          <div class="fr">
-            <label>Date <em>*</em></label>
-            <input type="date" id="f-date">
-          </div>
-          <div class="fr">
-            <label>Category <em>*</em></label>
+          <div class="fr"><label>Date <em>*</em></label><input type="date" id="f-date"></div>
+          <div class="fr"><label>Category <em>*</em></label>
             <select id="f-cat">
               <option value="corporate">Corporate</option>
               <option value="exploration">Exploration</option>
@@ -193,428 +109,254 @@
               <option value="press">Press</option>
             </select>
           </div>
-          <div class="fr">
-            <label>Thumbnail Path</label>
-            <input type="text" id="f-thumb" placeholder="assets/images/portfolio/…">
-            <div class="hint">Path relative to site root. Leave blank for no image.</div>
+          <div class="fr"><label>Thumbnail</label><input type="text" id="f-thumb" placeholder="assets/images/… or https://…">
+            <div class="hint">Relative path from site root, or full URL for external images (e.g. from IEF, Reuters).</div>
           </div>
         </div>
-
-        <!-- External-only -->
-        <div id="extFields" style="display:none;">
-          <hr>
+        <div id="extF" style="display:none;"><hr>
           <div class="fg2">
             <div class="fr"><label>Source Name <em>*</em></label><input type="text" id="f-src" placeholder="Reuters, IEF, Bloomberg HT…"></div>
             <div class="fr"><label>Source URL <em>*</em></label><input type="url" id="f-url" placeholder="https://…"></div>
           </div>
         </div>
       </div>
-
-      <!-- Content EN / TR -->
       <div class="card">
-        <div class="card-head"><div><h3>Content</h3><p>Both languages are required.</p></div></div>
+        <div class="ch"><div><h3>Content</h3><p>Both languages required for all article types.</p></div></div>
         <div class="ltabs">
-          <button class="ltab on" onclick="switchLang('en', this)">English</button>
-          <button class="ltab" onclick="switchLang('tr', this)">Türkçe</button>
+          <button class="ltab on" onclick="swLang('en',this)">English</button>
+          <button class="ltab" onclick="swLang('tr',this)">Türkçe</button>
         </div>
-
-        <div class="lpanel on" id="lp-en">
+        <div class="lp on" id="lp-en">
           <div class="fr"><label>Title (EN) <em>*</em></label><input type="text" id="f-en-t" placeholder="Article title in English"></div>
-          <div class="fr"><label>Excerpt (EN) <em>*</em></label><textarea id="f-en-x" placeholder="1–3 sentence summary shown on the card. Plain text only — no HTML."></textarea></div>
-          <div class="fr int-only">
-            <label>Full Content (EN)</label>
-            <textarea class="code" id="f-en-c" placeholder="Full article body — HTML accepted.&#10;&#10;Wrap paragraphs in &lt;p&gt; tags.&#10;Subheadings: &lt;h3 style='font-family:Cormorant Garamond,serif;font-size:1.4rem;color:var(--white);margin:28px 0 12px;'&gt;Heading&lt;/h3&gt;"></textarea>
-            <div class="hint">Use <code>&lt;p&gt;</code> for paragraphs, <code>&lt;strong&gt;</code> for bold, <code>&lt;a href="…"&gt;</code> for links. The subheading style above keeps it consistent with the site design.</div>
+          <div class="fr"><label>Excerpt (EN) <em>*</em></label><textarea id="f-en-x" placeholder="1-3 sentence summary shown on the card. Plain text only."></textarea></div>
+          <div class="fr int-only"><label>Full Content (EN)</label>
+            <textarea class="code" id="f-en-c" placeholder="HTML article body. Wrap paragraphs in &lt;p&gt; tags.&#10;Subheading: &lt;h3 style='font-family:Cormorant Garamond,serif;font-size:1.35rem;color:var(--white);margin:32px 0 12px;'&gt;Heading&lt;/h3&gt;"></textarea>
+            <div class="hint">Use <code>&lt;p&gt;</code> for paragraphs, <code>&lt;strong&gt;</code> for bold, <code>&lt;a href="..."&gt;</code> for links.</div>
           </div>
         </div>
-
-        <div class="lpanel" id="lp-tr">
-          <div class="fr"><label>Başlık (TR) <em>*</em></label><input type="text" id="f-tr-t" placeholder="Makale başlığı Türkçe"></div>
-          <div class="fr"><label>Özet (TR) <em>*</em></label><textarea id="f-tr-x" placeholder="Kartta görünen 1–3 cümlelik özet. Yalnızca düz metin — HTML yok."></textarea></div>
-          <div class="fr int-only">
-            <label>İçerik (TR)</label>
-            <textarea class="code" id="f-tr-c" placeholder="Tam makale metni — HTML kabul edilir.&#10;&#10;Paragrafları &lt;p&gt; etiketi içine alın."></textarea>
+        <div class="lp" id="lp-tr">
+          <div class="fr"><label>Baslik (TR) <em>*</em></label><input type="text" id="f-tr-t" placeholder="Makale basli Turkce"></div>
+          <div class="fr"><label>Ozet (TR) <em>*</em></label><textarea id="f-tr-x" placeholder="Kartta gorunen 1-3 cumlelik ozet. Yalnizca duz metin."></textarea></div>
+          <div class="fr int-only"><label>Icerik (TR)</label>
+            <textarea class="code" id="f-tr-c" placeholder="HTML makale icerigi. Paragraflari &lt;p&gt; etiketi icine alin."></textarea>
           </div>
         </div>
       </div>
-
-      <div class="btn-row">
-        <button class="btn btn-gold" id="pubBtn" onclick="publish()">
-          <span id="pubLabel">Publish Article</span>
-          <span id="pubSpin" style="display:none;" class="spin"></span>
+      <div class="brow">
+        <button class="btn bg" id="pubBtn" onclick="publish()">
+          <span id="pubLbl">Publish Article</span>
+          <span id="pubSp" style="display:none;" class="spin"></span>
         </button>
-        <button class="btn btn-ghost" onclick="clearForm()">Clear</button>
+        <button class="btn bgh" onclick="clearForm()">Clear</button>
       </div>
     </div>
 
-    <!-- LIST VIEW -->
     <div id="v-list" style="display:none;">
-      <div class="page-title">Manage Articles</div>
-      <div class="page-sub">All articles currently in <code>assets/data/news-data.json</code>. Deletion commits immediately.</div>
-      <div id="al-list" class="alert"></div>
-      <div class="btn-row" style="margin-bottom:18px;">
-        <button class="btn btn-outline btn-sm" onclick="loadList()">&#8635;&nbsp; Refresh</button>
-      </div>
-      <div id="listWrap"><div class="empty">Loading&hellip;</div></div>
+      <div class="pt">Manage Articles</div>
+      <div class="ps">All articles in news-index.json. Edit updates the HTML files. Delete removes HTML files and the index entry.</div>
+      <div id="al-list" class="al"></div>
+      <div class="brow" style="margin-bottom:16px;"><button class="btn bo bsm" onclick="loadList()">&#8635; Refresh</button></div>
+      <div id="listWrap"><div class="empty">Loading...</div></div>
     </div>
 
-    <!-- SETTINGS VIEW -->
     <div id="v-settings" style="display:none;">
-      <div class="page-title">Settings</div>
-      <div class="page-sub">Configure your GitHub access. Token is stored in this browser session only and is never saved to disk or sent anywhere except the GitHub API.</div>
-
-      <div class="alert a-info on" style="margin-bottom:20px;">
-        <strong>Creating a token (one-time setup):</strong><br>
-        GitHub &rarr; Settings &rarr; Developer settings &rarr; Personal access tokens &rarr; Fine-grained tokens &rarr; Generate new token.<br>
-        Set Repository access to <strong>autounbound / doka14.04</strong> only.
-        Under Permissions set <strong>Contents &rarr; Read and Write</strong>. Copy and paste the token below.
+      <div class="pt">Settings</div>
+      <div class="ps">GitHub token stored in sessionStorage only - cleared when you close this tab. Never sent anywhere except the GitHub API.</div>
+      <div class="al ainf on" style="margin-bottom:18px;">
+        <strong>Creating a token (one-time):</strong><br>
+        GitHub &rarr; Settings &rarr; Developer settings &rarr; Personal access tokens &rarr; Fine-grained tokens &rarr; Generate.<br>
+        Repository access: <strong>autounbound / doka14.04</strong> only. Permissions: <strong>Contents &rarr; Read and Write</strong>.
       </div>
-
       <div class="card">
-        <div class="card-head"><div><h3>GitHub Token</h3><p>Stored in sessionStorage — cleared when you close this tab.</p></div></div>
-        <div class="fr"><label>Personal Access Token <em>*</em></label><input type="password" id="s-tok" placeholder="github_pat_…"></div>
+        <div class="ch"><div><h3>GitHub Token</h3></div></div>
+        <div class="fr"><label>Personal Access Token <em>*</em></label><input type="password" id="s-tok" placeholder="github_pat_..."></div>
       </div>
-
       <div class="card">
-        <div class="card-head"><div><h3>Repository</h3><p>Pre-filled for the DOKA site. Only change if the repo moves.</p></div></div>
+        <div class="ch"><div><h3>Repository</h3></div></div>
         <div class="fg2">
-          <div class="fr"><label>Owner</label><input type="text" id="s-owner" value="autounbound"></div>
-          <div class="fr"><label>Repository</label><input type="text" id="s-repo" value="doka14.04"></div>
-          <div class="fr"><label>Branch</label><input type="text" id="s-branch" value="main"></div>
-          <div class="fr"><label>JSON File Path</label><input type="text" id="s-path" value="assets/data/news-data.json"></div>
+          <div class="fr"><label>Owner</label><input type="text" id="s-own" value="autounbound"></div>
+          <div class="fr"><label>Repository</label><input type="text" id="s-rep" value="doka14.04"></div>
+          <div class="fr"><label>Branch</label><input type="text" id="s-br" value="main"></div>
+          <div class="fr"><label>Index JSON path</label><input type="text" id="s-idx" value="assets/data/news-index.json"></div>
         </div>
       </div>
-
-      <div class="btn-row">
-        <button class="btn btn-gold" onclick="saveSettings()">Save Settings</button>
-        <button class="btn btn-outline" onclick="testConn()">Test Connection</button>
-        <span id="s-status" style="font-size:.78rem; color:var(--sec);"></span>
-        <span id="s-spin" style="display:none;" class="spin"></span>
+      <div class="brow">
+        <button class="btn bg" onclick="saveCfg()">Save</button>
+        <button class="btn bo" onclick="testConn()">Test Connection</button>
+        <span id="s-st" style="font-size:.75rem;color:var(--sc);"></span>
+        <span id="s-sp" style="display:none;" class="spin"></span>
       </div>
     </div>
 
   </main>
 </div>
-
 <script>
-/* ═══════════════════════════════════════════════════════════
-   DOKA NEWSROOM ADMIN — Client-side CMS via GitHub API
-   ═══════════════════════════════════════════════════════════ */
-(function () {
-  'use strict';
-
-  /* ── CONFIG ───────────────────────────────────────────── */
-  function cfg() {
-    return {
-      token:  sessionStorage.getItem('doka_tok')    || '',
-      owner:  localStorage.getItem('doka_owner')    || 'autounbound',
-      repo:   localStorage.getItem('doka_repo')     || 'doka14.04',
-      branch: localStorage.getItem('doka_branch')   || 'main',
-      path:   localStorage.getItem('doka_path')     || 'assets/data/news-data.json'
-    };
-  }
-
-  /* ── UNICODE-SAFE BASE64 ──────────────────────────────── */
-  function encode(str) {
-    const bytes = new TextEncoder().encode(str);
-    let bin = '';
-    bytes.forEach(b => bin += String.fromCharCode(b));
-    return btoa(bin);
-  }
-  function decode(b64) {
-    const bin = atob(b64.replace(/\n/g, ''));
-    const bytes = new Uint8Array([...bin].map(c => c.charCodeAt(0)));
-    return new TextDecoder().decode(bytes);
-  }
-
-  /* ── GITHUB API ───────────────────────────────────────── */
-  const GH = 'https://api.github.com';
-
-  function ghHeaders() {
-    return {
-      'Authorization': 'token ' + cfg().token,
-      'Accept': 'application/vnd.github.v3+json',
-      'Content-Type': 'application/json'
-    };
-  }
-
-  async function getFile() {
-    const c = cfg();
-    if (!c.token) throw new Error('No GitHub token. Go to Settings first.');
-    const url = `${GH}/repos/${c.owner}/${c.repo}/contents/${c.path}?ref=${c.branch}`;
-    const res = await fetch(url, { headers: ghHeaders() });
-    if (!res.ok) {
-      const e = await res.json().catch(() => ({}));
-      throw new Error(e.message || `GitHub API error: HTTP ${res.status}`);
+(function(){
+'use strict';
+function cfg(){return{tok:sessionStorage.getItem('doka_tok')||'',owner:localStorage.getItem('doka_own')||'autounbound',repo:localStorage.getItem('doka_rep')||'doka14.04',branch:localStorage.getItem('doka_br')||'main',idx:localStorage.getItem('doka_idx')||'assets/data/news-index.json'};}
+const enc=str=>{const b=new TextEncoder().encode(str);let s='';b.forEach(x=>s+=String.fromCharCode(x));return btoa(s);};
+const dec=b64=>{const bin=atob(b64.replace(/\n/g,''));const b=new Uint8Array([...bin].map(c=>c.charCodeAt(0)));return new TextDecoder().decode(b);};
+const GH='https://api.github.com';
+function hdrs(){return{'Authorization':'token '+cfg().tok,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'};}
+async function getFile(path){const c=cfg(),url=`${GH}/repos/${c.owner}/${c.repo}/contents/${path}?ref=${c.branch}`;const r=await fetch(url,{headers:hdrs()});if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.message||'HTTP '+r.status);}const d=await r.json();return{sha:d.sha,content:dec(d.content),json:JSON.parse(dec(d.content))};}
+async function putFile(path,content,sha,msg){const c=cfg(),url=`${GH}/repos/${c.owner}/${c.repo}/contents/${path}`;const body={message:msg,content:enc(content),branch:c.branch};if(sha)body.sha=sha;const r=await fetch(url,{method:'PUT',headers:hdrs(),body:JSON.stringify(body)});if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.message||'HTTP '+r.status);}return r.json();}
+async function delFile(path,sha,msg){const c=cfg(),url=`${GH}/repos/${c.owner}/${c.repo}/contents/${path}`;const r=await fetch(url,{method:'DELETE',headers:hdrs(),body:JSON.stringify({message:msg,sha,branch:c.branch})});if(!r.ok&&r.status!==404){const e=await r.json().catch(()=>({}));throw new Error(e.message||'HTTP '+r.status);}}
+async function getSha(path){try{const d=await getFile(path);return d.sha;}catch(e){if(e.message.includes('404')||e.message.includes('Not Found'))return null;throw e;}}
+const MEN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const MTR=['Oca','\u015eub','Mar','Nis','May','Haz','Tem','A\u011fu','Eyl','Eki','Kas','Ara'];
+function fmtDate(iso,lang){const d=new Date(iso+'T12:00:00');const m=lang==='tr'?MTR[d.getMonth()]:MEN[d.getMonth()];return `${d.getDate()} ${m} ${d.getFullYear()}`;}
+function makeSlug(title,date){const s=title.toLowerCase().replace(/[\u00e7\u00c7]/g,'c').replace(/[\u015f\u015e]/g,'s').replace(/[\u011f\u011e]/g,'g').replace(/[\u00fc\u00dc]/g,'u').replace(/[\u00f6\u00d6]/g,'o').replace(/[\u0131\u0130i]/g,'i').replace(/[^a-z0-9\s]/g,'').trim().replace(/\s+/g,'-').replace(/-+/g,'-').slice(0,38).replace(/-$/,'');return `${date}-${s}`;}
+const CAT_EN={corporate:'Corporate',exploration:'Exploration',sustainability:'Sustainability',community:'Community',press:'Press'};
+const CAT_TR={corporate:'Kurumsal',exploration:'Arama',sustainability:'S\u00fcrd\u00fcr\u00fclebilirlik',community:'Toplum',press:'Bas\u0131n'};
+function makeHTML(lang,article,slug){
+  const t=article[lang],isEN=lang==='en';
+  const depth=isEN?'../../':'../../../';
+  const equiv=isEN?`tr/news/articles/${slug}.html`:`news/articles/${slug}.html`;
+  const homeUrl=isEN?`${depth}index.html`:`${depth}tr/index.html`;
+  const newsUrl=isEN?`${depth}news/index.html`:`${depth}tr/news/index.html`;
+  const site=isEN?'DOKA Mining':'DOKA Madencilik';
+  const catMap=isEN?CAT_EN:CAT_TR;
+  const cat=catMap[article.category]||article.category;
+  const back=isEN?'Back to Newsroom':'Haberlere D\u00f6n';
+  const bc1=isEN?'Home':'Ana Sayfa';
+  const bc2=isEN?'Newsroom':'Haberler';
+  const date=article.dateDisplay[lang];
+  const raw=article.thumbnail||'';
+  const thumbSrc=raw?(raw.startsWith('http')?raw:`${depth}${raw}`):'';
+  const thumbMeta=thumbSrc?`<meta property="og:image" content="${thumbSrc}">`:'';
+  const thumbHTML=thumbSrc?`<div class="art-thumb"><img src="${thumbSrc}" alt="${t.title}" loading="lazy"></div>`:'';
+  const ex=t.excerpt.replace(/"/g,'&quot;');
+  const ti=t.title.replace(/"/g,'&quot;');
+  const content=t.content||'<p>Full article content coming soon.</p>';
+  return `<!DOCTYPE html>
+<html lang="${lang}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="${ex}">
+  <meta property="og:title" content="${ti} \u2014 ${site}">
+  <meta property="og:description" content="${ex}">
+  <meta property="og:type" content="article">
+  ${thumbMeta}
+  <title>${t.title} \u2014 ${site}</title>
+  <link rel="stylesheet" href="${depth}assets/css/style.css">
+  <style>
+    .art-thumb{width:100%;aspect-ratio:16/7;overflow:hidden;border-radius:8px;border:1px solid var(--gold-border);margin:40px 0;}
+    .art-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+    .art-body{max-width:720px;}
+    .art-body p{font-size:1rem;color:var(--text-secondary);line-height:1.88;margin-bottom:1.4em;}
+    .art-body h3{font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:var(--white);margin:32px 0 12px;}
+    .art-body strong{color:var(--text-primary);}
+    .art-body a{color:var(--gold);text-decoration:underline;}
+    .art-back{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;margin-top:56px;transition:color .3s ease;}
+    .art-back:hover{color:var(--gold);}
+    .art-back::before{content:'\\2190';margin-right:4px;}
+  </style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero__breadcrumb">
+      <a href="${homeUrl}">${bc1}</a><span>/</span>
+      <a href="${newsUrl}">${bc2}</a><span>/</span>
+      <span>${cat}</span>
+    </div>
+    <h1>${t.title}</h1>
+    <p class="page-hero__sub">${t.excerpt}</p>
+    <p style="margin-top:18px;font-size:.75rem;letter-spacing:.08em;color:var(--text-muted);">${date}</p>
+  </div>
+</section>
+<section class="section section--dark">
+  <div class="container">
+    ${thumbHTML}
+    <div class="art-body">
+      ${content}
+    </div>
+    <a href="${newsUrl}" class="art-back">${back}</a>
+  </div>
+</section>
+<div id="footer-placeholder"></div>
+<script>const ROOT_PATH='${depth}'; const LANG='${lang}'; const LANG_EQUIV='${equiv}';<\/script>
+<script src="${depth}assets/js/main.js"><\/script>
+</body>
+</html>`;}
+let artType='internal',editId=null;
+window.publish=async function(){
+  const err=validate();if(err){alert_('al-add','err',err);return;}
+  setLoading(true);
+  try{
+    const article=buildMeta(),slug=editId||article.id;article.id=slug;
+    const{sha:idxSha,json:idxData}=await getFile(cfg().idx);
+    if(editId){const pos=idxData.articles.findIndex(a=>a.id===editId);if(pos>-1)idxData.articles[pos]=article;else idxData.articles.unshift(article);}
+    else{if(idxData.articles.find(a=>a.id===slug))article.id=slug+'-'+Date.now().toString(36);idxData.articles.unshift(article);}
+    await putFile(cfg().idx,JSON.stringify(idxData,null,2),idxSha,`Newsroom: ${editId?'edit':'add'} "${article.en.title}"`);
+    if(artType==='internal'){
+      const full={...article,en:{...article.en,content:v('f-en-c')},tr:{...article.tr,content:v('f-tr-c')}};
+      const enP=`news/articles/${article.id}.html`,trP=`tr/news/articles/${article.id}.html`;
+      const[enSha,trSha]=await Promise.all([getSha(enP),getSha(trP)]);
+      await Promise.all([
+        putFile(enP,makeHTML('en',full,article.id),enSha,`Newsroom: ${editId?'edit':'add'} article EN "${article.en.title}"`),
+        putFile(trP,makeHTML('tr',full,article.id),trSha,`Newsroom: ${editId?'edit':'add'} article TR "${article.tr.title}"`)
+      ]);
     }
-    const data = await res.json();
-    return { sha: data.sha, json: JSON.parse(decode(data.content)) };
-  }
-
-  async function putFile(json, sha, message) {
-    const c = cfg();
-    const url = `${GH}/repos/${c.owner}/${c.repo}/contents/${c.path}`;
-    const res = await fetch(url, {
-      method: 'PUT',
-      headers: ghHeaders(),
-      body: JSON.stringify({
-        message,
-        content: encode(JSON.stringify(json, null, 2)),
-        sha,
-        branch: c.branch
-      })
-    });
-    if (!res.ok) {
-      const e = await res.json().catch(() => ({}));
-      throw new Error(e.message || `GitHub API error: HTTP ${res.status}`);
+    alert_('al-add','ok',`&#10003; ${editId?'Updated':'Published'}: <strong>${article.en.title}</strong><br>Goes live after auto-deploy (~30 seconds).`);
+    clearForm();editId=null;
+  }catch(e){alert_('al-add','err','&#9888; '+e.message);}
+  finally{setLoading(false);}
+};
+function buildMeta(){const date=v('f-date'),enTitle=v('f-en-t');const a={id:makeSlug(enTitle,date),date,dateDisplay:{en:fmtDate(date,'en'),tr:fmtDate(date,'tr')},category:v('f-cat'),type:artType,thumbnail:v('f-thumb')||null,en:{title:enTitle,excerpt:v('f-en-x')},tr:{title:v('f-tr-t'),excerpt:v('f-tr-x')}};if(artType==='external'){a.source=v('f-src');a.sourceUrl=v('f-url');}return a;}
+function validate(){if(!cfg().tok)return'No GitHub token. Go to Settings first.';if(!v('f-date'))return'Date required.';if(!v('f-en-t'))return'English title required.';if(!v('f-en-x'))return'English excerpt required.';if(!v('f-tr-t'))return'Turkish title required.';if(!v('f-tr-x'))return'Turkish excerpt required.';if(artType==='external'){if(!v('f-src'))return'Source name required.';if(!v('f-url'))return'Source URL required.';}return null;}
+function setLoading(on){document.getElementById('pubLbl').textContent=on?'Publishing...':'Publish Article';document.getElementById('pubSp').style.display=on?'':'none';document.getElementById('pubBtn').disabled=on;}
+window.del=async function(id,type){
+  if(!confirm('Delete permanently? This removes the HTML files and index entry.'))return;
+  try{
+    const{sha,json}=await getFile(cfg().idx);const article=json.articles.find(a=>a.id===id);
+    json.articles=json.articles.filter(a=>a.id!==id);
+    await putFile(cfg().idx,JSON.stringify(json,null,2),sha,`Newsroom: delete "${article?article.en.title:id}"`);
+    if(type==='internal'){const[eS,tS]=await Promise.all([getSha(`news/articles/${id}.html`),getSha(`tr/news/articles/${id}.html`)]);await Promise.all([eS?delFile(`news/articles/${id}.html`,eS,`Delete EN ${id}`):Promise.resolve(),tS?delFile(`tr/news/articles/${id}.html`,tS,`Delete TR ${id}`):Promise.resolve()]);}
+    alert_('al-list','ok','&#10003; Deleted.');loadList();
+  }catch(e){alert_('al-list','err','&#9888; '+e.message);}
+};
+window.edit=async function(id){
+  show('add');alert_('al-add','','');
+  try{
+    const{json}=await getFile(cfg().idx);const meta=json.articles.find(a=>a.id===id);if(!meta){alert_('al-add','err','Not found.');return;}
+    editId=id;setType(meta.type);
+    document.getElementById('f-date').value=meta.date;
+    document.getElementById('f-cat').value=meta.category;
+    document.getElementById('f-thumb').value=meta.thumbnail||'';
+    if(meta.type==='external'){document.getElementById('f-src').value=meta.source||'';document.getElementById('f-url').value=meta.sourceUrl||'';}
+    document.getElementById('f-en-t').value=meta.en.title;document.getElementById('f-en-x').value=meta.en.excerpt;
+    document.getElementById('f-tr-t').value=meta.tr.title;document.getElementById('f-tr-x').value=meta.tr.excerpt;
+    if(meta.type==='internal'){
+      const[en,tr]=await Promise.all([getFile(`news/articles/${id}.html`).catch(()=>null),getFile(`tr/news/articles/${id}.html`).catch(()=>null)]);
+      if(en){const m=en.content.match(/<div class="art-body">([\s\S]*?)<\/div>\s*\n?\s*<a /);document.getElementById('f-en-c').value=m?m[1].trim():'';}
+      if(tr){const m=tr.content.match(/<div class="art-body">([\s\S]*?)<\/div>\s*\n?\s*<a /);document.getElementById('f-tr-c').value=m?m[1].trim():'';}
     }
-    return res.json();
-  }
-
-  /* ── DATE HELPERS ─────────────────────────────────────── */
-  const MEN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  const MTR = ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
-
-  function fmtDate(iso, lang) {
-    const d = new Date(iso + 'T12:00:00');
-    const m = lang === 'tr' ? MTR[d.getMonth()] : MEN[d.getMonth()];
-    return `${d.getDate()} ${m} ${d.getFullYear()}`;
-  }
-
-  function makeId(enTitle, date) {
-    const slug = enTitle.toLowerCase()
-      .replace(/[çÇ]/g,'c').replace(/[şŞ]/g,'s').replace(/[ğĞ]/g,'g')
-      .replace(/[üÜ]/g,'u').replace(/[öÖ]/g,'o').replace(/[ıİi]/g,'i')
-      .replace(/[^a-z0-9\s]/g,'').trim()
-      .replace(/\s+/g,'-').replace(/-+/g,'-')
-      .slice(0, 38).replace(/-$/,'');
-    return `${date}-${slug}`;
-  }
-
-  /* ── NAVIGATION ───────────────────────────────────────── */
-  window.show = function(v) {
-    ['add','list','settings'].forEach(id => {
-      document.getElementById('v-'+id).style.display = id === v ? '' : 'none';
-    });
-    document.querySelectorAll('.nav-b').forEach(b => {
-      b.classList.toggle('active', b.textContent.toLowerCase().includes(v === 'add' ? 'add' : v === 'list' ? 'manage' : 'setting'));
-    });
-  };
-
-  /* ── ARTICLE TYPE TOGGLE ──────────────────────────────── */
-  let artType = 'internal';
-  window.setType = function(t) {
-    artType = t;
-    document.getElementById('tInt').classList.toggle('on', t === 'internal');
-    document.getElementById('tExt').classList.toggle('on', t === 'external');
-    document.getElementById('extFields').style.display = t === 'external' ? '' : 'none';
-    document.querySelectorAll('.int-only').forEach(el => {
-      el.style.display = t === 'internal' ? '' : 'none';
-    });
-  };
-
-  /* ── LANGUAGE TABS ────────────────────────────────────── */
-  window.switchLang = function(lang, btn) {
-    document.querySelectorAll('.ltab').forEach(t => t.classList.remove('on'));
-    document.querySelectorAll('.lpanel').forEach(p => p.classList.remove('on'));
-    if (btn) btn.classList.add('on');
-    document.getElementById('lp-'+lang).classList.add('on');
-  };
-
-  /* ── ALERT HELPER ─────────────────────────────────────── */
-  function alert_(id, type, msg) {
-    const el = document.getElementById(id);
-    el.className = 'alert on a-' + type;
-    el.innerHTML = msg;
-    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    if (type === 'ok') setTimeout(() => el.classList.remove('on'), 6000);
-  }
-
-  /* ── FORM VALIDATION ──────────────────────────────────── */
-  function v(id) { return document.getElementById(id).value.trim(); }
-
-  function validate() {
-    if (!v('f-date'))   return 'Date is required.';
-    if (!v('f-en-t'))   return 'English title is required.';
-    if (!v('f-en-x'))   return 'English excerpt is required.';
-    if (!v('f-tr-t'))   return 'Turkish title is required.';
-    if (!v('f-tr-x'))   return 'Turkish excerpt is required.';
-    if (artType === 'external') {
-      if (!v('f-src'))  return 'Source name is required for external articles.';
-      if (!v('f-url'))  return 'Source URL is required for external articles.';
-    }
-    if (!cfg().token)   return 'No GitHub token configured. Go to Settings first.';
-    return null;
-  }
-
-  /* ── BUILD ARTICLE OBJECT ─────────────────────────────── */
-  function buildArticle() {
-    const date = v('f-date');
-    const enTitle = v('f-en-t');
-    const art = {
-      id: makeId(enTitle, date),
-      date,
-      dateDisplay: { en: fmtDate(date,'en'), tr: fmtDate(date,'tr') },
-      category: v('f-cat'),
-      type: artType,
-      thumbnail: v('f-thumb') || null,
-      en: { title: enTitle, excerpt: v('f-en-x') },
-      tr: { title: v('f-tr-t'), excerpt: v('f-tr-x') }
-    };
-    if (artType === 'external') {
-      art.source    = v('f-src');
-      art.sourceUrl = v('f-url');
-    } else {
-      art.en.content = v('f-en-c');
-      art.tr.content = v('f-tr-c');
-    }
-    return art;
-  }
-
-  /* ── PUBLISH ──────────────────────────────────────────── */
-  window.publish = async function() {
-    alert_('al-add','',''); // clear
-    const err = validate();
-    if (err) { alert_('al-add','err', err); return; }
-
-    const btn = document.getElementById('pubBtn');
-    document.getElementById('pubLabel').textContent = 'Publishing…';
-    document.getElementById('pubSpin').style.display = '';
-    btn.disabled = true;
-
-    try {
-      const article = buildArticle();
-      const { sha, json } = await getFile();
-
-      // Prevent duplicate IDs
-      if (json.articles.find(a => a.id === article.id)) {
-        article.id += '-' + Date.now().toString(36);
-      }
-
-      json.articles.unshift(article);
-      await putFile(json, sha, `Newsroom: add "${article.en.title}"`);
-
-      alert_('al-add','ok', `&#10003; Published: <strong>${article.en.title}</strong><br>Changes will appear on the live site after your host auto-deploys (usually within 30 seconds).`);
-      clearForm();
-    } catch (e) {
-      alert_('al-add','err', `&#9888; ${e.message}`);
-    } finally {
-      document.getElementById('pubLabel').textContent = 'Publish Article';
-      document.getElementById('pubSpin').style.display = 'none';
-      btn.disabled = false;
-    }
-  };
-
-  /* ── CLEAR FORM ───────────────────────────────────────── */
-  window.clearForm = function() {
-    ['f-date','f-en-t','f-en-x','f-en-c','f-tr-t','f-tr-x','f-tr-c','f-thumb','f-src','f-url'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.value = '';
-    });
-    document.getElementById('f-cat').selectedIndex = 0;
-    setType('internal');
-    switchLang('en', document.querySelector('.ltab'));
-    document.querySelectorAll('.ltab').forEach((t,i) => t.classList.toggle('on', i===0));
-  };
-
-  /* ── ARTICLE LIST ─────────────────────────────────────── */
-  const CAT = { corporate:'Corporate', exploration:'Exploration', sustainability:'Sustainability', community:'Community', press:'Press' };
-
-  window.loadList = async function() {
-    document.getElementById('listWrap').innerHTML = '<div class="empty">Loading&hellip;</div>';
-    try {
-      const { json } = await getFile();
-      const articles = (json.articles || []).sort((a,b) => b.date.localeCompare(a.date));
-      if (!articles.length) {
-        document.getElementById('listWrap').innerHTML = '<div class="empty">No articles yet.</div>';
-        return;
-      }
-      document.getElementById('listWrap').innerHTML = `<div class="al">${articles.map(a => `
-        <div class="ar">
-          <div>
-            <div class="ar-meta">${CAT[a.category]||a.category}<span class="badge b-${a.type}">${a.type}</span></div>
-            <div class="ar-title">${a.en.title}</div>
-            <div class="ar-date">${a.dateDisplay.en}</div>
-          </div>
-          <div class="ar-actions">
-            ${a.type==='external' ? `<a href="${a.sourceUrl}" target="_blank" class="btn btn-ghost btn-sm">&#8599;</a>` : ''}
-            <button class="btn btn-danger btn-sm" onclick="del('${a.id}')">Delete</button>
-          </div>
-        </div>`).join('')}</div>`;
-    } catch(e) {
-      alert_('al-list','err', e.message);
-      document.getElementById('listWrap').innerHTML = '<div class="empty">Could not load articles.</div>';
-    }
-  };
-
-  /* ── DELETE ───────────────────────────────────────────── */
-  window.del = async function(id) {
-    if (!confirm('Delete this article permanently?')) return;
-    try {
-      const { sha, json } = await getFile();
-      const article = json.articles.find(a => a.id === id);
-      json.articles = json.articles.filter(a => a.id !== id);
-      await putFile(json, sha, `Newsroom: delete "${article ? article.en.title : id}"`);
-      alert_('al-list','ok','&#10003; Article deleted.');
-      loadList();
-    } catch(e) {
-      alert_('al-list','err', e.message);
-    }
-  };
-
-  /* ── SETTINGS ─────────────────────────────────────────── */
-  window.saveSettings = function() {
-    sessionStorage.setItem('doka_tok',    document.getElementById('s-tok').value.trim());
-    localStorage.setItem('doka_owner',    document.getElementById('s-owner').value.trim());
-    localStorage.setItem('doka_repo',     document.getElementById('s-repo').value.trim());
-    localStorage.setItem('doka_branch',   document.getElementById('s-branch').value.trim());
-    localStorage.setItem('doka_path',     document.getElementById('s-path').value.trim());
-    const st = document.getElementById('s-status');
-    st.textContent = 'Saved.';
-    st.style.color = 'var(--green-light)';
-    setTimeout(() => { st.textContent = ''; }, 3000);
-  };
-
-  window.testConn = async function() {
-    saveSettings();
-    const st  = document.getElementById('s-status');
-    const sp  = document.getElementById('s-spin');
-    st.textContent = 'Testing…'; st.style.color = 'var(--sec)';
-    sp.style.display = '';
-    try {
-      const { json } = await getFile();
-      const n = (json.articles || []).length;
-      st.textContent = `&#10003; Connected. ${n} article${n===1?'':'s'} found.`;
-      st.style.color = 'var(--green-light)';
-      st.innerHTML   = st.textContent; // render entity
-    } catch(e) {
-      st.textContent = '✗ ' + e.message;
-      st.style.color = '#e74c3c';
-    } finally {
-      sp.style.display = 'none';
-    }
-  };
-
-  /* ── INIT ─────────────────────────────────────────────── */
-  // Pre-fill settings fields from storage
-  const c = cfg();
-  document.getElementById('s-tok').value    = sessionStorage.getItem('doka_tok') || '';
-  document.getElementById('s-owner').value  = c.owner;
-  document.getElementById('s-repo').value   = c.repo;
-  document.getElementById('s-branch').value = c.branch;
-  document.getElementById('s-path').value   = c.path;
-
-  // Default date to today
-  document.getElementById('f-date').valueAsDate = new Date();
-
-  // Kick off in add view
-  show('add');
-
-  // If no token yet, show a gentle prompt
-  if (!c.token) {
-    alert_('al-add','info',
-      'Welcome. Before publishing, go to <button class="btn btn-outline btn-sm" onclick="show(\'settings\')" style="margin-left:6px;">&#9881;&nbsp;Settings</button> and enter your GitHub token.');
-  }
+    document.getElementById('pubLbl').textContent='Update Article';
+    alert_('al-add','ainf','Editing: <strong>'+meta.en.title+'</strong>. Make changes and click Update Article.');
+  }catch(e){alert_('al-add','err','&#9888; '+e.message);}
+};
+window.loadList=async function(){
+  document.getElementById('listWrap').innerHTML='<div class="empty">Loading...</div>';
+  try{
+    const{json}=await getFile(cfg().idx);const arts=(json.articles||[]).sort((a,b)=>b.date.localeCompare(a.date));
+    if(!arts.length){document.getElementById('listWrap').innerHTML='<div class="empty">No articles yet.</div>';return;}
+    const C={corporate:'Corporate',exploration:'Exploration',sustainability:'Sustainability',community:'Community',press:'Press'};
+    document.getElementById('listWrap').innerHTML=`<div class="ali">${arts.map(a=>`<div class="ar"><div><div class="ar-m">${C[a.category]||a.category}<span class="bx ${a.type==='external'?'be':'bi'}">${a.type}</span></div><div class="ar-t">${a.en.title}</div><div class="ar-d">${a.dateDisplay.en}</div></div><div class="ar-a">${a.type==='internal'?`<a href="../news/articles/${a.id}.html" target="_blank" class="btn bgh bsm">Preview</a>`:''}<button class="btn bo bsm" onclick="edit('${a.id}')">Edit</button><button class="btn bd bsm" onclick="del('${a.id}','${a.type}')">Delete</button></div></div>`).join('')}</div>`;
+  }catch(e){alert_('al-list','err',e.message);document.getElementById('listWrap').innerHTML='<div class="empty">Could not load.</div>';}
+};
+window.saveCfg=function(){sessionStorage.setItem('doka_tok',document.getElementById('s-tok').value.trim());localStorage.setItem('doka_own',document.getElementById('s-own').value.trim());localStorage.setItem('doka_rep',document.getElementById('s-rep').value.trim());localStorage.setItem('doka_br',document.getElementById('s-br').value.trim());localStorage.setItem('doka_idx',document.getElementById('s-idx').value.trim());const st=document.getElementById('s-st');st.textContent='Saved.';st.style.color='var(--grl)';setTimeout(()=>{st.textContent='';},3000);};
+window.testConn=async function(){saveCfg();const st=document.getElementById('s-st'),sp=document.getElementById('s-sp');st.textContent='Testing...';sp.style.display='';try{const{json}=await getFile(cfg().idx);const n=(json.articles||[]).length;st.innerHTML=`&#10003; Connected. ${n} article${n===1?'':'s'}.`;st.style.color='var(--grl)';}catch(e){st.textContent='Failed: '+e.message;st.style.color='#e74c3c';}finally{sp.style.display='none';}};
+function v(id){return document.getElementById(id).value.trim();}
+function alert_(id,type,msg){const el=document.getElementById(id);if(!type){el.className='al';el.innerHTML='';return;}el.className=`al on a${type}`;el.innerHTML=msg;el.scrollIntoView({behavior:'smooth',block:'nearest'});if(type==='ok')setTimeout(()=>el.classList.remove('on'),8000);}
+window.show=function(v){['add','list','settings'].forEach(id=>{document.getElementById('v-'+id).style.display=id===v?'':'none';});document.querySelectorAll('.nb').forEach(b=>{b.classList.toggle('on',b.textContent.trim().includes(v==='add'?'+':v==='list'?'9776':'9881'));});document.querySelectorAll('.nb').forEach(b=>{b.classList.remove('on');});if(v==='add')document.querySelectorAll('.nb')[0].classList.add('on');else if(v==='list')document.querySelectorAll('.nb')[1].classList.add('on');else document.querySelectorAll('.nb')[2].classList.add('on');};
+window.setType=function(t){artType=t;document.getElementById('tI').classList.toggle('on',t==='internal');document.getElementById('tE').classList.toggle('on',t==='external');document.getElementById('extF').style.display=t==='external'?'':'none';document.querySelectorAll('.int-only').forEach(el=>{el.style.display=t==='internal'?'':'none';});};
+window.swLang=function(lang,btn){document.querySelectorAll('.ltab').forEach(t=>t.classList.remove('on'));document.querySelectorAll('.lp').forEach(p=>p.classList.remove('on'));btn.classList.add('on');document.getElementById('lp-'+lang).classList.add('on');};
+window.clearForm=function(){['f-date','f-en-t','f-en-x','f-en-c','f-tr-t','f-tr-x','f-tr-c','f-thumb','f-src','f-url'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});document.getElementById('f-cat').selectedIndex=0;setType('internal');document.querySelectorAll('.ltab').forEach((t,i)=>t.classList.toggle('on',i===0));document.querySelectorAll('.lp').forEach((p,i)=>p.classList.toggle('on',i===0));document.getElementById('pubLbl').textContent='Publish Article';editId=null;alert_('al-add','','');};
+const c=cfg();document.getElementById('s-tok').value=sessionStorage.getItem('doka_tok')||'';document.getElementById('s-own').value=c.owner;document.getElementById('s-rep').value=c.repo;document.getElementById('s-br').value=c.branch;document.getElementById('s-idx').value=c.idx;document.getElementById('f-date').valueAsDate=new Date();show('add');setType('internal');
+if(!c.tok)alert_('al-add','ainf','Welcome. Go to Settings and enter your GitHub token before publishing.');
 }());
 </script>
 </body>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DOKA Mining Newsroom — Latest news, press releases, and corporate announcements.">
+  <title>Newsroom — DOKA Mining</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    .news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:48px;}
+    .news-item--featured{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:8px;overflow:hidden;}
+    .news-item{background:var(--dark-card);border:1px solid var(--dark-border);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .35s ease,transform .35s ease,box-shadow .35s ease;}
+    .news-item--internal{cursor:pointer;text-decoration:none;color:inherit;display:flex;flex-direction:column;}
+    .news-item--internal:hover{border-color:var(--gold-border);transform:translateY(-3px);box-shadow:0 20px 50px rgba(0,0,0,.35);}
+    .news-item--internal:hover .news-item__title{color:var(--gold-light);}
+    .news-item--external{cursor:default;}
+    .news-item__thumb{width:100%;height:210px;overflow:hidden;background:var(--dark-surface);flex-shrink:0;}
+    .news-item--featured .news-item__thumb{height:100%;min-height:340px;}
+    .news-item__thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;}
+    .news-item--internal:hover .news-item__thumb img{transform:scale(1.04);}
+    .news-item__thumb--empty{display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--dark-surface),var(--dark-card));border-bottom:1px solid var(--gold-border);}
+    .news-item__thumb--empty svg{opacity:.1;width:52px;}
+    .news-item__body{padding:26px;display:flex;flex-direction:column;flex:1;}
+    .news-item--featured .news-item__body{padding:40px;justify-content:center;}
+    .news-item__meta{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;}
+    .news-item__cat{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;font-weight:500;color:var(--gold);}
+    .news-item__date{font-size:.72rem;color:var(--text-muted);}
+    .news-item__source{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;background:rgba(255,255,255,.04);border:1px solid var(--dark-border);border-radius:3px;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-secondary);}
+    .news-item__source::before{content:'';display:block;width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0;}
+    .news-item__title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--white);line-height:1.25;margin-bottom:10px;transition:color .3s ease;}
+    .news-item--featured .news-item__title{font-size:1.75rem;}
+    .news-item__excerpt{font-size:.87rem;color:var(--text-secondary);line-height:1.75;flex:1;margin-bottom:18px;}
+    .news-item__cta{display:inline-flex;align-items:center;gap:7px;font-size:.7rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-top:auto;transition:gap .3s ease,color .3s ease;}
+    .news-item--internal .news-item__cta::after{content:'→';}
+    .news-item--external .news-item__cta{text-decoration:none;}
+    .news-item--external .news-item__cta::after{content:'↗';}
+    .news-item--external .news-item__cta:hover{gap:12px;color:var(--gold-light);}
+    .filter-bar{display:flex;gap:8px;flex-wrap:wrap;}
+    .filter-btn{padding:8px 20px;border-radius:4px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;transition:all .25s ease;border:1px solid var(--dark-border);background:transparent;color:var(--text-muted);}
+    .filter-btn:hover{border-color:var(--gold-border);color:var(--text-primary);}
+    .filter-btn.active{background:var(--gold);color:var(--dark);border-color:var(--gold);}
+    .news-state{text-align:center;padding:80px 0;color:var(--text-muted);font-size:.9rem;}
+    @media(max-width:1024px){.news-grid{grid-template-columns:repeat(2,1fr);}.news-item--featured{grid-template-columns:1fr;}.news-item--featured .news-item__thumb{min-height:240px;height:240px;}}
+    @media(max-width:640px){.news-grid{grid-template-columns:1fr;gap:16px;}.news-item--featured{grid-column:auto;}.news-item__body{padding:18px;}.news-item--featured .news-item__body{padding:20px;}.news-item--featured .news-item__title{font-size:1.4rem;}.news-item__thumb{height:190px;}}
+  </style>
+</head>
+<body>
+
+<div id="nav-placeholder"></div>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero__breadcrumb">
+      <a href="../index.html">Home</a><span>/</span><span>Newsroom</span>
+    </div>
+    <h1>Newsroom</h1>
+    <p class="page-hero__sub">Corporate announcements, exploration updates, and media releases from DOKA Mining.</p>
+  </div>
+</section>
+
+<section class="section section--dark">
+  <div class="container">
+
+    <div class="filter-bar reveal" id="filterBar">
+      <button class="filter-btn active" data-cat="all">All</button>
+      <button class="filter-btn" data-cat="corporate">Corporate</button>
+      <button class="filter-btn" data-cat="exploration">Exploration</button>
+      <button class="filter-btn" data-cat="sustainability">Sustainability</button>
+      <button class="filter-btn" data-cat="community">Community</button>
+      <button class="filter-btn" data-cat="press">In the Press</button>
+    </div>
+
+    <div id="newsGrid" class="news-grid">
+      <div class="news-state">Loading news&hellip;</div>
+    </div>
+
+    <div style="margin-top:72px;padding:40px;border:1px solid var(--gold-border);border-radius:8px;background:var(--gold-pale);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px;" class="reveal">
+      <div>
+        <span class="section-eyebrow">Media Inquiries</span>
+        <h3 style="font-size:1.4rem;">Press Contact</h3>
+        <p style="color:var(--text-secondary);margin-top:8px;font-size:.9rem;">For all media inquiries, interview requests, or press kit materials, please contact the DOKA communications team.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="font-size:.9rem;color:var(--text-secondary);">&#9993;&nbsp;<span class="placeholder-badge">press@dokamining.com</span></div>
+        <div style="margin-top:8px;"><a href="../contact.html" class="btn btn--gold btn--sm">Contact Us</a></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script>const ROOT_PATH = '../'; const LANG = 'en'; const LANG_EQUIV = 'tr/news/index.html';</script>
+<script src="../assets/js/main.js"></script>
+<script>
+(function(){
+  'use strict';
+  const ROOT = '../';
+  const LANG = 'en';
+  const CAT  = {corporate:'Corporate',exploration:'Exploration',sustainability:'Sustainability',community:'Community',press:'Press'};
+  let articles = [];
+
+  function thumb(a) {
+    const t = a.thumbnail || '';
+    if (!t) return '';
+    return t.startsWith('http') ? t : ROOT + t;
+  }
+
+  function buildCard(a, featured) {
+    const t = a[LANG], ext = a.type === 'external';
+    const thumbSrc = thumb(a);
+    const thumbHTML = thumbSrc
+      ? `<div class="news-item__thumb"><img src="${thumbSrc}" alt="${t.title}" loading="lazy"></div>`
+      : `<div class="news-item__thumb news-item__thumb--empty"><svg viewBox="0 0 48 48" fill="none" stroke="var(--gold)" stroke-width="1.2"><rect x="6" y="10" width="36" height="28" rx="2"/><path d="M6 32l10-10 8 8 6-6 12 12"/><circle cx="32" cy="20" r="4"/></svg></div>`;
+    const source = ext ? `<span class="news-item__source">${a.source}</span>` : '';
+    const cta = ext
+      ? `<a href="${a.sourceUrl}" target="_blank" rel="noopener noreferrer" class="news-item__cta">Read on ${a.source}</a>`
+      : `<span class="news-item__cta">Read Article</span>`;
+    const href = ext ? a.sourceUrl : `${ROOT}news/articles/${a.id}.html`;
+    const tag = ext ? 'div' : 'a';
+    const attrs = ext
+      ? `class="news-item news-item--external${featured?' news-item--featured':''} reveal"`
+      : `class="news-item news-item--internal${featured?' news-item--featured':''} reveal" href="${href}"`;
+    return `<${tag} ${attrs}>
+      ${thumbHTML}
+      <div class="news-item__body">
+        <div class="news-item__meta">
+          <span class="news-item__cat">${CAT[a.category]||a.category}</span>
+          <span class="news-item__date">${a.dateDisplay[LANG]}</span>
+          ${source}
+        </div>
+        <h2 class="news-item__title">${t.title}</h2>
+        <p class="news-item__excerpt">${t.excerpt}</p>
+        ${cta}
+      </div>
+    </${tag}>`;
+  }
+
+  function render(cat) {
+    const grid = document.getElementById('newsGrid');
+    const list = cat === 'all' ? articles : articles.filter(a => a.category === cat);
+    if (!list.length) { grid.innerHTML = '<div class="news-state">No articles in this category yet.</div>'; return; }
+    grid.innerHTML = list.map((a,i) => buildCard(a, i === 0 && cat === 'all')).join('');
+    if (typeof IntersectionObserver !== 'undefined') {
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);} });
+      }, {threshold:0.07});
+      grid.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    } else {
+      grid.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+    }
+  }
+
+  document.getElementById('filterBar').addEventListener('click', function(e) {
+    const btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+    this.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render(btn.dataset.cat);
+  });
+
+  fetch(ROOT + 'assets/data/news-index.json')
+    .then(r => { if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+    .then(data => {
+      articles = (data.articles||[]).sort((a,b) => b.date.localeCompare(a.date));
+      render('all');
+    })
+    .catch(err => {
+      console.error(err);
+      document.getElementById('newsGrid').innerHTML = '<div class="news-state">Unable to load news. Please try again later.</div>';
+    });
+}());
+</script>
+</body>
+</html>

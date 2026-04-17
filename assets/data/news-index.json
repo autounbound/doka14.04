@@ -1,0 +1,160 @@
+{
+  "articles": [
+    {
+      "id": "2025-03-environmental-framework",
+      "date": "2025-03-15",
+      "dateDisplay": {
+        "en": "15 Mar 2025",
+        "tr": "15 Mar 2025"
+      },
+      "category": "sustainability",
+      "type": "internal",
+      "thumbnail": "assets/images/portfolio/akp%C4%B1nar3.jpg",
+      "en": {
+        "title": "Mining That Answers to the Land: DOKA's Environmental Management Framework",
+        "excerpt": "Before a single drill turns, DOKA's environmental obligations are already binding. Here is how our management framework translates a commitment to stewardship into daily operational discipline across all three sites."
+      },
+      "tr": {
+        "title": "Toprağa Hesap Veren Madencilik: DOKA'nın Çevre Yönetim Çerçevesi",
+        "excerpt": "Tek bir matkap dönmeden önce DOKA'nın çevresel yükümlülükleri zaten bağlayıcıdır. Çevre yönetim çerçevemizin, koruma taahhüdünü üç sahadaki günlük operasyonel disipline nasıl dönüştürdüğünü anlatıyoruz."
+      }
+    },
+    {
+      "id": "2025-02-turkey-precious-metals",
+      "date": "2025-02-10",
+      "dateDisplay": {
+        "en": "10 Feb 2025",
+        "tr": "10 Şub 2025"
+      },
+      "category": "exploration",
+      "type": "internal",
+      "thumbnail": "assets/images/portfolio/doka_turkey_map3.jpg",
+      "en": {
+        "title": "Turkey's Precious Metals Endowment and DOKA's Strategic Position Within It",
+        "excerpt": "Turkey ranks among the world's significant gold-producing nations, yet a substantial share of its geological endowment remains underexplored. Understanding why and where is the foundation of DOKA's exploration strategy."
+      },
+      "tr": {
+        "title": "Türkiye'nin Değerli Maden Potansiyeli ve DOKA'nın Bu Alandaki Stratejik Konumu",
+        "excerpt": "Türkiye, dünyanın önde gelen altın üreticileri arasında yer almaktadır; ancak jeolojik birikiminin önemli bir bölümü henüz yeterince araştırılmamıştır. Bunun nedenini ve nerede olduğunu anlamak, DOKA'nın arama stratejisinin temelidir."
+      }
+    },
+    {
+      "id": "2025-01-kirsehir-survey",
+      "date": "2025-01-01",
+      "dateDisplay": {
+        "en": "1 Jan 2025",
+        "tr": "1 Oca 2025"
+      },
+      "category": "exploration",
+      "type": "internal",
+      "thumbnail": "assets/images/portfolio/akpinar1.jpg",
+      "en": {
+        "title": "DOKA Mining Advances Exploration Program at Kırşehir Site",
+        "excerpt": "Initial geophysical survey results confirm the presence of anomalous zones consistent with precious metals mineralization at the Kırşehir license area."
+      },
+      "tr": {
+        "title": "DOKA Madencilik, Kırşehir Sahasındaki Arama Programını İlerletiyor",
+        "excerpt": "İlk jeofizik araştırma sonuçları, Kırşehir lisans alanında değerli metal mineralizasyonuyla tutarlı anomali bölgelerinin varlığını doğruluyor."
+      }
+    },
+    {
+      "id": "2024-12-bayburt-environmental",
+      "date": "2024-12-15",
+      "dateDisplay": {
+        "en": "15 Dec 2024",
+        "tr": "15 Ara 2024"
+      },
+      "category": "sustainability",
+      "type": "internal",
+      "thumbnail": "assets/images/portfolio/bayburt3.jpg",
+      "en": {
+        "title": "Environmental Baseline Study Completed for Bayburt Project Area",
+        "excerpt": "DOKA Mining has successfully completed a comprehensive environmental baseline assessment for the Bayburt license area, establishing the ecological and hydrological reference conditions for responsible exploration."
+      },
+      "tr": {
+        "title": "Bayburt Proje Alanı İçin Çevre Bazal Etüdü Tamamlandı",
+        "excerpt": "DOKA Madencilik, Bayburt lisans alanı için kapsamlı çevre bazal değerlendirmesini başarıyla tamamlayarak sorumlu arama faaliyetleri için ekolojik ve hidrolojik referans koşullarını belirledi."
+      }
+    },
+    {
+      "id": "2024-11-yozgat-employment",
+      "date": "2024-11-28",
+      "dateDisplay": {
+        "en": "28 Nov 2024",
+        "tr": "28 Kas 2024"
+      },
+      "category": "community",
+      "type": "internal",
+      "thumbnail": "assets/images/portfolio/sorgun1.jpg",
+      "en": {
+        "title": "DOKA Mining Signs Local Employment Commitment with Yozgat Municipality",
+        "excerpt": "A formal memorandum of understanding has been signed with the Yozgat Provincial Directorate, formalising DOKA's commitment to prioritise local hiring and supplier engagement."
+      },
+      "tr": {
+        "title": "DOKA Madencilik, Yozgat Belediyesi ile Yerel İstihdam Taahhüdü İmzaladı",
+        "excerpt": "Yozgat İl Müdürlüğü ile imzalanan mutabakat muhtırası; DOKA'nın yerel işe alım ve tedarikçi katılımını önceliklendirme taahhüdünü resmileştirdi."
+      }
+    },
+    {
+      "id": "2024-10-company-established",
+      "date": "2024-10-10",
+      "dateDisplay": {
+        "en": "10 Oct 2024",
+        "tr": "10 Eki 2024"
+      },
+      "category": "corporate",
+      "type": "internal",
+      "thumbnail": null,
+      "en": {
+        "title": "DOKA Madencilik Formally Established as Dedicated Precious Metals Company",
+        "excerpt": "DOKA Madencilik is formally established as a dedicated precious metals exploration and mining company within the Oltankoleoglu Group, with initial licensed areas secured in Kırşehir, Bayburt, and Yozgat."
+      },
+      "tr": {
+        "title": "DOKA Madencilik, Değerli Maden Şirketi Olarak Resmen Kuruldu",
+        "excerpt": "DOKA Madencilik; Oltankoleoglu Grubu bünyesinde değerli maden arama ve madencilik şirketi olarak resmen kuruldu. Kırşehir, Bayburt ve Yozgat'ta ilk lisanslı alanlar güvence altına alındı."
+      }
+    },
+    {
+      "id": "2024-09-turkey-gold-sector",
+      "date": "2024-09-05",
+      "dateDisplay": {
+        "en": "5 Sep 2024",
+        "tr": "5 Eyl 2024"
+      },
+      "category": "press",
+      "type": "external",
+      "thumbnail": null,
+      "source": "Bloomberg HT",
+      "sourceUrl": "#",
+      "en": {
+        "title": "Turkey's Gold Mining Sector Draws New Investment as Exploration Expands",
+        "excerpt": "Bloomberg HT reports on growing investor interest in Turkish precious metals, noting the entry of new domestic operators into the exploration phase across Central Anatolia."
+      },
+      "tr": {
+        "title": "Türkiye'nin Altın Madenciliği Sektörü Keşif Genişledikçe Yeni Yatırım Çekiyor",
+        "excerpt": "Bloomberg HT, Türk değerli metal sektörüne artan yatırımcı ilgisini aktararak Orta Anadolu genelinde arama aşamasına giren yeni yerli operatörlerin sektöre girişine dikkat çekiyor."
+      }
+    },
+    {
+      "id": "2024-01-ief-sustainable-mining",
+      "date": "2024-01-08",
+      "dateDisplay": {
+        "en": "8 Jan 2024",
+        "tr": "8 Oca 2024"
+      },
+      "category": "sustainability",
+      "type": "external",
+      "thumbnail": "https://www.ief.org/_resources/files/news/how-to-make-mining-more-sustainable/websitebanner-sustainablemining.jpg",
+      "source": "International Energy Forum",
+      "sourceUrl": "https://www.ief.org/news/how-to-make-mining-more-sustainable",
+      "en": {
+        "title": "How to Make Mining More Sustainable",
+        "excerpt": "The International Energy Forum examines the paradox at the heart of the energy transition: the clean technologies the world needs require substantially more mining, yet mining itself carries significant environmental and social risks. The article outlines how the industry is responding through land rehabilitation programs, renewable-powered operations, carbon capture techniques, and precision extraction technology."
+      },
+      "tr": {
+        "title": "Madencilik Nasıl Daha Sürdürülebilir Hale Getirilebilir?",
+        "excerpt": "Uluslararası Enerji Forumu, enerji dönüşümünün merkezindeki çelişkiyi ele alıyor: dünyanın ihtiyaç duyduğu temiz teknolojiler çok daha fazla madencilik gerektiriyor, ancak madenciliğin kendisi önemli çevresel ve sosyal riskler taşıyor. Makale, sektörün arazi ıslah programları, yenilenebilir enerjiyle güçlendirilen operasyonlar, karbon yakalama ve hassas çıkarım teknolojileri aracılığıyla bu duruma nasıl yanıt verdiğini ortaya koyuyor."
+      }
+    }
+  ]
+}
