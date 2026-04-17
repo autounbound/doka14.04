@@ -36,6 +36,12 @@
     .fg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
     .hint{font-size:.65rem;color:var(--mt);margin-top:4px;line-height:1.5;}
     .hint code{background:var(--card);padding:1px 4px;border-radius:3px;color:var(--gold);}
+    /* Content formatting toolbar */
+    .toolbar{display:flex;gap:4px;padding:6px 8px;background:var(--dark);border:1px solid var(--bdr);border-radius:var(--r) var(--r) 0 0;border-bottom:none;flex-wrap:wrap;}
+    .tb{padding:4px 10px;background:var(--card);border:1px solid var(--bdr);border-radius:3px;color:var(--sc);font-size:.72rem;cursor:pointer;font-family:inherit;transition:all var(--tr);line-height:1.4;}
+    .tb:hover{background:var(--surf);color:var(--wh);border-color:rgba(255,255,255,.15);}
+    .tb-sep{width:1px;background:var(--bdr);margin:2px 2px;}
+    textarea.code{border-radius:0 0 var(--r) var(--r) !important;}
     .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:var(--r);border:none;cursor:pointer;font-family:inherit;font-size:.76rem;font-weight:600;letter-spacing:.04em;transition:all var(--tr);}
     .bg{background:var(--gold);color:var(--dark);}.bg:hover{background:var(--gl);}
     .bo{background:transparent;color:var(--gold);border:1px solid var(--gb);}.bo:hover{background:var(--gp);}
@@ -130,7 +136,16 @@
           <div class="fr"><label>Title (EN) <em>*</em></label><input type="text" id="f-en-t" placeholder="Article title in English"></div>
           <div class="fr"><label>Excerpt (EN) <em>*</em></label><textarea id="f-en-x" placeholder="1-3 sentence summary shown on the card. Plain text only."></textarea></div>
           <div class="fr int-only"><label>Full Content (EN)</label>
-            <textarea class="code" id="f-en-c" placeholder="HTML article body. Wrap paragraphs in &lt;p&gt; tags.&#10;Subheading: &lt;h3 style='font-family:Cormorant Garamond,serif;font-size:1.35rem;color:var(--white);margin:32px 0 12px;'&gt;Heading&lt;/h3&gt;"></textarea>
+            <div class="toolbar" id="tb-en">
+            <button type="button" class="tb" onclick="fmt('f-en-c','bold')" title="Bold"><strong>B</strong></button>
+            <button type="button" class="tb" onclick="fmt('f-en-c','italic')" title="Italic"><em>I</em></button>
+            <button type="button" class="tb" onclick="fmt('f-en-c','link')" title="Insert Link">&#128279;</button>
+            <div class="tb-sep"></div>
+            <button type="button" class="tb" onclick="fmt('f-en-c','h3')" title="Subheading">H3</button>
+            <button type="button" class="tb" onclick="fmt('f-en-c','img')" title="Insert Image">&#128444; Image</button>
+            <button type="button" class="tb" onclick="fmt('f-en-c','figure')" title="Image with Caption">&#128444; + Caption</button>
+          </div>
+          <textarea class="code" id="f-en-c" placeholder="HTML article body. Wrap paragraphs in &lt;p&gt; tags.&#10;Subheading: &lt;h3 style='font-family:Cormorant Garamond,serif;font-size:1.35rem;color:var(--white);margin:32px 0 12px;'&gt;Heading&lt;/h3&gt;"></textarea>
             <div class="hint">Use <code>&lt;p&gt;</code> for paragraphs, <code>&lt;strong&gt;</code> for bold, <code>&lt;a href="..."&gt;</code> for links.</div>
           </div>
         </div>
@@ -138,7 +153,16 @@
           <div class="fr"><label>Baslik (TR) <em>*</em></label><input type="text" id="f-tr-t" placeholder="Makale basli Turkce"></div>
           <div class="fr"><label>Ozet (TR) <em>*</em></label><textarea id="f-tr-x" placeholder="Kartta gorunen 1-3 cumlelik ozet. Yalnizca duz metin."></textarea></div>
           <div class="fr int-only"><label>Icerik (TR)</label>
-            <textarea class="code" id="f-tr-c" placeholder="HTML makale icerigi. Paragraflari &lt;p&gt; etiketi icine alin."></textarea>
+            <div class="toolbar" id="tb-tr">
+            <button type="button" class="tb" onclick="fmt('f-tr-c','bold')" title="Kalın"><strong>B</strong></button>
+            <button type="button" class="tb" onclick="fmt('f-tr-c','italic')" title="İtalik"><em>I</em></button>
+            <button type="button" class="tb" onclick="fmt('f-tr-c','link')" title="Bağlantı ekle">&#128279;</button>
+            <div class="tb-sep"></div>
+            <button type="button" class="tb" onclick="fmt('f-tr-c','h3')" title="Alt Başlık">H3</button>
+            <button type="button" class="tb" onclick="fmt('f-tr-c','img')" title="Resim ekle">&#128444; Resim</button>
+            <button type="button" class="tb" onclick="fmt('f-tr-c','figure')" title="Resim + Altyazı">&#128444; + Altyazı</button>
+          </div>
+          <textarea class="code" id="f-tr-c" placeholder="HTML makale icerigi. Paragraflari &lt;p&gt; etiketi icine alin."></textarea>
           </div>
         </div>
       </div>
@@ -354,6 +378,77 @@ function alert_(id,type,msg){const el=document.getElementById(id);if(!type){el.c
 window.show=function(v){['add','list','settings'].forEach(id=>{document.getElementById('v-'+id).style.display=id===v?'':'none';});document.querySelectorAll('.nb').forEach(b=>{b.classList.toggle('on',b.textContent.trim().includes(v==='add'?'+':v==='list'?'9776':'9881'));});document.querySelectorAll('.nb').forEach(b=>{b.classList.remove('on');});if(v==='add')document.querySelectorAll('.nb')[0].classList.add('on');else if(v==='list')document.querySelectorAll('.nb')[1].classList.add('on');else document.querySelectorAll('.nb')[2].classList.add('on');};
 window.setType=function(t){artType=t;document.getElementById('tI').classList.toggle('on',t==='internal');document.getElementById('tE').classList.toggle('on',t==='external');document.getElementById('extF').style.display=t==='external'?'':'none';document.querySelectorAll('.int-only').forEach(el=>{el.style.display=t==='internal'?'':'none';});};
 window.swLang=function(lang,btn){document.querySelectorAll('.ltab').forEach(t=>t.classList.remove('on'));document.querySelectorAll('.lp').forEach(p=>p.classList.remove('on'));btn.classList.add('on');document.getElementById('lp-'+lang).classList.add('on');};
+
+/* ── CONTENT FORMATTING TOOLBAR ─────────────────────────── */
+/*
+ * fmt(textareaId, action) inserts or wraps HTML at the cursor position
+ * in the target textarea. Uses document.execCommand for older browsers
+ * with a fallback to manual string insertion.
+ */
+window.fmt = function(id, action) {
+  const ta = document.getElementById(id);
+  if (!ta) return;
+  ta.focus();
+
+  const start = ta.selectionStart;
+  const end   = ta.selectionEnd;
+  const sel   = ta.value.substring(start, end);
+  const before= ta.value.substring(0, start);
+  const after = ta.value.substring(end);
+
+  let insert = '';
+  let cursorOffset = 0; // where to place cursor after insert
+
+  const H3_STYLE = "font-family:Cormorant Garamond,serif;font-size:1.35rem;color:var(--white);margin:32px 0 12px;";
+
+  switch(action) {
+    case 'bold':
+      insert = `<strong>${sel || 'bold text'}</strong>`;
+      cursorOffset = sel ? insert.length : 8; // inside if no selection
+      break;
+    case 'italic':
+      insert = `<em>${sel || 'italic text'}</em>`;
+      cursorOffset = sel ? insert.length : 4;
+      break;
+    case 'link': {
+      const url = prompt('URL:', 'https://');
+      if (!url) return;
+      const label = sel || prompt('Link text:', 'Read more') || 'Read more';
+      insert = `<a href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+      cursorOffset = insert.length;
+      break;
+    }
+    case 'h3':
+      insert = `<h3 style='${H3_STYLE}'>${sel || 'Subheading'}</h3>`;
+      cursorOffset = sel ? insert.length : insert.length - 5;
+      break;
+    case 'img': {
+      const src = prompt('Image path or URL:\n\nExamples:\n  assets/images/portfolio/akpinar1.jpg\n  https://example.com/photo.jpg', '');
+      if (!src) return;
+      const alt = prompt('Alt text (describe the image for accessibility):', '') || '';
+      insert = `<img src="${src}" alt="${alt}" style="width:100%;border-radius:6px;margin:24px 0;" loading="lazy">`;
+      cursorOffset = insert.length;
+      break;
+    }
+    case 'figure': {
+      const src = prompt('Image path or URL:', '');
+      if (!src) return;
+      const alt     = prompt('Alt text:', '') || '';
+      const caption = prompt('Caption (optional):', '') || '';
+      insert = caption
+        ? `<figure style="margin:32px 0;"><img src="${src}" alt="${alt}" style="width:100%;border-radius:6px;" loading="lazy"><figcaption style="font-size:.8rem;color:var(--text-muted);margin-top:8px;text-align:center;">${caption}</figcaption></figure>`
+        : `<figure style="margin:32px 0;"><img src="${src}" alt="${alt}" style="width:100%;border-radius:6px;" loading="lazy"></figure>`;
+      cursorOffset = insert.length;
+      break;
+    }
+    default: return;
+  }
+
+  ta.value = before + insert + after;
+  ta.selectionStart = ta.selectionEnd = start + cursorOffset;
+  ta.dispatchEvent(new Event('input'));
+};
+
 window.clearForm=function(){['f-date','f-en-t','f-en-x','f-en-c','f-tr-t','f-tr-x','f-tr-c','f-thumb','f-src','f-url'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});document.getElementById('f-cat').selectedIndex=0;setType('internal');document.querySelectorAll('.ltab').forEach((t,i)=>t.classList.toggle('on',i===0));document.querySelectorAll('.lp').forEach((p,i)=>p.classList.toggle('on',i===0));document.getElementById('pubLbl').textContent='Publish Article';editId=null;alert_('al-add','','');};
 const c=cfg();document.getElementById('s-tok').value=sessionStorage.getItem('doka_tok')||'';document.getElementById('s-own').value=c.owner;document.getElementById('s-rep').value=c.repo;document.getElementById('s-br').value=c.branch;document.getElementById('s-idx').value=c.idx;document.getElementById('f-date').valueAsDate=new Date();show('add');setType('internal');
 if(!c.tok)alert_('al-add','ainf','Welcome. Go to Settings and enter your GitHub token before publishing.');

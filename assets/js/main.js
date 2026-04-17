@@ -51,7 +51,7 @@
         </div>
       </li>
       <li class="nav__item"><a href="${R}investor-relations.html">Investor Relations</a></li>
-      <li class="nav__item"><a href="${R}news/index.html">Newsroom</a></li>
+      <li class="nav__item"><a href="${R}newsroom.html">Newsroom</a></li>
       <li class="nav__item"><a href="${R}contact.html">Contact</a></li>
       <li class="nav__item nav__lang--mobile"><a href="${R}${equiv}">TR &mdash; T&uuml;rk&ccedil;e</a></li>
     </ul>
@@ -88,7 +88,7 @@
         </div>
       </li>
       <li class="nav__item"><a href="${R}tr/investor-relations.html">Yat&#x131;r&#x131;mc&#x131; &#x130;li&#x15F;kileri</a></li>
-      <li class="nav__item"><a href="${R}tr/news/index.html">Haberler</a></li>
+      <li class="nav__item"><a href="${R}tr/newsroom.html">Haberler</a></li>
       <li class="nav__item"><a href="${R}tr/contact.html">&#x130;leti&#x15F;im</a></li>
       <li class="nav__item nav__lang--mobile"><a href="${R}${equiv}">EN &mdash; English</a></li>
     </ul>
@@ -131,7 +131,7 @@
       </ul></div>
       <div class="footer__col"><h5>Investors &amp; Media</h5><ul>
         <li><a href="${R}investor-relations.html">Investor Relations</a></li>
-        <li><a href="${R}news/index.html">Newsroom</a></li>
+        <li><a href="${R}newsroom.html">Newsroom</a></li>
         <li><a href="${R}contact.html">Contact</a></li>
       </ul></div>
     </div>
@@ -169,7 +169,7 @@
       </ul></div>
       <div class="footer__col"><h5>Yat&#x131;r&#x131;mc&#x131; &amp; Medya</h5><ul>
         <li><a href="${R}tr/investor-relations.html">Yat&#x131;r&#x131;mc&#x131; &#x130;li&#x15F;kileri</a></li>
-        <li><a href="${R}tr/news/index.html">Haberler</a></li>
+        <li><a href="${R}tr/newsroom.html">Haberler</a></li>
         <li><a href="${R}tr/contact.html">&#x130;leti&#x15F;im</a></li>
       </ul></div>
     </div>
@@ -204,11 +204,18 @@
   if (footerTarget) footerTarget.outerHTML = isTR ? footerTR : footerEN;
 
   /* ── ACTIVE LINK ───────────────────────────────────────────── */
-  const currentPath = window.location.pathname;
+  /*
+   * FIX: previous approach used endsWith(filename) which incorrectly
+   * highlighted "Portfolio" when on any index.html page (including news/index.html).
+   * New approach resolves each href to an absolute pathname and compares exactly.
+   */
   document.querySelectorAll('.nav__links a, .nav__dropdown a').forEach(link => {
     const href = link.getAttribute('href');
-    if (href && href !== '#' && currentPath.endsWith(href.replace(/^.*\//, '')))
-      link.classList.add('active');
+    if (!href || href === '#') return;
+    try {
+      const resolved = new URL(href, window.location.href).pathname;
+      if (resolved === window.location.pathname) link.classList.add('active');
+    } catch (e) { /* ignore malformed hrefs */ }
   });
 
   /* ── SCROLL NAV ────────────────────────────────────────────── */
