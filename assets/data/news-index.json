@@ -116,24 +116,24 @@
     },
     {
       "id": "2024-09-turkey-gold-sector",
-      "date": "2024-09-05",
+      "date": "2026-01-30",
       "dateDisplay": {
-        "en": "5 Sep 2024",
-        "tr": "5 Eyl 2024"
+        "en": "30 Jan 2026",
+        "tr": "30 Oca 2026"
       },
       "category": "press",
       "type": "external",
-      "thumbnail": null,
-      "source": "Bloomberg HT",
-      "sourceUrl": "#",
+      "thumbnail": "https://cdnuploads.aa.com.tr/uploads/enerjiterminali/Contents/2025/12/04/thumbs_b_c_bbb5b1c1f96af3f5b0faed5c6f9c4736.jpg?v=142835",
       "en": {
-        "title": "Turkey's Gold Mining Sector Draws New Investment as Exploration Expands",
-        "excerpt": "Bloomberg HT reports on growing investor interest in Turkish precious metals, noting the entry of new domestic operators into the exploration phase across Central Anatolia."
+        "title": "Türkiye's mining sector push strengthens global position with $3.5 trillion resource potential",
+        "excerpt": "Türkiye leveraging $3.5 trillion mineral endowment and expanding capacity to consolidate its position in global mining, as gold, boron and rare earth investments reshape outlook."
       },
       "tr": {
-        "title": "Türkiye'nin Altın Madenciliği Sektörü Keşif Genişledikçe Yeni Yatırım Çekiyor",
-        "excerpt": "Bloomberg HT, Türk değerli metal sektörüne artan yatırımcı ilgisini aktararak Orta Anadolu genelinde arama aşamasına giren yeni yerli operatörlerin sektöre girişine dikkat çekiyor."
-      }
+        "title": "Türkiye's mining sector push strengthens global position with $3.5 trillion resource potential",
+        "excerpt": "Türkiye, 3,5 trilyon dolarlık maden rezervlerini kullanarak ve kapasitesini genişleterek küresel madencilikteki konumunu sağlamlaştırıyor; altın, bor ve nadir toprak elementlerine yapılan yatırımlar ise görünümü yeniden şekillendiriyor."
+      },
+      "source": "Anadolu Ajansı",
+      "sourceUrl": "https://www.aa.com.tr/en/energy/general/turkiyes-mining-sector-push-strengthens-global-position-with-35-trillion-resource-potential/53291"
     },
     {
       "id": "2024-01-ief-sustainable-mining",
