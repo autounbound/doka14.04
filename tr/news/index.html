@@ -7,243 +7,47 @@
   <title>Haberler — DOKA Madencilik</title>
   <link rel="stylesheet" href="../../assets/css/style.css">
   <style>
-    /* ── GRID ─────────────────────────────────────────────────── */
-    .news-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      margin-top: 40px;
-    }
-
-    /* ── BASE CARD ────────────────────────────────────────────── */
-    .news-item {
-      background: var(--dark-card);
-      border: 1px solid var(--dark-border);
-      border-radius: 8px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: border-color .35s ease, transform .35s ease, box-shadow .35s ease;
-    }
-    .news-item--internal {
-      text-decoration: none;
-      color: inherit;
-      cursor: pointer;
-    }
-    .news-item--internal:hover {
-      border-color: var(--gold-border);
-      transform: translateY(-3px);
-      box-shadow: 0 20px 50px rgba(0,0,0,.4);
-    }
-    .news-item--internal:hover .news-item__title { color: var(--gold-light); }
-    .news-item--external { cursor: default; }
-
-    /* ── FEATURED CARD — override flex with grid (higher specificity) ── */
-    /*
-     * BUG FIX: .news-item--internal sets display:flex which wins over
-     * .news-item--featured's display:grid when both apply to the same
-     * element (same specificity, last declaration wins). Compound selector
-     * (0,2,0,0) beats either single class (0,1,0,0) cleanly.
-     */
-    .news-item--featured.news-item--internal,
-    .news-item--featured.news-item--external {
-      grid-column: 1 / -1;
-      display: grid !important;
-      grid-template-columns: 1fr 1fr;
-      flex-direction: unset;
-      height: 460px; /* fixed height prevents unbounded growth from tall body text */
-    }
-
-    /* ── THUMBNAIL ────────────────────────────────────────────── */
-    .news-item__thumb {
-      width: 100%;
-      height: 220px;
-      overflow: hidden;
-      background: var(--dark-surface);
-      flex-shrink: 0;
-    }
-    /* Featured: fill the fixed-height grid row */
-    .news-item--featured .news-item__thumb {
-      height: 100%;
-      min-height: unset;
-    }
-    .news-item__thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform .5s ease;
-    }
-    .news-item--internal:hover .news-item__thumb img { transform: scale(1.04); }
-    .news-item__thumb--empty {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, var(--dark-surface), var(--dark-card));
-      border-bottom: 1px solid var(--gold-border);
-    }
-    .news-item__thumb--empty svg { opacity: .1; width: 52px; }
-
-    /* ── BODY ─────────────────────────────────────────────────── */
-    .news-item__body {
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-      min-width: 0; /* prevent overflow in grid child */
-    }
-    .news-item--featured .news-item__body {
-      padding: 36px 40px;
-      justify-content: center;
-      overflow-y: auto; /* body scrolls if content overflows fixed card height */
-    }
-
-    /* ── META ─────────────────────────────────────────────────── */
-    .news-item__meta {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 12px;
-      flex-wrap: wrap;
-    }
-    .news-item__cat {
-      font-size: .6rem;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      font-weight: 500;
-      color: var(--gold);
-    }
-    .news-item__date { font-size: .72rem; color: var(--text-muted); }
-    .news-item__source {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 2px 8px;
-      background: rgba(255,255,255,.04);
-      border: 1px solid var(--dark-border);
-      border-radius: 3px;
-      font-size: .6rem;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-    }
-    .news-item__source::before {
-      content: '';
-      display: block;
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: var(--gold);
-      flex-shrink: 0;
-    }
-
-    /* ── TITLE / EXCERPT / CTA ───────────────────────────────── */
-    .news-item__title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.15rem;
-      font-weight: 600;
-      color: var(--white);
-      line-height: 1.25;
-      margin-bottom: 10px;
-      transition: color .3s ease;
-    }
-    .news-item--featured .news-item__title { font-size: 1.65rem; }
-    .news-item__excerpt {
-      font-size: .86rem;
-      color: var(--text-secondary);
-      line-height: 1.72;
-      flex: 1;
-      margin-bottom: 16px;
-    }
-    .news-item__cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      font-size: .7rem;
-      font-weight: 500;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-top: auto;
-      transition: gap .3s ease, color .3s ease;
-    }
-    .news-item--internal .news-item__cta::after { content: '→'; }
-    .news-item--external .news-item__cta {
-      text-decoration: none;
-    }
-    .news-item--external .news-item__cta::after { content: '↗'; }
-    .news-item--external .news-item__cta:hover { gap: 12px; color: var(--gold-light); }
-
-    /* ── FILTER BAR ───────────────────────────────────────────── */
-    .filter-bar {
-      display: flex;
-      gap: 8px;
-      flex-wrap: nowrap;             /* no wrap — bar scrolls on small screens */
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      padding-bottom: 6px;           /* room for scrollbar on desktop */
-      scrollbar-width: none;         /* hide scrollbar Firefox */
-    }
-    .filter-bar::-webkit-scrollbar { display: none; }
-    .filter-btn {
-      padding: 8px 18px;
-      border-radius: 4px;
-      font-size: .72rem;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      cursor: pointer;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 500;
-      transition: all .25s ease;
-      border: 1px solid var(--dark-border);
-      background: transparent;
-      color: var(--text-muted);
-      white-space: nowrap;           /* buttons never break to two lines */
-      flex-shrink: 0;
-      min-height: 40px;              /* touch target */
-    }
-    .filter-btn:hover { border-color: var(--gold-border); color: var(--text-primary); }
-    .filter-btn.active { background: var(--gold); color: var(--dark); border-color: var(--gold); }
-
-    /* ── EMPTY STATE ─────────────────────────────────────────── */
-    .news-state { text-align: center; padding: 80px 0; color: var(--text-muted); font-size: .9rem; }
-
-    /* ── RESPONSIVE: TABLET ──────────────────────────────────── */
-    @media (max-width: 1024px) {
-      .news-grid { grid-template-columns: repeat(2, 1fr); }
-      /* Featured: stack on tablet — image on top, text below */
-      .news-item--featured.news-item--internal,
-      .news-item--featured.news-item--external {
-        grid-template-columns: 1fr;
-        grid-column: 1 / -1;
-        height: auto;
-      }
-      .news-item--featured .news-item__thumb { height: 280px; }
-      .news-item--featured .news-item__title { font-size: 1.4rem; }
-      .news-item--featured .news-item__body { padding: 28px; overflow-y: unset; }
-    }
-
-    /* ── RESPONSIVE: MOBILE ──────────────────────────────────── */
-    @media (max-width: 640px) {
-      .news-grid { grid-template-columns: 1fr; gap: 14px; }
-      .news-item--featured.news-item--internal,
-      .news-item--featured.news-item--external { grid-column: auto; }
-      .news-item--featured .news-item__thumb { height: 220px; }
-      .news-item__body { padding: 16px; }
-      .news-item--featured .news-item__body { padding: 18px; }
-      .news-item__thumb { height: 180px; }
-      .filter-btn { padding: 8px 14px; font-size: .68rem; }
-    }
-
-    @media (max-width: 400px) {
-      .news-item__thumb { height: 160px; }
-      .filter-btn { padding: 7px 12px; }
-    }
+    .news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px;}
+    .news-item{background:var(--dark-card);border:1px solid var(--dark-border);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .35s ease,transform .35s ease,box-shadow .35s ease;}
+    .news-item--internal{text-decoration:none;color:inherit;cursor:pointer;}
+    .news-item--internal:hover{border-color:var(--gold-border);transform:translateY(-3px);box-shadow:0 20px 50px rgba(0,0,0,.4);}
+    .news-item--internal:hover .news-item__title{color:var(--gold-light);}
+    .news-item--external{cursor:default;}
+    .news-item--featured.news-item--internal,.news-item--featured.news-item--external{grid-column:1/-1;display:grid!important;grid-template-columns:1fr 1fr;flex-direction:unset;height:460px;}
+    .news-item__thumb{width:100%;height:220px;overflow:hidden;background:var(--dark-surface);flex-shrink:0;}
+    .news-item--featured .news-item__thumb{height:100%;min-height:unset;}
+    .news-item__thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;}
+    .news-item--internal:hover .news-item__thumb img{transform:scale(1.04);}
+    .news-item__thumb--empty{display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--dark-surface),var(--dark-card));border-bottom:1px solid var(--gold-border);}
+    .news-item__thumb--empty svg{opacity:.1;width:52px;}
+    .news-item__body{padding:24px;display:flex;flex-direction:column;flex:1;min-width:0;}
+    .news-item--featured .news-item__body{padding:36px 40px;justify-content:center;overflow-y:auto;}
+    .news-item__meta{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+    .news-item__tag{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;font-weight:500;color:var(--gold);}
+    .news-item__sep{color:var(--text-muted);font-size:.7rem;}
+    .news-item__date{font-size:.72rem;color:var(--text-muted);}
+    .news-item__source{display:inline-flex;align-items:center;gap:5px;padding:2px 8px;background:rgba(255,255,255,.04);border:1px solid var(--dark-border);border-radius:3px;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-secondary);}
+    .news-item__source::before{content:'';display:block;width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0;}
+    .news-item__title{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600;color:var(--white);line-height:1.25;margin-bottom:10px;transition:color .3s ease;}
+    .news-item--featured .news-item__title{font-size:1.65rem;}
+    .news-item__excerpt{font-size:.86rem;color:var(--text-secondary);line-height:1.72;flex:1;margin-bottom:16px;}
+    .news-item__cta{display:inline-flex;align-items:center;gap:7px;font-size:.7rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-top:auto;transition:gap .3s ease,color .3s ease;}
+    .news-item--internal .news-item__cta::after{content:'→';}
+    .news-item--external .news-item__cta{text-decoration:none;}
+    .news-item--external .news-item__cta::after{content:'↗';}
+    .news-item--external .news-item__cta:hover{gap:12px;color:var(--gold-light);}
+    .filter-bar{display:flex;gap:8px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px;scrollbar-width:none;}
+    .filter-bar::-webkit-scrollbar{display:none;}
+    .filter-btn{padding:8px 18px;border-radius:4px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;transition:all .25s ease;border:1px solid var(--dark-border);background:transparent;color:var(--text-muted);white-space:nowrap;flex-shrink:0;min-height:44px;}
+    .filter-btn:hover{border-color:var(--gold-border);color:var(--text-primary);}
+    .filter-btn.active{background:var(--gold);color:var(--dark);border-color:var(--gold);}
+    .news-state{text-align:center;padding:80px 0;color:var(--text-muted);font-size:.9rem;}
+    @media(max-width:1024px){.news-grid{grid-template-columns:repeat(2,1fr);}.news-item--featured.news-item--internal,.news-item--featured.news-item--external{grid-template-columns:1fr;height:auto;}.news-item--featured .news-item__thumb{height:280px;}.news-item--featured .news-item__title{font-size:1.4rem;}.news-item--featured .news-item__body{padding:28px;overflow-y:unset;}}
+    @media(max-width:640px){.news-grid{grid-template-columns:1fr;gap:14px;}.news-item--featured.news-item--internal,.news-item--featured.news-item--external{grid-column:auto;height:auto;}.news-item--featured .news-item__thumb{height:220px;}.news-item__body{padding:16px;}.news-item--featured .news-item__body{padding:18px;}.news-item__thumb{height:180px;}.filter-btn{padding:8px 14px;font-size:.68rem;}}
   </style>
 </head>
 <body>
-
 <div id="nav-placeholder"></div>
-
 <section class="page-hero">
   <div class="container">
     <div class="page-hero__breadcrumb">
@@ -253,26 +57,15 @@
     <p class="page-hero__sub">DOKA Madencilik'ten kurumsal duyurular, arama güncellemeleri ve medya bültenleri.</p>
   </div>
 </section>
-
 <section class="section section--dark">
   <div class="container">
-
-    <div class="filter-bar reveal" id="filterBar">
-      <button class="filter-btn active" data-cat="all">Tümü</button>
-      <button class="filter-btn" data-cat="corporate">Kurumsal</button>
-      <button class="filter-btn" data-cat="exploration">Arama</button>
-      <button class="filter-btn" data-cat="sustainability">Sürdürülebilirlik</button>
-      <button class="filter-btn" data-cat="community">Toplum</button>
-      <button class="filter-btn" data-cat="press">Basında</button>
-    </div>
-
+    <div class="filter-bar reveal" id="filterBar"></div>
     <div id="newsGrid" class="news-grid">
       <div class="news-state">Haberler yükleniyor&hellip;</div>
     </div>
-
     <div style="margin-top:72px;padding:36px 40px;border:1px solid var(--gold-border);border-radius:8px;background:var(--gold-pale);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px;" class="reveal">
       <div>
-        <span class="section-eyebrow">Medya Sorgulamaları</span>
+        <span class="section-eyebrow">Medya Sorgulama</span>
         <h3 style="font-size:1.4rem;">Basın İletişim</h3>
         <p style="color:var(--text-secondary);margin-top:8px;font-size:.9rem;">Tüm medya sorguları, röportaj talepleri veya basın materyalleri için DOKA iletişim ekibiyle iletişime geçin.</p>
       </div>
@@ -281,115 +74,55 @@
         <div style="margin-top:8px;"><a href="../../contact.html" class="btn btn--gold btn--sm">İletişime Geç</a></div>
       </div>
     </div>
-
   </div>
 </section>
-
 <div id="footer-placeholder"></div>
-<script>const ROOT_PATH = '../../'; const LANG = 'tr'; const LANG_EQUIV = 'news/index.html';</script>
+<script>const ROOT_PATH='../../'; const LANG='tr'; const LANG_EQUIV='news/index.html';</script>
 <script src="../../assets/js/main.js"></script>
 <script>
 (function(){
   'use strict';
-  const ROOT = '../../';
-  const LANG = 'tr';
-  const CAT  = {
-    corporate:'Kurumsal', exploration:'Arama',
-    sustainability:'Sürdürülebilirlik', community:'Toplum', press:'Basın'
-  };
-  let articles = [];
-
-  function thumbSrc(a) {
-    const t = a.thumbnail || '';
-    if (!t) return '';
-    return t.startsWith('http') ? t : ROOT + t;
+  const ROOT='../../', LANG='tr', ART='tr/news/articles/';
+  let articles=[];
+  function tags(a){return a.tags||[a.category]||['corporate'];}
+  function tSrc(a){const t=a.thumbnail||'';return t?(t.startsWith('http')?t:ROOT+t):''}
+  function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
+  function buildCard(a,featured){
+    const t=a[LANG],ext=a.type==='external';
+    const src=tSrc(a);
+    const tgs=tags(a);
+    const tagHTML=tgs.map((tg,i)=>(i>0?'<span class="news-item__sep">&middot;</span>':'')+`<span class="news-item__tag">${cap(tg)}</span>`).join('');
+    const thumb=src?`<div class="news-item__thumb"><img src="${src}" alt="${t.title}" loading="lazy"></div>`:`<div class="news-item__thumb news-item__thumb--empty"><svg viewBox="0 0 48 48" fill="none" stroke="var(--gold)" stroke-width="1.2"><rect x="6" y="10" width="36" height="28" rx="2"/><path d="M6 32l10-10 8 8 6-6 12 12"/><circle cx="32" cy="20" r="4"/></svg></div>`;
+    const src2=ext?`<span class="news-item__source">${a.source}</span>`:'';
+    const cta=ext?`<a href="${a.sourceUrl}" target="_blank" rel="noopener noreferrer" class="news-item__cta">Kaynakta Oku ${a.source}</a>`:`<span class="news-item__cta">Makaleyi Oku</span>`;
+    const href=ext?a.sourceUrl:`${ROOT}${ART}${a.id}.html`;
+    const tag2=ext?'div':'a';
+    const cls=['news-item',featured?'news-item--featured':'',ext?'news-item--external':'news-item--internal','reveal'].filter(Boolean).join(' ');
+    return`<${tag2} class="${cls}"${ext?'':` href="${href}"`}>${thumb}<div class="news-item__body"><div class="news-item__meta">${tagHTML}<span class="news-item__date">${a.dateDisplay[LANG]}</span>${src2}</div><h2 class="news-item__title">${t.title}</h2><p class="news-item__excerpt">${t.excerpt}</p>${cta}</div></${tag2}>`;
   }
-
-  function buildCard(a, featured) {
-    const t = a[LANG], ext = a.type === 'external';
-    const src = thumbSrc(a);
-
-    const thumbHTML = src
-      ? `<div class="news-item__thumb"><img src="${src}" alt="${t.title}" loading="lazy"></div>`
-      : `<div class="news-item__thumb news-item__thumb--empty">
-           <svg viewBox="0 0 48 48" fill="none" stroke="var(--gold)" stroke-width="1.2">
-             <rect x="6" y="10" width="36" height="28" rx="2"/>
-             <path d="M6 32l10-10 8 8 6-6 12 12"/><circle cx="32" cy="20" r="4"/>
-           </svg>
-         </div>`;
-
-    const source  = ext ? `<span class="news-item__source">${a.source}</span>` : '';
-    const cta     = ext
-      ? `<a href="${a.sourceUrl}" target="_blank" rel="noopener noreferrer" class="news-item__cta">Read on ${a.source}</a>`
-      : `<span class="news-item__cta">Makaleyi Oku</span>`;
-
-    const href = ext ? a.sourceUrl : `${ROOT}tr/news/articles/${a.id}.html`;
-    const tag  = ext ? 'div' : 'a';
-    const cls  = [
-      'news-item',
-      featured ? 'news-item--featured' : '',
-      ext ? 'news-item--external' : 'news-item--internal',
-      'reveal'
-    ].filter(Boolean).join(' ');
-
-    const linkAttr = ext ? '' : ` href="${href}"`;
-    const extAttr  = ext ? ` onclick="window.open('${a.sourceUrl}','_blank')"` : '';
-
-    return `<${tag} class="${cls}"${linkAttr}${extAttr}>
-      ${thumbHTML}
-      <div class="news-item__body">
-        <div class="news-item__meta">
-          <span class="news-item__cat">${CAT[a.category] || a.category}</span>
-          <span class="news-item__date">${a.dateDisplay[LANG]}</span>
-          ${source}
-        </div>
-        <h2 class="news-item__title">${t.title}</h2>
-        <p class="news-item__excerpt">${t.excerpt}</p>
-        ${cta}
-      </div>
-    </${tag}>`;
+  function filterBar(active){
+    const bar=document.getElementById('filterBar');
+    const allT=[...new Set(articles.flatMap(a=>tags(a)))].sort();
+    bar.innerHTML=`<button class="filter-btn${active==='all'?' active':''}" data-cat="all">Tümü</button>`+allT.map(t=>`<button class="filter-btn${active===t?' active':''}" data-cat="${t}">${cap(t)}</button>`).join('');
   }
-
-  function render(cat) {
-    const grid = document.getElementById('newsGrid');
-    const list = cat === 'all' ? articles : articles.filter(a => a.category === cat);
-    if (!list.length) {
-      grid.innerHTML = '<div class="news-state">Bu kategoride henüz haber bulunmamaktadır.</div>';
-      return;
-    }
-    grid.innerHTML = list.map((a, i) => buildCard(a, i === 0 && cat === 'all')).join('');
-
-    if (typeof IntersectionObserver !== 'undefined') {
-      const obs = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-          if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
-        });
-      }, { threshold: 0.06 });
-      grid.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-    } else {
-      grid.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
-    }
+  function render(cat){
+    const grid=document.getElementById('newsGrid');
+    const list=cat==='all'?articles:articles.filter(a=>tags(a).includes(cat));
+    if(!list.length){grid.innerHTML='<div class="news-state">Bu kategoride henüz haber bulunmamaktadır.</div>';return;}
+    grid.innerHTML=list.map((a,i)=>buildCard(a,i===0&&cat==='all')).join('');
+    if(typeof IntersectionObserver!=='undefined'){
+      const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}}),{threshold:0.06});
+      grid.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+    }else grid.querySelectorAll('.reveal').forEach(el=>el.classList.add('visible'));
   }
-
-  document.getElementById('filterBar').addEventListener('click', function(e) {
-    const btn = e.target.closest('.filter-btn');
-    if (!btn) return;
-    this.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    render(btn.dataset.cat);
+  document.getElementById('filterBar').addEventListener('click',function(e){
+    const btn=e.target.closest('.filter-btn');if(!btn)return;
+    filterBar(btn.dataset.cat);render(btn.dataset.cat);
   });
-
-  fetch(ROOT + 'assets/data/news-index.json')
-    .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-    .then(data => {
-      articles = (data.articles || []).sort((a, b) => b.date.localeCompare(a.date));
-      render('all');
-    })
-    .catch(err => {
-      console.error('Newsroom fetch error:', err);
-      document.getElementById('newsGrid').innerHTML =
-        '<div class="news-state">Haberler yüklenirken sorun oluştu.</div>';
-    });
+  fetch(ROOT+'assets/data/news-index.json')
+    .then(r=>{if(!r.ok)throw new Error();return r.json();})
+    .then(data=>{articles=(data.articles||[]).sort((a,b)=>b.date.localeCompare(a.date));filterBar('all');render('all');})
+    .catch(()=>{document.getElementById('newsGrid').innerHTML='<div class="news-state">Haberler yüklenirken sorun oluştu.</div>';});
 }());
 </script>
 </body>

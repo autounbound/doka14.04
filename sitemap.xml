@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- Home -->
+  <url>
+    <loc>https://dokamining.com/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dokamining.com/index.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://dokamining.com/tr/index.html"/>
+    <changefreq>weekly</changefreq><priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://dokamining.com/tr/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dokamining.com/index.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://dokamining.com/tr/index.html"/>
+    <changefreq>weekly</changefreq><priority>1.0</priority>
+  </url>
+
+  <!-- About -->
+  <url><loc>https://dokamining.com/about/overview.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://dokamining.com/tr/about/overview.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://dokamining.com/about/vision.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://dokamining.com/tr/about/vision.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://dokamining.com/about/social-responsibility.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://dokamining.com/tr/about/social-responsibility.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- Sustainability -->
+  <url><loc>https://dokamining.com/sustainability.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://dokamining.com/tr/sustainability.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+  <!-- Portfolio -->
+  <url><loc>https://dokamining.com/portfolio/index.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://dokamining.com/tr/portfolio/index.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://dokamining.com/portfolio/kirsehir.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://dokamining.com/tr/portfolio/kirsehir.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://dokamining.com/portfolio/bayburt.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://dokamining.com/tr/portfolio/bayburt.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://dokamining.com/portfolio/yozgat.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://dokamining.com/tr/portfolio/yozgat.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- Investor Relations -->
+  <url><loc>https://dokamining.com/investor-relations.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://dokamining.com/tr/investor-relations.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+  <!-- Newsroom -->
+  <url><loc>https://dokamining.com/news/index.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://dokamining.com/tr/news/index.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+
+  <!-- News Articles -->
+  <url><loc>https://dokamining.com/news/articles/2025-03-environmental-framework.html</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://dokamining.com/news/articles/2025-02-turkey-precious-metals.html</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://dokamining.com/news/articles/2025-01-kirsehir-survey.html</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://dokamining.com/news/articles/2024-12-bayburt-environmental.html</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://dokamining.com/news/articles/2024-11-yozgat-employment.html</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://dokamining.com/news/articles/2024-10-company-established.html</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+
+  <!-- Contact -->
+  <url><loc>https://dokamining.com/contact.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://dokamining.com/tr/contact.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+</urlset>

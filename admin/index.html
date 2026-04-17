@@ -30,18 +30,12 @@
     input,select,textarea{width:100%;padding:8px 12px;background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);color:var(--wh);font-family:inherit;font-size:.83rem;transition:border-color var(--tr);outline:none;resize:vertical;}
     input:focus,select:focus,textarea:focus{border-color:var(--gb);background:var(--surf);}
     textarea{min-height:80px;}
-    textarea.code{min-height:190px;font-family:'Courier New',monospace;font-size:.76rem;line-height:1.55;}
+    textarea.code{min-height:200px;font-family:'Courier New',monospace;font-size:.76rem;line-height:1.55;border-radius:0 0 var(--r) var(--r)!important;}
     .fr{margin-bottom:14px;}
     .fg2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
     .fg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
     .hint{font-size:.65rem;color:var(--mt);margin-top:4px;line-height:1.5;}
     .hint code{background:var(--card);padding:1px 4px;border-radius:3px;color:var(--gold);}
-    /* Content formatting toolbar */
-    .toolbar{display:flex;gap:4px;padding:6px 8px;background:var(--dark);border:1px solid var(--bdr);border-radius:var(--r) var(--r) 0 0;border-bottom:none;flex-wrap:wrap;}
-    .tb{padding:4px 10px;background:var(--card);border:1px solid var(--bdr);border-radius:3px;color:var(--sc);font-size:.72rem;cursor:pointer;font-family:inherit;transition:all var(--tr);line-height:1.4;}
-    .tb:hover{background:var(--surf);color:var(--wh);border-color:rgba(255,255,255,.15);}
-    .tb-sep{width:1px;background:var(--bdr);margin:2px 2px;}
-    textarea.code{border-radius:0 0 var(--r) var(--r) !important;}
     .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:var(--r);border:none;cursor:pointer;font-family:inherit;font-size:.76rem;font-weight:600;letter-spacing:.04em;transition:all var(--tr);}
     .bg{background:var(--gold);color:var(--dark);}.bg:hover{background:var(--gl);}
     .bo{background:transparent;color:var(--gold);border:1px solid var(--gb);}.bo:hover{background:var(--gp);}
@@ -69,12 +63,30 @@
     .ar-t{font-size:.86rem;color:var(--wh);}
     .ar-d{font-size:.68rem;color:var(--mt);margin-top:2px;}
     .ar-a{display:flex;gap:5px;flex-shrink:0;}
-    .bx{display:inline-block;padding:1px 6px;border-radius:3px;font-size:.56rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-left:5px;}
+    .bx{display:inline-block;padding:1px 6px;border-radius:3px;font-size:.56rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-left:4px;}
     .bi{background:var(--grp);color:var(--grl);}.be{background:var(--gp);color:var(--gold);}
     .spin{display:inline-block;width:12px;height:12px;border:2px solid rgba(255,255,255,.2);border-top-color:var(--wh);border-radius:50%;animation:sp .7s linear infinite;}
     @keyframes sp{to{transform:rotate(360deg);}}
     hr{border:none;border-top:1px solid var(--bdr);margin:18px 0;}
     .empty{color:var(--mt);padding:40px 0;text-align:center;font-size:.83rem;}
+    /* Tag input */
+    .tag-wrap{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:8px 10px;transition:border-color var(--tr);}
+    .tag-wrap:focus-within{border-color:var(--gb);}
+    .tag-chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px;}
+    .tag-chips:empty{margin-bottom:0;}
+    .chip{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;background:var(--gp);border:1px solid var(--gb);border-radius:20px;font-size:.7rem;color:var(--gl);}
+    .chip-x{background:none;border:none;cursor:pointer;color:var(--gl);font-size:.9rem;padding:0;line-height:1;opacity:.7;}
+    .chip-x:hover{opacity:1;}
+    .tag-input{background:none;border:none;padding:2px 0;color:var(--wh);font-family:inherit;font-size:.83rem;outline:none;width:100%;min-width:160px;}
+    .tag-sug{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;padding-top:8px;border-top:1px solid var(--bdr);}
+    .tag-sug span{font-size:.62rem;color:var(--mt);align-self:center;white-space:nowrap;}
+    .sug-btn{padding:3px 10px;border-radius:20px;border:1px solid var(--bdr);background:transparent;color:var(--sc);font-size:.68rem;cursor:pointer;font-family:inherit;transition:all var(--tr);}
+    .sug-btn:hover{border-color:var(--gb);color:var(--gl);}
+    /* Toolbar */
+    .toolbar{display:flex;gap:4px;padding:6px 8px;background:var(--dark);border:1px solid var(--bdr);border-radius:var(--r) var(--r) 0 0;border-bottom:none;flex-wrap:wrap;}
+    .tb{padding:4px 10px;background:var(--card);border:1px solid var(--bdr);border-radius:3px;color:var(--sc);font-size:.72rem;cursor:pointer;font-family:inherit;transition:all var(--tr);line-height:1.4;}
+    .tb:hover{background:var(--surf);color:var(--wh);border-color:rgba(255,255,255,.15);}
+    .tb-sep{width:1px;background:var(--bdr);margin:2px 2px;}
     @media(max-width:768px){.app{grid-template-columns:1fr;}.sb{position:static;height:auto;}.main{padding:18px 12px;}.fg2,.fg3{grid-template-columns:1fr;}}
   </style>
 </head>
@@ -87,36 +99,51 @@
     <button class="nb" onclick="show('list');loadList()">&#9776; Manage Articles</button>
     <span class="ns">Configuration</span>
     <button class="nb" onclick="show('settings')">&#9881; Settings</button>
-    <div class="sn">Commits directly to GitHub. Your host auto-deploys on each commit — articles go live in ~30 seconds.</div>
+    <div class="sn">Commits to GitHub. Host auto-deploys — live in ~30&nbsp;seconds.</div>
   </aside>
   <main class="main">
 
+    <!-- ADD / EDIT -->
     <div id="v-add">
       <div class="pt">Add Article</div>
-      <div class="ps">Complete the form and click Publish. Creates real HTML pages for SEO + updates the news index.</div>
+      <div class="ps">Complete the form and click Publish. Creates real HTML pages for full SEO.</div>
       <div id="al-add" class="al"></div>
+
       <div class="card">
-        <div class="ch"><div><h3>Type</h3><p>Internal = full article on DOKA site | External = reference card that links to another outlet</p></div></div>
+        <div class="ch"><div><h3>Type</h3><p>Internal = full article on DOKA site &nbsp;|&nbsp; External = card linking to another outlet</p></div></div>
         <div class="ttog">
           <button class="topt on" id="tI" onclick="setType('internal')">&#9679; Internal Article</button>
           <button class="topt" id="tE" onclick="setType('external')">&#8599; External Link</button>
         </div>
       </div>
+
       <div class="card">
         <div class="ch"><div><h3>Article Info</h3></div></div>
         <div class="fg3">
           <div class="fr"><label>Date <em>*</em></label><input type="date" id="f-date"></div>
-          <div class="fr"><label>Category <em>*</em></label>
-            <select id="f-cat">
-              <option value="corporate">Corporate</option>
-              <option value="exploration">Exploration</option>
-              <option value="sustainability">Sustainability</option>
-              <option value="community">Community</option>
-              <option value="press">Press</option>
-            </select>
+          <div class="fr">
+            <label>Tags <em>*</em></label>
+            <div class="tag-wrap">
+              <div id="tagChips" class="tag-chips"></div>
+              <input class="tag-input" id="tagInput" placeholder="Type tag + Enter…" autocomplete="off">
+              <div class="tag-sug">
+                <span>Quick:</span>
+                <button type="button" class="sug-btn" onclick="addTag('corporate')">corporate</button>
+                <button type="button" class="sug-btn" onclick="addTag('exploration')">exploration</button>
+                <button type="button" class="sug-btn" onclick="addTag('sustainability')">sustainability</button>
+                <button type="button" class="sug-btn" onclick="addTag('community')">community</button>
+                <button type="button" class="sug-btn" onclick="addTag('environment')">environment</button>
+                <button type="button" class="sug-btn" onclick="addTag('press')">press</button>
+                <button type="button" class="sug-btn" onclick="addTag('geology')">geology</button>
+                <button type="button" class="sug-btn" onclick="addTag('investment')">investment</button>
+              </div>
+            </div>
+            <div class="hint">First tag = primary category. Add any custom tag by typing and pressing Enter.</div>
           </div>
-          <div class="fr"><label>Thumbnail</label><input type="text" id="f-thumb" placeholder="assets/images/… or https://…">
-            <div class="hint">Relative path from site root, or full URL for external images (e.g. from IEF, Reuters).</div>
+          <div class="fr">
+            <label>Thumbnail</label>
+            <input type="text" id="f-thumb" placeholder="assets/images/… or https://…">
+            <div class="hint">Relative path from site root or full URL.</div>
           </div>
         </div>
         <div id="extF" style="display:none;"><hr>
@@ -126,46 +153,56 @@
           </div>
         </div>
       </div>
+
       <div class="card">
-        <div class="ch"><div><h3>Content</h3><p>Both languages required for all article types.</p></div></div>
+        <div class="ch"><div><h3>Content</h3><p>Both languages required.</p></div></div>
         <div class="ltabs">
           <button class="ltab on" onclick="swLang('en',this)">English</button>
           <button class="ltab" onclick="swLang('tr',this)">Türkçe</button>
         </div>
+
         <div class="lp on" id="lp-en">
           <div class="fr"><label>Title (EN) <em>*</em></label><input type="text" id="f-en-t" placeholder="Article title in English"></div>
-          <div class="fr"><label>Excerpt (EN) <em>*</em></label><textarea id="f-en-x" placeholder="1-3 sentence summary shown on the card. Plain text only."></textarea></div>
-          <div class="fr int-only"><label>Full Content (EN)</label>
-            <div class="toolbar" id="tb-en">
-            <button type="button" class="tb" onclick="fmt('f-en-c','bold')" title="Bold"><strong>B</strong></button>
-            <button type="button" class="tb" onclick="fmt('f-en-c','italic')" title="Italic"><em>I</em></button>
-            <button type="button" class="tb" onclick="fmt('f-en-c','link')" title="Insert Link">&#128279;</button>
-            <div class="tb-sep"></div>
-            <button type="button" class="tb" onclick="fmt('f-en-c','h3')" title="Subheading">H3</button>
-            <button type="button" class="tb" onclick="fmt('f-en-c','img')" title="Insert Image">&#128444; Image</button>
-            <button type="button" class="tb" onclick="fmt('f-en-c','figure')" title="Image with Caption">&#128444; + Caption</button>
-          </div>
-          <textarea class="code" id="f-en-c" placeholder="HTML article body. Wrap paragraphs in &lt;p&gt; tags.&#10;Subheading: &lt;h3 style='font-family:Cormorant Garamond,serif;font-size:1.35rem;color:var(--white);margin:32px 0 12px;'&gt;Heading&lt;/h3&gt;"></textarea>
-            <div class="hint">Use <code>&lt;p&gt;</code> for paragraphs, <code>&lt;strong&gt;</code> for bold, <code>&lt;a href="..."&gt;</code> for links.</div>
+          <div class="fr"><label>Excerpt (EN) <em>*</em></label><textarea id="f-en-x" placeholder="1–3 sentence summary shown on the card. Plain text only."></textarea></div>
+          <div class="fr int-only">
+            <label>Full Content (EN)</label>
+            <div class="toolbar">
+              <button type="button" class="tb" onclick="fmt('f-en-c','bold')" title="Bold"><strong>B</strong></button>
+              <button type="button" class="tb" onclick="fmt('f-en-c','italic')" title="Italic"><em>I</em></button>
+              <button type="button" class="tb" onclick="fmt('f-en-c','link')" title="Link">&#128279;</button>
+              <div class="tb-sep"></div>
+              <button type="button" class="tb" onclick="fmt('f-en-c','h3')" title="Subheading">H3</button>
+              <button type="button" class="tb" onclick="fmt('f-en-c','p')" title="Paragraph">P</button>
+              <div class="tb-sep"></div>
+              <button type="button" class="tb" onclick="fmt('f-en-c','img')" title="Image">&#128444; Img</button>
+              <button type="button" class="tb" onclick="fmt('f-en-c','figure')" title="Image + Caption">&#128444; + Caption</button>
+            </div>
+            <textarea class="code" id="f-en-c" placeholder="HTML article body.&#10;Use &lt;p&gt; for paragraphs. Toolbar buttons insert the right markup at the cursor."></textarea>
+            <div class="hint">Use <code>&lt;p&gt;</code> paragraphs, <code>&lt;strong&gt;</code> bold, <code>&lt;a href=&quot;…&quot;&gt;</code> links.</div>
           </div>
         </div>
+
         <div class="lp" id="lp-tr">
-          <div class="fr"><label>Baslik (TR) <em>*</em></label><input type="text" id="f-tr-t" placeholder="Makale basli Turkce"></div>
-          <div class="fr"><label>Ozet (TR) <em>*</em></label><textarea id="f-tr-x" placeholder="Kartta gorunen 1-3 cumlelik ozet. Yalnizca duz metin."></textarea></div>
-          <div class="fr int-only"><label>Icerik (TR)</label>
-            <div class="toolbar" id="tb-tr">
-            <button type="button" class="tb" onclick="fmt('f-tr-c','bold')" title="Kalın"><strong>B</strong></button>
-            <button type="button" class="tb" onclick="fmt('f-tr-c','italic')" title="İtalik"><em>I</em></button>
-            <button type="button" class="tb" onclick="fmt('f-tr-c','link')" title="Bağlantı ekle">&#128279;</button>
-            <div class="tb-sep"></div>
-            <button type="button" class="tb" onclick="fmt('f-tr-c','h3')" title="Alt Başlık">H3</button>
-            <button type="button" class="tb" onclick="fmt('f-tr-c','img')" title="Resim ekle">&#128444; Resim</button>
-            <button type="button" class="tb" onclick="fmt('f-tr-c','figure')" title="Resim + Altyazı">&#128444; + Altyazı</button>
-          </div>
-          <textarea class="code" id="f-tr-c" placeholder="HTML makale icerigi. Paragraflari &lt;p&gt; etiketi icine alin."></textarea>
+          <div class="fr"><label>Başlık (TR) <em>*</em></label><input type="text" id="f-tr-t" placeholder="Makale başlığı Türkçe"></div>
+          <div class="fr"><label>Özet (TR) <em>*</em></label><textarea id="f-tr-x" placeholder="Kartta görünen 1–3 cümlelik özet. Yalnızca düz metin."></textarea></div>
+          <div class="fr int-only">
+            <label>İçerik (TR)</label>
+            <div class="toolbar">
+              <button type="button" class="tb" onclick="fmt('f-tr-c','bold')" title="Kalın"><strong>B</strong></button>
+              <button type="button" class="tb" onclick="fmt('f-tr-c','italic')" title="İtalik"><em>I</em></button>
+              <button type="button" class="tb" onclick="fmt('f-tr-c','link')" title="Bağlantı">&#128279;</button>
+              <div class="tb-sep"></div>
+              <button type="button" class="tb" onclick="fmt('f-tr-c','h3')" title="Alt Başlık">H3</button>
+              <button type="button" class="tb" onclick="fmt('f-tr-c','p')" title="Paragraf">P</button>
+              <div class="tb-sep"></div>
+              <button type="button" class="tb" onclick="fmt('f-tr-c','img')" title="Resim">&#128444; Resim</button>
+              <button type="button" class="tb" onclick="fmt('f-tr-c','figure')" title="Resim + Altyazı">&#128444; + Altyazı</button>
+            </div>
+            <textarea class="code" id="f-tr-c" placeholder="HTML makale içeriği.&#10;&lt;p&gt; etiketleri kullanın. Araç çubuğu doğru kodu imlecin bulunduğu yere ekler."></textarea>
           </div>
         </div>
       </div>
+
       <div class="brow">
         <button class="btn bg" id="pubBtn" onclick="publish()">
           <span id="pubLbl">Publish Article</span>
@@ -175,25 +212,26 @@
       </div>
     </div>
 
+    <!-- LIST -->
     <div id="v-list" style="display:none;">
       <div class="pt">Manage Articles</div>
-      <div class="ps">All articles in news-index.json. Edit updates the HTML files. Delete removes HTML files and the index entry.</div>
+      <div class="ps">Edit re-fills the form with all existing content. Delete removes HTML files + index entry.</div>
       <div id="al-list" class="al"></div>
       <div class="brow" style="margin-bottom:16px;"><button class="btn bo bsm" onclick="loadList()">&#8635; Refresh</button></div>
-      <div id="listWrap"><div class="empty">Loading...</div></div>
+      <div id="listWrap"><div class="empty">Loading…</div></div>
     </div>
 
+    <!-- SETTINGS -->
     <div id="v-settings" style="display:none;">
       <div class="pt">Settings</div>
-      <div class="ps">GitHub token stored in sessionStorage only - cleared when you close this tab. Never sent anywhere except the GitHub API.</div>
+      <div class="ps">Token stored in sessionStorage only — cleared when you close this tab.</div>
       <div class="al ainf on" style="margin-bottom:18px;">
-        <strong>Creating a token (one-time):</strong><br>
-        GitHub &rarr; Settings &rarr; Developer settings &rarr; Personal access tokens &rarr; Fine-grained tokens &rarr; Generate.<br>
+        <strong>One-time setup:</strong> GitHub &rarr; Profile &rarr; Settings &rarr; Developer settings &rarr; Personal access tokens &rarr; Fine-grained tokens &rarr; Generate new token.<br>
         Repository access: <strong>autounbound / doka14.04</strong> only. Permissions: <strong>Contents &rarr; Read and Write</strong>.
       </div>
       <div class="card">
         <div class="ch"><div><h3>GitHub Token</h3></div></div>
-        <div class="fr"><label>Personal Access Token <em>*</em></label><input type="password" id="s-tok" placeholder="github_pat_..."></div>
+        <div class="fr"><label>Personal Access Token <em>*</em></label><input type="password" id="s-tok" placeholder="github_pat_…"></div>
       </div>
       <div class="card">
         <div class="ch"><div><h3>Repository</h3></div></div>
@@ -217,21 +255,103 @@
 <script>
 (function(){
 'use strict';
+
+/* ── CONFIG ─────────────────────────────────────────────── */
 function cfg(){return{tok:sessionStorage.getItem('doka_tok')||'',owner:localStorage.getItem('doka_own')||'autounbound',repo:localStorage.getItem('doka_rep')||'doka14.04',branch:localStorage.getItem('doka_br')||'main',idx:localStorage.getItem('doka_idx')||'assets/data/news-index.json'};}
+
+/* ── BASE64 ──────────────────────────────────────────────── */
 const enc=str=>{const b=new TextEncoder().encode(str);let s='';b.forEach(x=>s+=String.fromCharCode(x));return btoa(s);};
 const dec=b64=>{const bin=atob(b64.replace(/\n/g,''));const b=new Uint8Array([...bin].map(c=>c.charCodeAt(0)));return new TextDecoder().decode(b);};
+
+/* ── GITHUB API ──────────────────────────────────────────── */
 const GH='https://api.github.com';
 function hdrs(){return{'Authorization':'token '+cfg().tok,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'};}
-async function getFile(path){const c=cfg(),url=`${GH}/repos/${c.owner}/${c.repo}/contents/${path}?ref=${c.branch}`;const r=await fetch(url,{headers:hdrs()});if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.message||'HTTP '+r.status);}const d=await r.json();return{sha:d.sha,content:dec(d.content),json:JSON.parse(dec(d.content))};}
-async function putFile(path,content,sha,msg){const c=cfg(),url=`${GH}/repos/${c.owner}/${c.repo}/contents/${path}`;const body={message:msg,content:enc(content),branch:c.branch};if(sha)body.sha=sha;const r=await fetch(url,{method:'PUT',headers:hdrs(),body:JSON.stringify(body)});if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.message||'HTTP '+r.status);}return r.json();}
-async function delFile(path,sha,msg){const c=cfg(),url=`${GH}/repos/${c.owner}/${c.repo}/contents/${path}`;const r=await fetch(url,{method:'DELETE',headers:hdrs(),body:JSON.stringify({message:msg,sha,branch:c.branch})});if(!r.ok&&r.status!==404){const e=await r.json().catch(()=>({}));throw new Error(e.message||'HTTP '+r.status);}}
-async function getSha(path){try{const d=await getFile(path);return d.sha;}catch(e){if(e.message.includes('404')||e.message.includes('Not Found'))return null;throw e;}}
+
+async function getFile(path){
+  const c=cfg(),url=`${GH}/repos/${c.owner}/${c.repo}/contents/${path}?ref=${c.branch}`;
+  const r=await fetch(url,{headers:hdrs()});
+  if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.message||'HTTP '+r.status);}
+  const d=await r.json();
+  const text=dec(d.content);
+  /* FIX: JSON.parse only attempted; HTML files return json=null without throwing */
+  let json=null;try{json=JSON.parse(text);}catch(e){}
+  return{sha:d.sha,content:text,json};
+}
+
+async function putFile(path,content,sha,msg){
+  const c=cfg(),url=`${GH}/repos/${c.owner}/${c.repo}/contents/${path}`;
+  const body={message:msg,content:enc(content),branch:c.branch};
+  if(sha)body.sha=sha;
+  const r=await fetch(url,{method:'PUT',headers:hdrs(),body:JSON.stringify(body)});
+  if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.message||'HTTP '+r.status);}
+  return r.json();
+}
+
+async function delFile(path,sha,msg){
+  const c=cfg(),url=`${GH}/repos/${c.owner}/${c.repo}/contents/${path}`;
+  const r=await fetch(url,{method:'DELETE',headers:hdrs(),body:JSON.stringify({message:msg,sha,branch:c.branch})});
+  if(!r.ok&&r.status!==404){const e=await r.json().catch(()=>({}));throw new Error(e.message||'HTTP '+r.status);}
+}
+
+async function getSha(path){
+  try{const d=await getFile(path);return d.sha;}
+  catch(e){if(e.message.includes('404')||e.message.includes('Not Found'))return null;throw e;}
+}
+
+/* ── DATES ───────────────────────────────────────────────── */
 const MEN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MTR=['Oca','\u015eub','Mar','Nis','May','Haz','Tem','A\u011fu','Eyl','Eki','Kas','Ara'];
-function fmtDate(iso,lang){const d=new Date(iso+'T12:00:00');const m=lang==='tr'?MTR[d.getMonth()]:MEN[d.getMonth()];return `${d.getDate()} ${m} ${d.getFullYear()}`;}
-function makeSlug(title,date){const s=title.toLowerCase().replace(/[\u00e7\u00c7]/g,'c').replace(/[\u015f\u015e]/g,'s').replace(/[\u011f\u011e]/g,'g').replace(/[\u00fc\u00dc]/g,'u').replace(/[\u00f6\u00d6]/g,'o').replace(/[\u0131\u0130i]/g,'i').replace(/[^a-z0-9\s]/g,'').trim().replace(/\s+/g,'-').replace(/-+/g,'-').slice(0,38).replace(/-$/,'');return `${date}-${s}`;}
-const CAT_EN={corporate:'Corporate',exploration:'Exploration',sustainability:'Sustainability',community:'Community',press:'Press'};
-const CAT_TR={corporate:'Kurumsal',exploration:'Arama',sustainability:'S\u00fcrd\u00fcr\u00fclebilirlik',community:'Toplum',press:'Bas\u0131n'};
+function fmtDate(iso,lang){const d=new Date(iso+'T12:00:00');const m=lang==='tr'?MTR[d.getMonth()]:MEN[d.getMonth()];return`${d.getDate()} ${m} ${d.getFullYear()}`;}
+function makeSlug(title,date){const s=title.toLowerCase().replace(/[\u00e7\u00c7]/g,'c').replace(/[\u015f\u015e]/g,'s').replace(/[\u011f\u011e]/g,'g').replace(/[\u00fc\u00dc]/g,'u').replace(/[\u00f6\u00d6]/g,'o').replace(/[\u0131\u0130i]/g,'i').replace(/[^a-z0-9\s]/g,'').trim().replace(/\s+/g,'-').replace(/-+/g,'-').slice(0,38).replace(/-$/,'');return`${date}-${s}`;}
+
+/* ── TAGS ────────────────────────────────────────────────── */
+let currentTags=[];
+
+window.addTag=function(raw){
+  const tag=raw.trim().toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'').slice(0,30);
+  if(!tag||currentTags.includes(tag))return;
+  currentTags.push(tag);
+  renderChips();
+  const inp=document.getElementById('tagInput');
+  inp.value='';inp.focus();
+};
+
+window.removeTag=function(tag){
+  currentTags=currentTags.filter(t=>t!==tag);
+  renderChips();
+};
+
+function renderChips(){
+  document.getElementById('tagChips').innerHTML=currentTags.map(t=>
+    `<span class="chip">${t}<button type="button" class="chip-x" onclick="removeTag('${t}')">&#x2715;</button></span>`
+  ).join('');
+}
+
+document.getElementById('tagInput').addEventListener('keydown',function(e){
+  if(e.key==='Enter'||e.key===','){e.preventDefault();addTag(this.value);}
+  else if(e.key==='Backspace'&&!this.value&&currentTags.length){removeTag(currentTags[currentTags.length-1]);}
+});
+
+/* ── CONTENT EXTRACTION ──────────────────────────────────── */
+/*
+ * Dual strategy:
+ * 1. Marker-based (articles published via this admin after update) — uses <!--BODY--> comments
+ * 2. Regex fallback (articles generated by Python or older admin versions)
+ */
+function extractBody(html){
+  let m=html.match(/<!--BODY-->([\s\S]*)<!--\/BODY-->/);
+  if(m)return m[1].trim();
+  m=html.match(/<div class="art-body">\s*([\s\S]*?)\s*<\/div>\s*<a [^>]*class="art-back"/);
+  if(m)return m[1].trim();
+  /* broader fallback */
+  m=html.match(/<div class="art-body">([\s\S]*)<\/div>/);
+  if(m)return m[1].trim();
+  return '';
+}
+
+/* ── HTML TEMPLATE ───────────────────────────────────────── */
+const H3='font-family:Cormorant Garamond,serif;font-size:1.35rem;color:var(--white);margin:32px 0 12px;';
+
 function makeHTML(lang,article,slug){
   const t=article[lang],isEN=lang==='en';
   const depth=isEN?'../../':'../../../';
@@ -239,19 +359,19 @@ function makeHTML(lang,article,slug){
   const homeUrl=isEN?`${depth}index.html`:`${depth}tr/index.html`;
   const newsUrl=isEN?`${depth}news/index.html`:`${depth}tr/news/index.html`;
   const site=isEN?'DOKA Mining':'DOKA Madencilik';
-  const catMap=isEN?CAT_EN:CAT_TR;
-  const cat=catMap[article.category]||article.category;
   const back=isEN?'Back to Newsroom':'Haberlere D\u00f6n';
   const bc1=isEN?'Home':'Ana Sayfa';
   const bc2=isEN?'Newsroom':'Haberler';
-  const date=article.dateDisplay[lang];
+  const tags=article.tags||[article.category||'corporate'];
+  const primaryTag=tags[0]||'corporate';
   const raw=article.thumbnail||'';
   const thumbSrc=raw?(raw.startsWith('http')?raw:`${depth}${raw}`):'';
   const thumbMeta=thumbSrc?`<meta property="og:image" content="${thumbSrc}">`:'';
-  const thumbHTML=thumbSrc?`<div class="art-thumb"><img src="${thumbSrc}" alt="${t.title}" loading="lazy"></div>`:'';
+  const thumbHTML=thumbSrc?`<div class="art-thumb"><img src="${thumbSrc}" alt="${t.title.replace(/"/g,'&quot;')}" loading="lazy"></div>`:'';
   const ex=t.excerpt.replace(/"/g,'&quot;');
   const ti=t.title.replace(/"/g,'&quot;');
   const content=t.content||'<p>Full article content coming soon.</p>';
+  const tagDisplay=tags.map(tg=>`<span class="art-tag">${tg.charAt(0).toUpperCase()+tg.slice(1)}</span>`).join('');
   return `<!DOCTYPE html>
 <html lang="${lang}">
 <head>
@@ -261,6 +381,7 @@ function makeHTML(lang,article,slug){
   <meta property="og:title" content="${ti} \u2014 ${site}">
   <meta property="og:description" content="${ex}">
   <meta property="og:type" content="article">
+  <meta property="og:site_name" content="${site}">
   ${thumbMeta}
   <title>${t.title} \u2014 ${site}</title>
   <link rel="stylesheet" href="${depth}assets/css/style.css">
@@ -272,6 +393,12 @@ function makeHTML(lang,article,slug){
     .art-body h3{font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:var(--white);margin:32px 0 12px;}
     .art-body strong{color:var(--text-primary);}
     .art-body a{color:var(--gold);text-decoration:underline;}
+    .art-body figure{margin:32px 0;}
+    .art-body figure img{width:100%;border-radius:6px;}
+    .art-body figcaption{font-size:.8rem;color:var(--text-muted);margin-top:8px;text-align:center;}
+    .art-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+    .art-tag{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:500;}
+    .art-tag+.art-tag::before{content:'·';margin-right:8px;color:var(--text-muted);}
     .art-back{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;margin-top:56px;transition:color .3s ease;}
     .art-back:hover{color:var(--gold);}
     .art-back::before{content:'\\2190';margin-right:4px;}
@@ -284,19 +411,20 @@ function makeHTML(lang,article,slug){
     <div class="page-hero__breadcrumb">
       <a href="${homeUrl}">${bc1}</a><span>/</span>
       <a href="${newsUrl}">${bc2}</a><span>/</span>
-      <span>${cat}</span>
+      <span>${primaryTag.charAt(0).toUpperCase()+primaryTag.slice(1)}</span>
     </div>
     <h1>${t.title}</h1>
     <p class="page-hero__sub">${t.excerpt}</p>
-    <p style="margin-top:18px;font-size:.75rem;letter-spacing:.08em;color:var(--text-muted);">${date}</p>
+    <p style="margin-top:18px;font-size:.75rem;letter-spacing:.08em;color:var(--text-muted);">${article.dateDisplay[lang]}</p>
   </div>
 </section>
 <section class="section section--dark">
   <div class="container">
     ${thumbHTML}
-    <div class="art-body">
-      ${content}
-    </div>
+    <div class="art-tags">${tagDisplay}</div>
+    <div class="art-body"><!--BODY-->
+${content}
+<!--/BODY--></div>
     <a href="${newsUrl}" class="art-back">${back}</a>
   </div>
 </section>
@@ -305,153 +433,255 @@ function makeHTML(lang,article,slug){
 <script src="${depth}assets/js/main.js"><\/script>
 </body>
 </html>`;}
+
+/* ── PUBLISH ─────────────────────────────────────────────── */
 let artType='internal',editId=null;
+
 window.publish=async function(){
   const err=validate();if(err){alert_('al-add','err',err);return;}
   setLoading(true);
   try{
-    const article=buildMeta(),slug=editId||article.id;article.id=slug;
+    const article=buildMeta();
+    const slug=editId||article.id;
+    article.id=slug;
+    /* Update index */
     const{sha:idxSha,json:idxData}=await getFile(cfg().idx);
-    if(editId){const pos=idxData.articles.findIndex(a=>a.id===editId);if(pos>-1)idxData.articles[pos]=article;else idxData.articles.unshift(article);}
-    else{if(idxData.articles.find(a=>a.id===slug))article.id=slug+'-'+Date.now().toString(36);idxData.articles.unshift(article);}
+    if(!idxData||!idxData.articles)throw new Error('news-index.json is missing or malformed.');
+    if(editId){
+      const pos=idxData.articles.findIndex(a=>a.id===editId);
+      if(pos>-1)idxData.articles[pos]=article;else idxData.articles.unshift(article);
+    }else{
+      if(idxData.articles.find(a=>a.id===slug))article.id=slug+'-'+Date.now().toString(36);
+      idxData.articles.unshift(article);
+    }
     await putFile(cfg().idx,JSON.stringify(idxData,null,2),idxSha,`Newsroom: ${editId?'edit':'add'} "${article.en.title}"`);
+    /* Create/update HTML files for internal articles */
     if(artType==='internal'){
       const full={...article,en:{...article.en,content:v('f-en-c')},tr:{...article.tr,content:v('f-tr-c')}};
       const enP=`news/articles/${article.id}.html`,trP=`tr/news/articles/${article.id}.html`;
       const[enSha,trSha]=await Promise.all([getSha(enP),getSha(trP)]);
       await Promise.all([
-        putFile(enP,makeHTML('en',full,article.id),enSha,`Newsroom: ${editId?'edit':'add'} article EN "${article.en.title}"`),
-        putFile(trP,makeHTML('tr',full,article.id),trSha,`Newsroom: ${editId?'edit':'add'} article TR "${article.tr.title}"`)
+        putFile(enP,makeHTML('en',full,article.id),enSha,`Newsroom: ${editId?'edit':'add'} EN "${article.en.title}"`),
+        putFile(trP,makeHTML('tr',full,article.id),trSha,`Newsroom: ${editId?'edit':'add'} TR "${article.tr.title}"`)
       ]);
     }
-    alert_('al-add','ok',`&#10003; ${editId?'Updated':'Published'}: <strong>${article.en.title}</strong><br>Goes live after auto-deploy (~30 seconds).`);
+    alert_('al-add','ok',`&#10003; ${editId?'Updated':'Published'}: <strong>${article.en.title}</strong><br>Live after auto-deploy (~30 sec).`);
     clearForm();editId=null;
   }catch(e){alert_('al-add','err','&#9888; '+e.message);}
   finally{setLoading(false);}
 };
-function buildMeta(){const date=v('f-date'),enTitle=v('f-en-t');const a={id:makeSlug(enTitle,date),date,dateDisplay:{en:fmtDate(date,'en'),tr:fmtDate(date,'tr')},category:v('f-cat'),type:artType,thumbnail:v('f-thumb')||null,en:{title:enTitle,excerpt:v('f-en-x')},tr:{title:v('f-tr-t'),excerpt:v('f-tr-x')}};if(artType==='external'){a.source=v('f-src');a.sourceUrl=v('f-url');}return a;}
-function validate(){if(!cfg().tok)return'No GitHub token. Go to Settings first.';if(!v('f-date'))return'Date required.';if(!v('f-en-t'))return'English title required.';if(!v('f-en-x'))return'English excerpt required.';if(!v('f-tr-t'))return'Turkish title required.';if(!v('f-tr-x'))return'Turkish excerpt required.';if(artType==='external'){if(!v('f-src'))return'Source name required.';if(!v('f-url'))return'Source URL required.';}return null;}
-function setLoading(on){document.getElementById('pubLbl').textContent=on?'Publishing...':'Publish Article';document.getElementById('pubSp').style.display=on?'':'none';document.getElementById('pubBtn').disabled=on;}
+
+function buildMeta(){
+  const date=v('f-date'),enTitle=v('f-en-t');
+  const tags=currentTags.length>0?currentTags:['corporate'];
+  const a={
+    id:makeSlug(enTitle,date),date,
+    dateDisplay:{en:fmtDate(date,'en'),tr:fmtDate(date,'tr')},
+    category:tags[0],tags,type:artType,
+    thumbnail:v('f-thumb')||null,
+    en:{title:enTitle,excerpt:v('f-en-x')},
+    tr:{title:v('f-tr-t'),excerpt:v('f-tr-x')}
+  };
+  if(artType==='external'){a.source=v('f-src');a.sourceUrl=v('f-url');}
+  return a;
+}
+
+function validate(){
+  if(!cfg().tok)return'No GitHub token. Go to Settings first.';
+  if(!v('f-date'))return'Date required.';
+  if(currentTags.length===0)return'At least one tag required.';
+  if(!v('f-en-t'))return'English title required.';
+  if(!v('f-en-x'))return'English excerpt required.';
+  if(!v('f-tr-t'))return'Turkish title required.';
+  if(!v('f-tr-x'))return'Turkish excerpt required.';
+  if(artType==='external'&&!v('f-src'))return'Source name required.';
+  if(artType==='external'&&!v('f-url'))return'Source URL required.';
+  return null;
+}
+
+function setLoading(on){
+  document.getElementById('pubLbl').textContent=on?'Publishing…':'Publish Article';
+  document.getElementById('pubSp').style.display=on?'':'none';
+  document.getElementById('pubBtn').disabled=on;
+}
+
+/* ── DELETE ──────────────────────────────────────────────── */
 window.del=async function(id,type){
-  if(!confirm('Delete permanently? This removes the HTML files and index entry.'))return;
+  if(!confirm('Delete permanently?'))return;
   try{
-    const{sha,json}=await getFile(cfg().idx);const article=json.articles.find(a=>a.id===id);
+    const{sha,json}=await getFile(cfg().idx);
+    const art=json.articles.find(a=>a.id===id);
     json.articles=json.articles.filter(a=>a.id!==id);
-    await putFile(cfg().idx,JSON.stringify(json,null,2),sha,`Newsroom: delete "${article?article.en.title:id}"`);
-    if(type==='internal'){const[eS,tS]=await Promise.all([getSha(`news/articles/${id}.html`),getSha(`tr/news/articles/${id}.html`)]);await Promise.all([eS?delFile(`news/articles/${id}.html`,eS,`Delete EN ${id}`):Promise.resolve(),tS?delFile(`tr/news/articles/${id}.html`,tS,`Delete TR ${id}`):Promise.resolve()]);}
+    await putFile(cfg().idx,JSON.stringify(json,null,2),sha,`Newsroom: delete "${art?art.en.title:id}"`);
+    if(type==='internal'){
+      const[eS,tS]=await Promise.all([getSha(`news/articles/${id}.html`),getSha(`tr/news/articles/${id}.html`)]);
+      await Promise.all([
+        eS?delFile(`news/articles/${id}.html`,eS,`Delete EN ${id}`):Promise.resolve(),
+        tS?delFile(`tr/news/articles/${id}.html`,tS,`Delete TR ${id}`):Promise.resolve()
+      ]);
+    }
     alert_('al-list','ok','&#10003; Deleted.');loadList();
   }catch(e){alert_('al-list','err','&#9888; '+e.message);}
 };
+
+/* ── EDIT ────────────────────────────────────────────────── */
 window.edit=async function(id){
   show('add');alert_('al-add','','');
   try{
-    const{json}=await getFile(cfg().idx);const meta=json.articles.find(a=>a.id===id);if(!meta){alert_('al-add','err','Not found.');return;}
+    const{json}=await getFile(cfg().idx);
+    const meta=json.articles.find(a=>a.id===id);
+    if(!meta){alert_('al-add','err','Article not found in index.');return;}
     editId=id;setType(meta.type);
     document.getElementById('f-date').value=meta.date;
-    document.getElementById('f-cat').value=meta.category;
     document.getElementById('f-thumb').value=meta.thumbnail||'';
-    if(meta.type==='external'){document.getElementById('f-src').value=meta.source||'';document.getElementById('f-url').value=meta.sourceUrl||'';}
-    document.getElementById('f-en-t').value=meta.en.title;document.getElementById('f-en-x').value=meta.en.excerpt;
-    document.getElementById('f-tr-t').value=meta.tr.title;document.getElementById('f-tr-x').value=meta.tr.excerpt;
+    /* Load tags */
+    currentTags=meta.tags||[meta.category]||[];
+    renderChips();
+    if(meta.type==='external'){
+      document.getElementById('f-src').value=meta.source||'';
+      document.getElementById('f-url').value=meta.sourceUrl||'';
+    }
+    document.getElementById('f-en-t').value=meta.en.title;
+    document.getElementById('f-en-x').value=meta.en.excerpt;
+    document.getElementById('f-tr-t').value=meta.tr.title;
+    document.getElementById('f-tr-x').value=meta.tr.excerpt;
     if(meta.type==='internal'){
-      const[en,tr]=await Promise.all([getFile(`news/articles/${id}.html`).catch(()=>null),getFile(`tr/news/articles/${id}.html`).catch(()=>null)]);
-      if(en){const m=en.content.match(/<div class="art-body">([\s\S]*?)<\/div>\s*\n?\s*<a /);document.getElementById('f-en-c').value=m?m[1].trim():'';}
-      if(tr){const m=tr.content.match(/<div class="art-body">([\s\S]*?)<\/div>\s*\n?\s*<a /);document.getElementById('f-tr-c').value=m?m[1].trim():'';}
+      /* FIX: getFile no longer throws on HTML files — json is null, content is the HTML string */
+      const[enF,trF]=await Promise.all([
+        getFile(`news/articles/${id}.html`).catch(()=>null),
+        getFile(`tr/news/articles/${id}.html`).catch(()=>null)
+      ]);
+      if(enF&&enF.content)document.getElementById('f-en-c').value=extractBody(enF.content);
+      if(trF&&trF.content)document.getElementById('f-tr-c').value=extractBody(trF.content);
     }
     document.getElementById('pubLbl').textContent='Update Article';
-    alert_('al-add','ainf','Editing: <strong>'+meta.en.title+'</strong>. Make changes and click Update Article.');
+    alert_('al-add','ainf','Editing: <strong>'+meta.en.title+'</strong>. Make changes then click Update Article.');
+    window.scrollTo({top:0,behavior:'smooth'});
   }catch(e){alert_('al-add','err','&#9888; '+e.message);}
 };
+
+/* ── LIST ────────────────────────────────────────────────── */
 window.loadList=async function(){
-  document.getElementById('listWrap').innerHTML='<div class="empty">Loading...</div>';
+  document.getElementById('listWrap').innerHTML='<div class="empty">Loading…</div>';
   try{
-    const{json}=await getFile(cfg().idx);const arts=(json.articles||[]).sort((a,b)=>b.date.localeCompare(a.date));
+    const{json}=await getFile(cfg().idx);
+    const arts=(json.articles||[]).sort((a,b)=>b.date.localeCompare(a.date));
     if(!arts.length){document.getElementById('listWrap').innerHTML='<div class="empty">No articles yet.</div>';return;}
-    const C={corporate:'Corporate',exploration:'Exploration',sustainability:'Sustainability',community:'Community',press:'Press'};
-    document.getElementById('listWrap').innerHTML=`<div class="ali">${arts.map(a=>`<div class="ar"><div><div class="ar-m">${C[a.category]||a.category}<span class="bx ${a.type==='external'?'be':'bi'}">${a.type}</span></div><div class="ar-t">${a.en.title}</div><div class="ar-d">${a.dateDisplay.en}</div></div><div class="ar-a">${a.type==='internal'?`<a href="../news/articles/${a.id}.html" target="_blank" class="btn bgh bsm">Preview</a>`:''}<button class="btn bo bsm" onclick="edit('${a.id}')">Edit</button><button class="btn bd bsm" onclick="del('${a.id}','${a.type}')">Delete</button></div></div>`).join('')}</div>`;
+    document.getElementById('listWrap').innerHTML=`<div class="ali">${arts.map(a=>{
+      const tags=(a.tags||[a.category]).map(t=>`<span class="bx bi">${t}</span>`).join('');
+      return`<div class="ar">
+        <div>
+          <div class="ar-m">${tags}<span class="bx ${a.type==='external'?'be':'bi'}">${a.type}</span></div>
+          <div class="ar-t">${a.en.title}</div>
+          <div class="ar-d">${a.dateDisplay.en}</div>
+        </div>
+        <div class="ar-a">
+          ${a.type==='internal'?`<a href="../news/articles/${a.id}.html" target="_blank" class="btn bgh bsm">Preview</a>`:''}
+          <button class="btn bo bsm" onclick="edit('${a.id}')">Edit</button>
+          <button class="btn bd bsm" onclick="del('${a.id}','${a.type}')">Delete</button>
+        </div>
+      </div>`;
+    }).join('')}</div>`;
   }catch(e){alert_('al-list','err',e.message);document.getElementById('listWrap').innerHTML='<div class="empty">Could not load.</div>';}
 };
-window.saveCfg=function(){sessionStorage.setItem('doka_tok',document.getElementById('s-tok').value.trim());localStorage.setItem('doka_own',document.getElementById('s-own').value.trim());localStorage.setItem('doka_rep',document.getElementById('s-rep').value.trim());localStorage.setItem('doka_br',document.getElementById('s-br').value.trim());localStorage.setItem('doka_idx',document.getElementById('s-idx').value.trim());const st=document.getElementById('s-st');st.textContent='Saved.';st.style.color='var(--grl)';setTimeout(()=>{st.textContent='';},3000);};
-window.testConn=async function(){saveCfg();const st=document.getElementById('s-st'),sp=document.getElementById('s-sp');st.textContent='Testing...';sp.style.display='';try{const{json}=await getFile(cfg().idx);const n=(json.articles||[]).length;st.innerHTML=`&#10003; Connected. ${n} article${n===1?'':'s'}.`;st.style.color='var(--grl)';}catch(e){st.textContent='Failed: '+e.message;st.style.color='#e74c3c';}finally{sp.style.display='none';}};
-function v(id){return document.getElementById(id).value.trim();}
-function alert_(id,type,msg){const el=document.getElementById(id);if(!type){el.className='al';el.innerHTML='';return;}el.className=`al on a${type}`;el.innerHTML=msg;el.scrollIntoView({behavior:'smooth',block:'nearest'});if(type==='ok')setTimeout(()=>el.classList.remove('on'),8000);}
-window.show=function(v){['add','list','settings'].forEach(id=>{document.getElementById('v-'+id).style.display=id===v?'':'none';});document.querySelectorAll('.nb').forEach(b=>{b.classList.toggle('on',b.textContent.trim().includes(v==='add'?'+':v==='list'?'9776':'9881'));});document.querySelectorAll('.nb').forEach(b=>{b.classList.remove('on');});if(v==='add')document.querySelectorAll('.nb')[0].classList.add('on');else if(v==='list')document.querySelectorAll('.nb')[1].classList.add('on');else document.querySelectorAll('.nb')[2].classList.add('on');};
-window.setType=function(t){artType=t;document.getElementById('tI').classList.toggle('on',t==='internal');document.getElementById('tE').classList.toggle('on',t==='external');document.getElementById('extF').style.display=t==='external'?'':'none';document.querySelectorAll('.int-only').forEach(el=>{el.style.display=t==='internal'?'':'none';});};
-window.swLang=function(lang,btn){document.querySelectorAll('.ltab').forEach(t=>t.classList.remove('on'));document.querySelectorAll('.lp').forEach(p=>p.classList.remove('on'));btn.classList.add('on');document.getElementById('lp-'+lang).classList.add('on');};
 
-/* ── CONTENT FORMATTING TOOLBAR ─────────────────────────── */
-/*
- * fmt(textareaId, action) inserts or wraps HTML at the cursor position
- * in the target textarea. Uses document.execCommand for older browsers
- * with a fallback to manual string insertion.
- */
-window.fmt = function(id, action) {
-  const ta = document.getElementById(id);
-  if (!ta) return;
-  ta.focus();
+/* ── SETTINGS ────────────────────────────────────────────── */
+window.saveCfg=function(){
+  sessionStorage.setItem('doka_tok',document.getElementById('s-tok').value.trim());
+  localStorage.setItem('doka_own',document.getElementById('s-own').value.trim());
+  localStorage.setItem('doka_rep',document.getElementById('s-rep').value.trim());
+  localStorage.setItem('doka_br',document.getElementById('s-br').value.trim());
+  localStorage.setItem('doka_idx',document.getElementById('s-idx').value.trim());
+  const st=document.getElementById('s-st');st.textContent='Saved.';st.style.color='var(--grl)';
+  setTimeout(()=>{st.textContent='';},3000);
+};
 
-  const start = ta.selectionStart;
-  const end   = ta.selectionEnd;
-  const sel   = ta.value.substring(start, end);
-  const before= ta.value.substring(0, start);
-  const after = ta.value.substring(end);
+window.testConn=async function(){
+  saveCfg();
+  const st=document.getElementById('s-st'),sp=document.getElementById('s-sp');
+  st.textContent='Testing…';st.style.color='var(--sc)';sp.style.display='';
+  try{
+    const{json}=await getFile(cfg().idx);
+    const n=(json.articles||[]).length;
+    st.innerHTML=`&#10003; Connected. ${n} article${n===1?'':'s'}.`;st.style.color='var(--grl)';
+  }catch(e){st.textContent='Failed: '+e.message;st.style.color='#e74c3c';}
+  finally{sp.style.display='none';}
+};
 
-  let insert = '';
-  let cursorOffset = 0; // where to place cursor after insert
-
-  const H3_STYLE = "font-family:Cormorant Garamond,serif;font-size:1.35rem;color:var(--white);margin:32px 0 12px;";
-
-  switch(action) {
-    case 'bold':
-      insert = `<strong>${sel || 'bold text'}</strong>`;
-      cursorOffset = sel ? insert.length : 8; // inside if no selection
-      break;
-    case 'italic':
-      insert = `<em>${sel || 'italic text'}</em>`;
-      cursorOffset = sel ? insert.length : 4;
-      break;
-    case 'link': {
-      const url = prompt('URL:', 'https://');
-      if (!url) return;
-      const label = sel || prompt('Link text:', 'Read more') || 'Read more';
-      insert = `<a href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
-      cursorOffset = insert.length;
-      break;
-    }
-    case 'h3':
-      insert = `<h3 style='${H3_STYLE}'>${sel || 'Subheading'}</h3>`;
-      cursorOffset = sel ? insert.length : insert.length - 5;
-      break;
-    case 'img': {
-      const src = prompt('Image path or URL:\n\nExamples:\n  assets/images/portfolio/akpinar1.jpg\n  https://example.com/photo.jpg', '');
-      if (!src) return;
-      const alt = prompt('Alt text (describe the image for accessibility):', '') || '';
-      insert = `<img src="${src}" alt="${alt}" style="width:100%;border-radius:6px;margin:24px 0;" loading="lazy">`;
-      cursorOffset = insert.length;
-      break;
-    }
-    case 'figure': {
-      const src = prompt('Image path or URL:', '');
-      if (!src) return;
-      const alt     = prompt('Alt text:', '') || '';
-      const caption = prompt('Caption (optional):', '') || '';
-      insert = caption
-        ? `<figure style="margin:32px 0;"><img src="${src}" alt="${alt}" style="width:100%;border-radius:6px;" loading="lazy"><figcaption style="font-size:.8rem;color:var(--text-muted);margin-top:8px;text-align:center;">${caption}</figcaption></figure>`
-        : `<figure style="margin:32px 0;"><img src="${src}" alt="${alt}" style="width:100%;border-radius:6px;" loading="lazy"></figure>`;
-      cursorOffset = insert.length;
-      break;
-    }
-    default: return;
+/* ── TOOLBAR ─────────────────────────────────────────────── */
+window.fmt=function(id,action){
+  const ta=document.getElementById(id);if(!ta)return;ta.focus();
+  const start=ta.selectionStart,end=ta.selectionEnd;
+  const sel=ta.value.substring(start,end);
+  const before=ta.value.substring(0,start),after=ta.value.substring(end);
+  let insert='',cur=0;
+  switch(action){
+    case 'bold': insert=`<strong>${sel||'bold text'}</strong>`;cur=sel?insert.length:8;break;
+    case 'italic': insert=`<em>${sel||'italic text'}</em>`;cur=sel?insert.length:4;break;
+    case 'p': insert=`<p>${sel||'Paragraph text here.'}</p>\n`;cur=sel?insert.length:3;break;
+    case 'link':{const url=prompt('URL:','https://');if(!url)return;const lbl=sel||prompt('Link text:','Read more')||'Read more';insert=`<a href="${url}" target="_blank" rel="noopener noreferrer">${lbl}</a>`;cur=insert.length;break;}
+    case 'h3': insert=`<h3 style='${H3}'>${sel||'Subheading'}</h3>\n`;cur=sel?insert.length:insert.length-5;break;
+    case 'img':{const src=prompt('Image path or URL:\n\nExamples:\n  assets/images/portfolio/akpinar1.jpg\n  https://example.com/image.jpg','');if(!src)return;const alt=prompt('Alt text (describe the image):','')||'';insert=`<img src="${src}" alt="${alt}" style="width:100%;border-radius:6px;margin:24px 0;" loading="lazy">\n`;cur=insert.length;break;}
+    case 'figure':{const src=prompt('Image path or URL:','');if(!src)return;const alt=prompt('Alt text:','')||'';const cap=prompt('Caption (leave blank to skip):','')||'';insert=cap?`<figure>\n  <img src="${src}" alt="${alt}" style="width:100%;border-radius:6px;" loading="lazy">\n  <figcaption>${cap}</figcaption>\n</figure>\n`:`<figure>\n  <img src="${src}" alt="${alt}" style="width:100%;border-radius:6px;" loading="lazy">\n</figure>\n`;cur=insert.length;break;}
+    default:return;
   }
-
-  ta.value = before + insert + after;
-  ta.selectionStart = ta.selectionEnd = start + cursorOffset;
+  ta.value=before+insert+after;
+  ta.selectionStart=ta.selectionEnd=start+cur;
   ta.dispatchEvent(new Event('input'));
 };
 
-window.clearForm=function(){['f-date','f-en-t','f-en-x','f-en-c','f-tr-t','f-tr-x','f-tr-c','f-thumb','f-src','f-url'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});document.getElementById('f-cat').selectedIndex=0;setType('internal');document.querySelectorAll('.ltab').forEach((t,i)=>t.classList.toggle('on',i===0));document.querySelectorAll('.lp').forEach((p,i)=>p.classList.toggle('on',i===0));document.getElementById('pubLbl').textContent='Publish Article';editId=null;alert_('al-add','','');};
-const c=cfg();document.getElementById('s-tok').value=sessionStorage.getItem('doka_tok')||'';document.getElementById('s-own').value=c.owner;document.getElementById('s-rep').value=c.repo;document.getElementById('s-br').value=c.branch;document.getElementById('s-idx').value=c.idx;document.getElementById('f-date').valueAsDate=new Date();show('add');setType('internal');
-if(!c.tok)alert_('al-add','ainf','Welcome. Go to Settings and enter your GitHub token before publishing.');
+/* ── UI HELPERS ──────────────────────────────────────────── */
+function v(id){return document.getElementById(id).value.trim();}
+
+function alert_(id,type,msg){
+  const el=document.getElementById(id);
+  if(!type){el.className='al';el.innerHTML='';return;}
+  el.className=`al on a${type}`;el.innerHTML=msg;
+  el.scrollIntoView({behavior:'smooth',block:'nearest'});
+  if(type==='ok')setTimeout(()=>el.classList.remove('on'),8000);
+}
+
+window.show=function(view){
+  ['add','list','settings'].forEach(id=>{document.getElementById('v-'+id).style.display=id===view?'':'none';});
+  document.querySelectorAll('.nb').forEach((b,i)=>b.classList.toggle('on',i===(view==='add'?0:view==='list'?1:2)));
+};
+
+window.setType=function(t){
+  artType=t;
+  document.getElementById('tI').classList.toggle('on',t==='internal');
+  document.getElementById('tE').classList.toggle('on',t==='external');
+  document.getElementById('extF').style.display=t==='external'?'':'none';
+  document.querySelectorAll('.int-only').forEach(el=>{el.style.display=t==='internal'?'':'none';});
+};
+
+window.swLang=function(lang,btn){
+  document.querySelectorAll('.ltab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.lp').forEach(p=>p.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('lp-'+lang).classList.add('on');
+};
+
+window.clearForm=function(){
+  ['f-date','f-en-t','f-en-x','f-en-c','f-tr-t','f-tr-x','f-tr-c','f-thumb','f-src','f-url']
+    .forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  currentTags=[];renderChips();
+  setType('internal');
+  document.querySelectorAll('.ltab').forEach((t,i)=>t.classList.toggle('on',i===0));
+  document.querySelectorAll('.lp').forEach((p,i)=>p.classList.toggle('on',i===0));
+  document.getElementById('pubLbl').textContent='Publish Article';
+  editId=null;alert_('al-add','','');
+};
+
+/* ── INIT ────────────────────────────────────────────────── */
+const c=cfg();
+document.getElementById('s-tok').value=sessionStorage.getItem('doka_tok')||'';
+document.getElementById('s-own').value=c.owner;
+document.getElementById('s-rep').value=c.repo;
+document.getElementById('s-br').value=c.branch;
+document.getElementById('s-idx').value=c.idx;
+document.getElementById('f-date').valueAsDate=new Date();
+show('add');setType('internal');
+if(!c.tok)alert_('al-add','ainf','Welcome. Go to <button class="btn bo bsm" onclick="show(\'settings\')" style="margin-left:6px;">&#9881; Settings</button> and enter your GitHub token before publishing.');
 }());
 </script>
 </body>

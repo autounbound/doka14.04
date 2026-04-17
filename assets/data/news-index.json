@@ -8,6 +8,10 @@
         "tr": "15 Mar 2025"
       },
       "category": "sustainability",
+      "tags": [
+        "sustainability",
+        "environment"
+      ],
       "type": "internal",
       "thumbnail": "assets/images/portfolio/akp%C4%B1nar3.jpg",
       "en": {
@@ -27,6 +31,10 @@
         "tr": "10 Şub 2025"
       },
       "category": "exploration",
+      "tags": [
+        "exploration",
+        "geology"
+      ],
       "type": "internal",
       "thumbnail": "assets/images/portfolio/doka_turkey_map3.jpg",
       "en": {
@@ -46,6 +54,9 @@
         "tr": "1 Oca 2025"
       },
       "category": "exploration",
+      "tags": [
+        "exploration"
+      ],
       "type": "internal",
       "thumbnail": "assets/images/portfolio/akpinar1.jpg",
       "en": {
@@ -65,6 +76,10 @@
         "tr": "15 Ara 2024"
       },
       "category": "sustainability",
+      "tags": [
+        "sustainability",
+        "environment"
+      ],
       "type": "internal",
       "thumbnail": "assets/images/portfolio/bayburt3.jpg",
       "en": {
@@ -84,6 +99,9 @@
         "tr": "28 Kas 2024"
       },
       "category": "community",
+      "tags": [
+        "community"
+      ],
       "type": "internal",
       "thumbnail": "assets/images/portfolio/sorgun1.jpg",
       "en": {
@@ -103,8 +121,11 @@
         "tr": "10 Eki 2024"
       },
       "category": "corporate",
+      "tags": [
+        "corporate"
+      ],
       "type": "internal",
-      "thumbnail": "assets/images/general/Social_Responsibility_Image.png",
+      "thumbnail": null,
       "en": {
         "title": "DOKA Madencilik Formally Established as Dedicated Precious Metals Company",
         "excerpt": "DOKA Madencilik is formally established as a dedicated precious metals exploration and mining company within the Oltankoleoglu Group, with initial licensed areas secured in Kırşehir, Bayburt, and Yozgat."
@@ -116,24 +137,28 @@
     },
     {
       "id": "2024-09-turkey-gold-sector",
-      "date": "2025-12-04",
+      "date": "2024-09-05",
       "dateDisplay": {
-        "en": "4 Dec 2025",
-        "tr": "4 Ara 2025"
+        "en": "5 Sep 2024",
+        "tr": "5 Eyl 2024"
       },
       "category": "press",
+      "tags": [
+        "press",
+        "exploration"
+      ],
       "type": "external",
-      "thumbnail": "https://cdnuploads.aa.com.tr/uploads/enerjiterminali/Contents/2025/12/04/thumbs_b_c_bbb5b1c1f96af3f5b0faed5c6f9c4736.jpg?v=142835",
+      "thumbnail": null,
+      "source": "Bloomberg HT",
+      "sourceUrl": "#",
       "en": {
-        "title": "Türkiye's mining sector push strengthens global position with $3.5 trillion resource potential",
-        "excerpt": "Türkiye leveraging $3.5 trillion mineral endowment and expanding capacity to consolidate its position in global mining, as gold, boron and rare earth investments reshape outlook."
+        "title": "Turkey's Gold Mining Sector Draws New Investment as Exploration Expands",
+        "excerpt": "Bloomberg HT reports on growing investor interest in Turkish precious metals, noting the entry of new domestic operators into the exploration phase across Central Anatolia."
       },
       "tr": {
-        "title": "Türkiye'nin madencilik sektöründeki atılımı, 3,5 trilyon dolarlık kaynak potansiyeliyle küresel konumunu güçlendiriyor",
-        "excerpt": "Türkiye, 3,5 trilyon dolarlık maden rezervlerini kullanarak ve kapasitesini genişleterek küresel madencilikteki konumunu sağlamlaştırıyor; altın, bor ve nadir toprak elementlerine yapılan yatırımlar ise görünümü yeniden şekillendiriyor."
-      },
-      "source": "AA",
-      "sourceUrl": "https://www.aa.com.tr/en/energy/general/turkiyes-mining-sector-push-strengthens-global-position-with-35-trillion-resource-potential/53291"
+        "title": "Türkiye'nin Altın Madenciliği Sektörü Keşif Genişledikçe Yeni Yatırım Çekiyor",
+        "excerpt": "Bloomberg HT, Türk değerli metal sektörüne artan yatırımcı ilgisini aktararak Orta Anadolu genelinde arama aşamasına giren yeni yerli operatörlerin sektöre girişine dikkat çekiyor."
+      }
     },
     {
       "id": "2024-01-ief-sustainable-mining",
@@ -143,6 +168,10 @@
         "tr": "8 Oca 2024"
       },
       "category": "sustainability",
+      "tags": [
+        "sustainability",
+        "press"
+      ],
       "type": "external",
       "thumbnail": "https://www.ief.org/_resources/files/news/how-to-make-mining-more-sustainable/websitebanner-sustainablemining.jpg",
       "source": "International Energy Forum",
