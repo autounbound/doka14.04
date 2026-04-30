@@ -114,7 +114,7 @@
     <div class="footer__grid">
       <div class="footer__logo">
         <img src="${R}assets/images/logo.svg" alt="DOKA Mining">
-        <p class="footer__tagline">Responsible precious metals mining across Anatolia, guided by environmental stewardship and long-term value creation.</p>
+        <p class="footer__tagline">Responsible base and precious metals mining across Anatolia, guided by environmental stewardship and long-term value creation.</p>
         <p class="footer__group-credit">A member of the <a href="https://oltankoleogluenerji.com/en" target="_blank" rel="noopener noreferrer">Oltankoleoglu Group</a></p>
       </div>
       <div class="footer__col"><h5>Company</h5><ul>
